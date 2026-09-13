@@ -1,0 +1,34 @@
+---
+import Header from "./components/Header.astro";
+import Hero from "./components/Hero.astro";
+import Actions from "./components/Actions.astro";
+import ActionPanel from "./components/ActionPanel.astro";
+import StatusCard from "./components/StatusCard.astro";
+import Activity from "./components/Activity.astro";
+import Footer from "./components/Footer.astro";
+
+const {apiUrl} = Astro.props;
+---
+
+<style>
+
+  .dashboard-page {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1.25rem;   
+  } 
+
+</style>
+
+<div class="dashboard-page">
+
+  <Header apiUrl={apiUrl}/>
+  <Hero />
+  <StatusCard />  
+  <Actions />
+  <ActionPanel />  
+  <Activity />
+  <Footer />
+
+</div>
+

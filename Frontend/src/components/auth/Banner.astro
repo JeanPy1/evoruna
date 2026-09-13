@@ -1,0 +1,132 @@
+---
+// Aviso superior para las pantallas de autenticación.
+// Se muestra desde el script de la página con: showAuthMessage({ type, text })
+// Tipos: "success" (verde), "error" (rojo), "warning" (ámbar), "info" (azul).
+---
+
+<style>
+  .auth-banner {
+    display: none;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid transparent;
+    border-radius: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.45;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .auth-banner.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .auth-banner__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    margin-top: 0.1rem;
+  }
+
+  .auth-banner__icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .auth-banner__text {
+    flex: 1;
+  }
+
+  .auth-banner__close {
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    padding: 0.1rem;
+    display: inline-flex;
+    cursor: pointer;
+    border: none;
+    border-radius: 0.35rem;
+    background: transparent;
+    color: inherit;
+    opacity: 0.6;
+    transition: opacity 0.15s ease;
+  }
+
+  .auth-banner__close:hover {
+    opacity: 1;
+  }
+
+  .auth-banner__close svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .auth-banner.success {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #166534;
+  }
+
+  .auth-banner.error {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #991b1b;
+  }
+
+  .auth-banner.warning {
+    background: #fffbeb;
+    border-color: #fde68a;
+    color: #92400e;
+  }
+
+  .auth-banner.info {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1e40af;
+  }
+</style>
+
+<div id="auth-banner" class="auth-banner" role="alert" aria-live="polite">
+  <span class="auth-banner__icon"></span>
+  <span class="auth-banner__text"></span>
+  <button type="button" class="auth-banner__close" aria-label="Cerrar aviso">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  </button>
+</div>
+
+<script type="module">
+  const ICONS = {
+    success: `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`,
+    error: `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`,
+    warning: `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"></path></svg>`,
+    info: `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"></path></svg>`,
+  };
+
+  const banner = document.getElementById("auth-banner");
+  const iconEl = banner.querySelector(".auth-banner__icon");
+  const textEl = banner.querySelector(".auth-banner__text");
+
+  function showAuthMessage({ type = "info", text = "" } = {}) {
+    const resolved = ICONS[type] ? type : "info";
+    banner.className = "auth-banner " + resolved;
+    iconEl.innerHTML = ICONS[resolved];
+    textEl.textContent = text;
+    requestAnimationFrame(() => banner.classList.add("show"));
+  }
+
+  function hideAuthMessage() {
+    banner.classList.remove("show");
+  }
+
+  banner.querySelector(".auth-banner__close").addEventListener("click", hideAuthMessage);
+
+  window.showAuthMessage = showAuthMessage;
+  window.hideAuthMessage = hideAuthMessage;
+</script>

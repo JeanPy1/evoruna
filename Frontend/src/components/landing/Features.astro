@@ -1,0 +1,239 @@
+---
+const features = [
+  {
+    icon: "management",
+    title: "Nosotros hacemos la web",
+    description:
+      "Diseño, dominio, publicación y mantenimiento. Tú nos das tu marca; nosotros la dejamos online.",
+  },
+  {
+    icon: "performance",
+    title: "Rápida en cualquier pantalla",
+    description:
+      "Tu sitio carga fino en celular y computador para que nadie se vaya antes de contactarte.",
+  },
+  {
+    icon: "security",
+    title: "Seguridad incluida",
+    description:
+      "SSL, hosting y monitoreo sin que tengas que configurar servidores ni paneles.",
+  },
+  {
+    icon: "support",
+    title: "Soporte humano",
+    description: "Escribes qué necesitas. Lo resolvemos nosotros, sin jerga técnica.",
+  },
+  {
+    icon: "scale",
+    title: "Actualizaciones según plan",
+    description:
+      "Textos, fotos o secciones nuevas, de acuerdo a lo que incluye cada plan.",
+  },
+  {
+    icon: "infrastructure",
+    title: "Siempre visible",
+    description:
+      "Cuidamos que tu presencia no se caiga. Tu negocio permanece encontrado.",
+  },
+];
+---
+
+<section id="features" class="relative overflow-hidden bg-white">
+
+  <!-- Background -->
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <div
+      class="absolute -top-40 left-1/2 h-[28rem] w-[60rem] -translate-x-1/2 rounded-full bg-blue-100/60 blur-[110px]"
+    ></div>
+    <div
+      class="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.045)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_60%_55%_at_50%_0%,black_30%,transparent_75%)] [-webkit-mask-image:radial-gradient(ellipse_60%_55%_at_50%_0%,black_30%,transparent_75%)]"
+    ></div>
+  </div>
+
+  <div class="relative mx-auto max-w-6xl px-6 py-20 sm:py-24">
+
+    <!-- Header -->
+    <header class="mx-auto mb-14 max-w-2xl text-center">
+
+      <span
+        class="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50/80 px-3.5 py-1.5 text-[.7rem] font-bold uppercase tracking-[.14em] text-blue-700"
+      >
+        <span class="size-1.5 rounded-full bg-blue-500"></span>
+        Producto
+      </span>
+
+      <h2
+        class="mt-5 text-[clamp(2.3rem,4.5vw,3.5rem)] font-bold leading-[1.08] tracking-[-.045em] text-slate-950"
+      >
+        Presencia web,
+        <span
+          class="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-500 bg-clip-text text-transparent"
+        >
+          sin que tú la operes
+        </span>
+      </h2>
+
+      <p class="mt-4 text-base leading-7 text-slate-600 sm:text-[1.05rem]">
+        Un sitio profesional, publicado y cuidado. Tú das la marca. Nosotros
+        hacemos el resto.
+      </p>
+
+    </header>
+
+
+    <!-- Features -->
+    <div class="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+
+      {
+        features.map((feature, index) => (
+          <article
+            class="group relative flex flex-col gap-5 overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_18px_40px_-18px_rgba(37,99,235,0.28)] sm:p-7"
+          >
+
+            <!-- Hover accent -->
+            <span
+              class="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/70 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              aria-hidden="true"
+            ></span>
+
+            <!-- Index -->
+            <span
+              class="absolute right-6 top-5 text-xs font-semibold tabular-nums text-slate-300 transition-colors duration-300 group-hover:text-blue-400 sm:right-7"
+              aria-hidden="true"
+            >
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <!-- Icon -->
+            <div
+              class="flex size-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white"
+              aria-hidden="true"
+            >
+
+              {
+                feature.icon === "management" && (
+                  <svg
+                    class="size-[22px]"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 12h10" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 17h7" />
+                  </svg>
+                )
+              }
+
+              {
+                feature.icon === "performance" && (
+                  <svg
+                    class="size-[22px]"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M13 3L4 14h7v7l9-11h-7V3z"
+                    />
+                  </svg>
+                )
+              }
+
+              {
+                feature.icon === "security" && (
+                  <svg
+                    class="size-[22px]"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4z"
+                    />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 12l1.8 1.8L15 10" />
+                  </svg>
+                )
+              }
+
+              {
+                feature.icon === "support" && (
+                  <svg
+                    class="size-[22px]"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M18 10c0-3.314-2.686-6-6-6s-6 2.686-6 6v4a2 2 0 002 2h1v-5H6m12 0h-3v5h1a2 2 0 002-2v-4z"
+                    />
+                  </svg>
+                )
+              }
+
+              {
+                feature.icon === "scale" && (
+                  <svg
+                    class="size-[22px]"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
+                  </svg>
+                )
+              }
+
+              {
+                feature.icon === "infrastructure" && (
+                  <svg
+                    class="size-[22px]"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 4-7 4-7-4 7-4z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 11l7 4 7-4" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7 4 7-4" />
+                  </svg>
+                )
+              }
+
+            </div>
+
+
+            <!-- Content -->
+            <div class="mt-auto">
+
+              <h3
+                class="text-[1.05rem] font-bold tracking-[-.015em] text-slate-950"
+              >
+                {feature.title}
+              </h3>
+
+              <p class="mt-1.5 text-[.95rem] leading-6 text-slate-600">
+                {feature.description}
+              </p>
+
+            </div>
+
+          </article>
+        ))
+      }
+
+    </div>
+
+  </div>
+</section>

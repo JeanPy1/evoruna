@@ -1,0 +1,487 @@
+---
+const plans = [
+  {
+    name: "Starter",
+    price: 200,
+    description:
+      "Presencia clara y profesional para dar tus primeros pasos online.",
+    audience: "Para lanzar",
+    features: [
+      { text: "Sitio web profesional de una página", included: true, strong: true },
+      { text: "Dominio propio + correo web", included: true },
+      { text: "SSL, hosting y monitoreo 24/7", included: true },
+      { text: "Soporte con respuesta en 48 h", included: true },
+      { text: "Ajustes de contenido", included: false },
+      { text: "Cambios de estructura", included: false },
+    ],
+  },
+  {
+    name: "Pro",
+    price: 300,
+    description:
+      "La opción favorita de los negocios locales: tu web lista y siempre al día.",
+    audience: "Recomendado",
+    highlight: true,
+    features: [
+      { text: "Sitio web optimizado y gestionado", included: true, strong: true },
+      { text: "Dominio propio + correo web", included: true },
+      { text: "SSL, hosting y monitoreo 24/7", included: true },
+      { text: "Soporte prioritario en 24 h", included: true },
+      { text: "1 ajuste de contenido al año", included: true, strong: true },
+      { text: "Cambios de estructura", included: false },
+    ],
+  },
+  {
+    name: "Business",
+    price: 400,
+    description:
+      "Para marcas que evolucionan: actualiza tu web cuando lo necesites.",
+    audience: "Para crecer",
+    features: [
+      { text: "Infraestructura premium", included: true },
+      { text: "Dominio + correo profesional", included: true },
+      { text: "SSL, hosting y monitoreo 24/7", included: true },
+      { text: "Soporte prioritario", included: true },
+      { text: "Ajustes de contenido", included: true, strong: true },
+      { text: "Cambios de estructura", included: true, strong: true },
+    ],
+  },
+];
+---
+
+<section id="pricing" class="pricing-section relative overflow-hidden bg-slate-50">
+
+  <!--
+    Fondo decorativo con altura fija (anclado arriba): al expandir el
+    desplegable el section crece hacia abajo, pero este gradiente no
+    cambia de tamaño y por tanto no se re-pinta en cada frame.
+  -->
+  <div
+    class="pointer-events-none absolute left-0 right-0 top-0 h-[1100px] bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(219,234,254,0.55),transparent)]"
+    aria-hidden="true"
+  ></div>
+
+  <div class="relative mx-auto max-w-6xl px-6 py-20 sm:py-24">
+
+    <!-- Header -->
+    <header class="pricing-reveal mx-auto mb-14 max-w-2xl text-center">
+
+      <span
+        class="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50/80 px-3.5 py-1.5 text-[.7rem] font-bold uppercase tracking-[.14em] text-blue-700"
+      >
+        <span class="size-1.5 rounded-full bg-blue-500"></span>
+        Planes
+      </span>
+
+      <h2
+        class="mt-5 text-[clamp(2.4rem,5vw,3.8rem)] font-bold leading-[1.02] tracking-[-.05em] text-slate-950"
+      >
+        Elige cómo te ves online
+      </h2>
+
+      <p class="mt-4 text-base leading-7 text-slate-600 sm:text-[1.05rem]">
+        En los tres planes nosotros construimos y cuidamos tu web. Lo que
+        cambia es cuánto puedes actualizarla.
+      </p>
+
+    </header>
+
+    <!-- Plans -->
+    <div class="mx-auto grid max-w-md gap-5 lg:max-w-none lg:grid-cols-3 lg:items-stretch lg:gap-6">
+
+      {
+        plans.map((plan, index) => (
+          <article
+            class:list={[
+              "pricing-card pricing-reveal relative flex flex-col rounded-2xl p-7",
+              plan.highlight
+                ? "pricing-card-highlight border-2 border-blue-600 bg-gradient-to-b from-blue-50/70 to-white shadow-[0_28px_60px_-24px_rgba(37,99,235,0.35)]"
+                : "border-[1.5px] border-slate-200/90 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]",
+            ]}
+            style={`animation-delay:${index * 90}ms`}
+          >
+
+            <!-- Top accent -->
+            <span
+              class:list={[
+                "absolute inset-x-7 top-0 h-1 rounded-b-full",
+                plan.highlight ? "bg-blue-600" : "bg-blue-200",
+              ]}
+              aria-hidden="true"
+            ></span>
+
+            {plan.highlight ? (
+              <span
+                class="inline-flex w-fit items-center rounded-full bg-blue-600 px-3 py-1 text-[.68rem] font-bold uppercase tracking-[.1em] text-white"
+              >
+                {plan.audience}
+              </span>
+            ) : (
+              <span
+                class="text-xs font-bold uppercase tracking-[.12em] text-slate-400"
+              >
+                {plan.audience}
+              </span>
+            )}
+
+            <h3 class="mt-4 text-[1.7rem] font-bold tracking-[-.03em] text-slate-950">
+              {plan.name}
+            </h3>
+
+            <p
+              class:list={[
+                "mt-1.5 text-[.95rem] leading-[1.6] text-slate-600 lg:min-h-[3.2rem]",
+              ]}
+            >
+              {plan.description}
+            </p>
+
+            <!-- Price -->
+            <div class="mt-6 flex items-baseline gap-1 border-y border-slate-100 py-4">
+
+              <span class="text-[1.05rem] font-semibold text-slate-500">
+                S/
+              </span>
+
+              <span
+                class="text-[clamp(2.7rem,4vw,3.4rem)] font-bold leading-[.9] tracking-[-.06em] text-slate-950"
+              >
+                {plan.price}
+              </span>
+
+              <span class="text-[1.05rem] font-semibold text-slate-500">
+                /año
+              </span>
+
+            </div>
+
+            <!-- Features -->
+            <p
+              class="mt-5 text-[.68rem] font-bold uppercase tracking-[.14em] text-slate-400"
+            >
+              Incluye
+            </p>
+
+            <ul class="mt-2 flex-1 divide-y divide-slate-100">
+
+              {
+                plan.features.map((feature) => (
+                  <li class="flex items-center gap-3 py-3">
+
+                    <span
+                      class:list={[
+                        "flex size-6 shrink-0 items-center justify-center rounded-md ring-1 ring-inset",
+                        feature.included
+                          ? "bg-blue-50 text-blue-600 ring-blue-100"
+                          : "bg-slate-100 text-slate-400 ring-slate-200/60",
+                      ]}
+                    >
+
+                      {feature.included ? (
+                        <svg
+                          class="size-3.5"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="3"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M5 12.5l4 4L19 7.5" />
+                        </svg>
+                      ) : (
+                        <svg
+                          class="size-3"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M6 6l12 12M18 6L6 18" />
+                        </svg>
+                      )}
+
+                    </span>
+
+                    <span
+                      class:list={[
+                        "text-[.92rem]",
+                        feature.included
+                          ? feature.strong
+                            ? "font-semibold text-slate-950"
+                            : "text-slate-700"
+                          : "text-slate-400",
+                      ]}
+                    >
+                      {feature.text}
+                    </span>
+
+                  </li>
+                ))
+              }
+
+            </ul>
+
+            <a
+              href={`/register?plan=${plan.name.toLowerCase()}`}
+              class:list={[
+                "group mt-7 flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-[.95rem] font-semibold transition duration-500 ease-out hover:-translate-y-px",
+                plan.highlight
+                  ? "bg-blue-600 text-white shadow-[0_14px_28px_-10px_rgba(37,99,235,0.5)] hover:bg-blue-700"
+                  : "border border-slate-200 bg-white text-slate-900 hover:border-blue-200 hover:bg-slate-50",
+              ]}
+            >
+              Empezar
+
+              <svg
+                class="size-4 transition-transform duration-500 ease-out group-hover:translate-x-1"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14" />
+                <path d="m13 6 6 6-6 6" />
+              </svg>
+            </a>
+
+          </article>
+        ))
+      }
+
+    </div>
+
+    <!-- Footer -->
+    <div class="pricing-reveal mt-12 text-center">
+
+      <p class="text-xs text-slate-500 sm:text-[.95rem]">
+        Cobro anual único. Sin paneles técnicos: tú pides el cambio y
+        nosotros lo publicamos.
+      </p>
+
+      <button
+        id="changes-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="changes-content"
+        class="mt-4 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white px-4 py-2 text-xs font-semibold text-blue-600 transition-colors duration-200 hover:border-blue-600 hover:bg-blue-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:px-5 sm:py-2.5 sm:text-sm"
+      >
+        ¿Qué incluye cada ajuste?
+
+        <span
+          id="changes-chevron"
+          class="inline-flex transition-transform duration-200"
+        >
+          <svg
+            class="size-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M19 9l-7 7-7-7" />
+          </svg>
+        </span>
+      </button>
+
+      <div id="changes-content" class="changes-panel">
+
+        <div class="changes-panel-clip">
+
+          <div class="mx-auto max-w-xl pt-4 text-xs leading-5 text-slate-600 sm:leading-7 sm:text-[.92rem]">
+
+          <p>
+            <span class="font-semibold text-slate-950">
+              Ajuste de contenido:
+            </span>{" "}
+            textos, imágenes o detalles visuales.
+          </p>
+
+          <p class="mt-1.5">
+            <span class="font-semibold text-slate-950">
+              Cambio de estructura:
+            </span>{" "}
+            secciones nuevas o bloques completos.
+          </p>
+
+        </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<style>
+  /*
+    Solo se animan propiedades compuestas (GPU): transform + opacidad.
+    La sombra es una capa pre-renderizada que se desvanece, no se re-pinta.
+  */
+  .pricing-card {
+    will-change: transform;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .pricing-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow:
+      0 24px 50px -20px rgb(37 99 235 / 0.38),
+      0 8px 20px -8px rgb(37 99 235 / 0.18);
+    opacity: 0;
+    transition: opacity 0.35s ease-out;
+    pointer-events: none;
+  }
+
+  .pricing-card-highlight::after {
+    box-shadow:
+      0 32px 68px -24px rgb(37 99 235 / 0.5),
+      0 10px 24px -10px rgb(37 99 235 / 0.24);
+  }
+
+  .pricing-card:hover,
+  .pricing-card:focus-within {
+    transform: translateY(-5px);
+    border-color: rgb(96 165 250);
+  }
+
+  .pricing-card:hover::after,
+  .pricing-card:focus-within::after {
+    opacity: 1;
+  }
+
+  .pricing-card-highlight:hover,
+  .pricing-card-highlight:focus-within {
+    border-color: rgb(59 130 246);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pricing-card,
+    .pricing-card::after {
+      transition: none;
+    }
+
+    .pricing-card:hover,
+    .pricing-card:focus-within {
+      transform: none;
+    }
+  }
+
+  /*
+    Desplegable: animación nativa de fila de grid (0fr → 1fr). El
+    navegador interpola la altura sin mediciones en JS ni reflows
+    forzados; el desvanecido usa solo opacidad (composición).
+  */
+  .changes-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .changes-panel.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  .changes-panel-clip {
+    overflow: hidden;
+    min-height: 0;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .changes-panel.is-open .changes-panel-clip {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .changes-panel,
+    .changes-panel-clip {
+      transition: none;
+    }
+  }
+
+  @keyframes pricing-rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pricing-section.js .pricing-reveal:not(.is-visible) {
+      opacity: 0;
+    }
+
+    .pricing-section.js .pricing-reveal.is-visible {
+      animation: pricing-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+  }
+</style>
+
+<script>
+  (function initReveal() {
+    const section = document.querySelector(".pricing-section");
+    const items = [...document.querySelectorAll(".pricing-reveal")];
+    if (!section || !items.length) return;
+
+    section.classList.add("js");
+
+    const reduceMotion =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      items.forEach((el) => el.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    items.forEach((el) => observer.observe(el));
+  })();
+
+  const btn = document.getElementById("changes-toggle");
+  const panel = document.getElementById("changes-content");
+  const chevron = document.getElementById("changes-chevron");
+
+  if (btn && panel) {
+    btn.addEventListener("click", () => {
+      const nextOpen = btn.getAttribute("aria-expanded") !== "true";
+
+      btn.setAttribute("aria-expanded", String(nextOpen));
+      panel.classList.toggle("is-open", nextOpen);
+      chevron?.classList.toggle("rotate-180", nextOpen);
+    });
+  }
+</script>

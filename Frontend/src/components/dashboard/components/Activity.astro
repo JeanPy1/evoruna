@@ -1,0 +1,143 @@
+---
+import Icon from "./Icon.astro";
+import DashboardSection from "./DashboardSection.astro";
+---
+
+<style>
+  .dashboard-roadmap-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    margin-bottom: 2rem;
+    padding: 4rem;
+    border-radius: 2rem;
+    background: #ffffff;
+    border: 1px solid rgb(226 232 240);
+  }
+
+  .dashboard-roadmap-item {
+    width: 100%;
+    max-width: 560px;
+    text-align: center;
+  }
+
+  .dashboard-roadmap-dot {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    color: white;
+    background: linear-gradient(135deg, rgb(79 70 229), rgb(37 99 235));
+    box-shadow: 0 12px 25px rgba(79, 70, 229, 0.18);
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .dashboard-roadmap-dot::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 2px;
+    height: 42px;
+    transform: translateX(-50%);
+    background: linear-gradient(rgb(79 70 229), rgba(79, 70, 229, 0.15));
+  }
+
+  .dashboard-roadmap-item:last-child .dashboard-roadmap-dot::after {
+    display: none;
+  }
+
+  .dashboard-roadmap-dot.pending::after {
+    background: linear-gradient(rgb(206 210 216), rgba(231, 231, 233, .15));
+  }
+
+  .dashboard-roadmap-dot.pending {
+    background: white;
+    color: rgb(148 163 184);
+    border: 2px solid rgb(206, 210, 216);
+    box-shadow: none;
+  }
+
+  .dashboard-roadmap-item:hover .dashboard-roadmap-dot {
+    transform: scale(1.08);
+  }
+
+  .dashboard-roadmap-name {
+    margin-top: 3rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: rgb(15 23 42);
+  }
+
+  .dashboard-roadmap-text {
+    margin-top: 0.3rem;
+    color: rgb(100 116 139);
+    line-height: 1.2;
+  }
+
+  .dashboard-roadmap-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.7rem;
+    padding: 0.45rem 0.95rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: rgb(79 70 229);
+    background: rgb(238 242 255);
+  }
+
+  .dashboard-roadmap-empty {
+    color: rgb(100 116 139);
+    line-height: 1.7;
+    text-align: center;
+  }
+
+  .dashboard-roadmap-empty strong {
+    display: block;
+    margin-bottom: .35rem;
+    color: rgb(15 23 42);
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-roadmap-list {
+      padding: 2rem;
+    }
+
+    .dashboard-roadmap-item {
+      max-width: 100%;
+    }
+  }
+</style>
+
+<DashboardSection
+  title="Estado del proyecto"
+  subtitle="Seguimiento de los hitos del sitio seleccionado."
+>
+  <div id="dashboard-roadmap-list" class="dashboard-roadmap-list">
+    <div class="dashboard-roadmap-empty">
+      <strong>Sin actividad por mostrar</strong>
+      Cuando un servicio este en proceso o publicado, aqui veras sus avances.
+    </div>
+  </div>
+
+  <template id="dashboard-roadmap-template">
+    <article class="dashboard-roadmap-item">
+      <div class="dashboard-roadmap-dot" data-roadmap-dot>
+        <span data-roadmap-icon></span>
+      </div>
+
+      <h3 class="dashboard-roadmap-name" data-roadmap-title></h3>
+      <p class="dashboard-roadmap-text" data-roadmap-description></p>
+      <span class="dashboard-roadmap-time" data-roadmap-status></span>
+    </article>
+  </template>
+</DashboardSection>

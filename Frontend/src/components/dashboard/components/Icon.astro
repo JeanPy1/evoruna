@@ -1,0 +1,132 @@
+---
+const {
+  name,
+  class: className = "",
+  size,
+  strokeWidth = 2,
+  ariaHidden = true,
+  viewBox = "0 0 24 24",
+} = Astro.props;
+
+const iconClass = className;
+---
+
+<svg
+  class={iconClass}
+  fill="none"
+  stroke="currentColor"
+  stroke-width={strokeWidth}
+  viewBox={viewBox}
+  width={size}
+  height={size}
+  aria-hidden={ariaHidden ? "true" : undefined}
+>
+  {name === "mail" && (
+    <>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6"></path>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+    </>
+  )}
+
+  {name === "lock" && (
+    <>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 2 0 10-8 0v4"></path>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 11h14v10H5V11z"></path>
+    </>
+  )}
+
+  {name === "eye" && (
+    <>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"></path>
+      <circle cx="12" cy="12" r="3"></circle>
+    </>
+  )}
+
+  {name === "user" && (
+    <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A9 9 0 1118.88 17.8M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+  )}
+
+  {name === "edit" && (
+    <>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 20h9"></path>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"></path>
+    </>
+  )}
+
+  {name === "card" && (
+    <>
+      <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M2 10h20"></path>
+    </>
+  )}
+
+  {name === "shield-lock" && (
+    <>
+      <rect x="5" y="10" width="14" height="10" rx="2"></rect>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8 10V7a4 4 0 118 0v3"></path>
+    </>
+  )}
+
+  {name === "shield-check" && (
+    <>
+      <path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"></path>
+      <path d="M9.5 12l1.8 1.8L15 10"></path>
+    </>
+  )}
+
+  {name === "users" && (
+    <>
+      <path d="M17 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+      <circle cx="9" cy="7" r="3"></circle>
+      <path d="M22 21v-2a4 4 0 00-3-3.87"></path>
+      <path d="M16 4a3 3 0 010 6"></path>
+    </>
+  )}
+
+  {name === "support" && (
+    <>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8"></path>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8 14h5"></path>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path>
+    </>
+  )}
+
+  {name === "menu-lines" && (
+    <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h18M3 12h18M3 19h18"></path>
+  )}
+
+  {name === "star" && (
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 17l-5 3 1.5-6L4 9.5l6-.5L12 3l2 6 6 .5-4.5 4.5L17 20z"></path>
+  )}
+
+  {name === "chevron-right" && (
+    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+  )}
+
+  {name === "check" && (
+    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+  )}
+
+  {name === "clock" && (
+    <>
+      <circle cx="12" cy="12" r="8.5"></circle>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 2"></path>
+      <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"></circle>
+    </>
+  )}
+
+  {name === "check-circle" && (
+    <>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"></path>
+      <circle cx="12" cy="12" r="9"></circle>
+    </>
+  )}
+
+  {name === "logout" && (
+    <path
+      fill="currentColor"
+      stroke="none"
+      d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9v-62.1h-128c-17.7 0-32-14.3-32-32v-64c0-17.7 14.3-32 32-32h128v-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96H96c-17.7 0-32 14.3-32 32v256c0 17.7 14.3 32 32 32h64c17.7 0 32 14.3 32 32s-14.3 32-32 32H96C43 480 0 437 0 384V128C0 75 43 32 96 32h64c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
+    ></path>
+  )}
+</svg>

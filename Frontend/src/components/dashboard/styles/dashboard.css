@@ -1,0 +1,8 @@
+.dashboard-layout {
+  position: relative;
+  min-height: 100vh;
+  background:
+    radial-gradient(900px circle at top left, rgba(79, 70, 229, .05), transparent 55%),
+    radial-gradient(700px circle at top right, rgba(37, 99, 235, .05), transparent 50%),
+    linear-gradient(180deg, rgb(249 250 252), rgb(243 246 251));
+}

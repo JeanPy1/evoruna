@@ -1,0 +1,23 @@
+---
+import Layout from "../layouts/Layout.astro";
+import DashboardPage from "../components/dashboard/DashboardPage.astro";
+import Loader from "../components/others/Loader.astro";
+import Toast from "../components/others/Toast.astro";
+import "../components/dashboard/styles/dashboard.css";
+
+// Misma origen por defecto: todo se sirve desde el mismo Worker de Cloudflare
+const API_URL = import.meta.env.PUBLIC_API_URL ?? "/api";
+---
+
+<Layout>
+  <Loader />
+
+  <main id="dashboard" class="dashboard-layout" data-api-url={API_URL} hidden>
+    <Toast />
+    <DashboardPage apiUrl={API_URL} />
+  </main>
+</Layout>
+
+<script>
+  import "../components/dashboard/scripts/dashboard.js";
+</script>

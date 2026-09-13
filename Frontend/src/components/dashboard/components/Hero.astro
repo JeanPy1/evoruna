@@ -1,0 +1,239 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<style>
+  .dashboard-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.5fr 340px;
+    gap: 3rem;
+    align-items: center;
+    padding: 3rem;
+    border-radius: 2rem;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgb(15 23 42), rgb(30 41 59));
+    color: white;
+  }
+
+  .dashboard-hero::before {
+    content: "";
+    position: absolute;
+    top: -180px;
+    right: -180px;
+    width: 420px;
+    height: 420px;
+    border-radius: 999px;
+    background: radial-gradient(rgba(59, 130, 246, 0.18), transparent 70%);
+  }
+
+  .dashboard-hero-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .dashboard-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.9rem;
+  }
+
+  .dashboard-hero-badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #94a3b8;
+    box-shadow: 0 0 10px rgba(148, 163, 184, 0.45);
+  }
+
+  .dashboard-hero-badge-dot.is-online {
+    background: #22c55e;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+  }
+
+  .dashboard-hero-title {
+    margin-top: 1.5rem;
+    font-size: clamp(2.5rem, 4vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.05;
+  }
+
+  .dashboard-hero-description {
+    margin-top: 1.4rem;
+    max-width: 620px;
+    color: rgb(203 213 225);
+    line-height: 1.8;
+  }
+
+  .dashboard-hero-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .dashboard-hero-item {
+    display: flex;
+    align-items: center;
+    gap: 0.38rem;
+    font-weight: 600;
+  }
+
+  .dashboard-hero-item.is-pending {
+    color: rgb(203 213 225);
+  }
+
+  .dashboard-hero-icon {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #22c55e;
+  }
+
+  .dashboard-hero-item.is-pending .dashboard-hero-icon {
+    color: #94a3b8;
+  }
+
+  .dashboard-hero-panel {
+    position: relative;
+    z-index: 1;
+    padding: 1.5rem;
+    border-radius: 1.4rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(18px);
+    transition:
+      transform 0.35s ease,
+      border-color 0.35s ease,
+      box-shadow 0.35s ease,
+      background 0.35s ease;
+  }
+
+  .dashboard-hero-panel:hover {
+    transform: translateY(-6px);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(99, 102, 241, 0.25);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+  }
+
+  .dashboard-hero-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 1.3rem;
+    font-weight: 700;
+  }
+
+  .dashboard-hero-panel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: #94a3b8;
+    box-shadow: 0 0 10px rgba(148, 163, 184, 0.45);
+  }
+
+  .dashboard-hero-panel-dot.is-online {
+    background: #22c55e;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+  }
+
+  .dashboard-hero-panel-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.2rem;
+    padding-top: 0.6rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .dashboard-hero-panel-row:last-child {
+    border-bottom: none;
+  }
+
+  .dashboard-hero-panel-row span {
+    color: rgb(203 213 225);
+  }
+
+  .dashboard-hero-panel-row strong {
+    color: white;
+    text-align: right;
+  }
+
+  .dashboard-hero-panel-row .success {
+    color: #22c55e;
+  }
+
+  .dashboard-hero-panel-row .muted {
+    color: #cbd5e1;
+  }
+
+  @media (max-width: 900px) {
+    .dashboard-hero {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 2rem;
+    }
+  }
+</style>
+
+<section class="dashboard-hero">
+  <div class="dashboard-hero-content">
+    <span class="dashboard-hero-badge">
+      <span id="dashboard-hero-dot" class="dashboard-hero-badge-dot"></span>
+      <span id="dashboard-hero-badge-text">Sin servicio activo</span>
+    </span>
+
+    <h1 id="dashboard-hero-title" class="dashboard-hero-title">
+      Aun no tienes un sitio activo.
+    </h1>
+
+    <p id="dashboard-hero-description" class="dashboard-hero-description">
+      Cuando tu servicio este listo, aqui veras el estado principal de tu sitio,
+      dominio, SSL y monitoreo.
+    </p>
+
+    <div class="dashboard-hero-list">
+      {["Dominio pendiente", "SSL pendiente", "Monitoreo pendiente"].map((item) => (
+        <div class="dashboard-hero-item is-pending" data-dashboard-feature>
+          <span class="dashboard-hero-icon" data-dashboard-feature-icon></span>
+          <span data-dashboard-feature-label>{item}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <aside class="dashboard-hero-panel">
+    <div class="dashboard-hero-panel-header">
+      <span id="dashboard-hero-panel-dot" class="dashboard-hero-panel-dot"></span>
+      <span>Estado del servicio</span>
+    </div>
+
+    <div class="dashboard-hero-panel-row">
+      <span>Disponibilidad</span>
+      <strong id="dashboard-hero-availability" class="muted">Sin datos</strong>
+    </div>
+
+    <div class="dashboard-hero-panel-row">
+      <span>Dominio</span>
+      <strong id="dashboard-hero-domain" class="muted">Pendiente</strong>
+    </div>
+
+    <div class="dashboard-hero-panel-row">
+      <span>SSL</span>
+      <strong id="dashboard-hero-ssl" class="muted">Pendiente</strong>
+    </div>
+
+    <div class="dashboard-hero-panel-row">
+      <span>Monitoreo</span>
+      <strong id="dashboard-hero-monitoring" class="muted">Pendiente</strong>
+    </div>
+  </aside>
+</section>

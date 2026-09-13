@@ -1,0 +1,140 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Loader from "../components/others/Loader.astro";
+import Formulario from "../components/auth/Formulario.astro";
+
+// Misma origen por defecto: todo se sirve desde el mismo Worker de Cloudflare
+const API_URL = import.meta.env.PUBLIC_API_URL ?? "/api";
+---
+
+<Layout>
+  <Loader />
+
+  <main id="page" class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/50" hidden>
+    <div class="flex min-h-screen items-center justify-center px-4 py-10 sm:px-6">
+      <div class="relative z-10 mx-auto w-full max-w-md">
+        <Formulario
+          title="Crear nueva contraseña"
+          subtitle="Introduce una nueva contraseña para tu cuenta."
+          fields={["password", "password-confirm"]}
+          submitLabel="Cambiar contraseña"
+          passwordLabel="Nueva contraseña"
+          passwordHint="Mínimo 8 caracteres"
+          footerLinkText="Volver al login"
+          footerHref="/login"
+        />
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script define:vars={{ API_URL }} type="module">
+  import { MESSAGES, SESSION_HINT, readJson, homePathFor } from "../scripts/auth.js";
+
+  const token = new URLSearchParams(window.location.search).get("token");
+
+  const page = document.getElementById("page");
+  const form = document.getElementById("form");
+  const passwordInput = document.getElementById("password");
+  const confirmInput = document.getElementById("password-confirm");
+  const submitButton = document.getElementById("submit");
+
+  function showPage() {
+    document.getElementById("loader")?.remove();
+    page.hidden = false;
+  }
+
+  async function isTokenValid() {
+    try {
+      const response = await fetch(
+        `${API_URL}/auth/validate-reset-token?token=${encodeURIComponent(token)}`
+      );
+      return response.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  // Si ya hay una sesión válida, se va directo al panel en lugar de cambiar
+  // la contraseña de una cuenta ajena.
+  async function redirectIfAuthenticated() {
+    if (!sessionStorage.getItem(SESSION_HINT)) return false;
+
+    try {
+      const response = await fetch(`${API_URL}/auth/me`, { credentials: "include" });
+
+      if (!response.ok) {
+        sessionStorage.removeItem(SESSION_HINT);
+        return false;
+      }
+
+      const user = await readJson(response);
+      window.location.replace(homePathFor(user));
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const password = passwordInput.value.trim();
+    const confirmPassword = confirmInput.value.trim();
+
+    if (!password || !confirmPassword) {
+      showAuthMessage(MESSAGES.incomplete);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      showAuthMessage(MESSAGES.mismatch);
+      return;
+    }
+
+    const label = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = "Guardando...";
+
+    try {
+      const response = await fetch(`${API_URL}/auth/reset-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, new_password: password }),
+      });
+
+      const data = await readJson(response);
+
+      if (response.ok) {
+        showAuthMessage(MESSAGES.password_changed);
+        setTimeout(() => window.location.replace("/login"), 2000);
+        return;
+      }
+
+      showAuthMessage({ type: "error", text: data.error || MESSAGES.reset_failed.text });
+    } catch {
+      showAuthMessage(MESSAGES.network);
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = label;
+    }
+  });
+
+  async function init() {
+    if (!token) {
+      window.location.replace("/forgot");
+      return;
+    }
+
+    if (await redirectIfAuthenticated()) return;
+
+    if (!(await isTokenValid())) {
+      window.location.replace("/forgot?msg=invalid_token");
+      return;
+    }
+
+    showPage();
+  }
+
+  await init();
+</script>

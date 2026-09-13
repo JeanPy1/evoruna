@@ -1,0 +1,137 @@
+---
+const { apiUrl } = Astro.props;
+---
+
+<main id="admin" class="admin-page" data-api-url={apiUrl} hidden>
+  <header class="admin-header">
+    <div>
+      <p class="admin-eyebrow">EVORUNA · ADMINISTRACIÓN</p>
+      <h1>Servicios y órdenes</h1>
+      <p>Confirma pagos y aprovisiona servicios de clientes.</p>
+    </div>
+    <button id="admin-logout" class="admin-secondary" type="button">Cerrar sesión</button>
+  </header>
+
+  <section class="admin-grid">
+    <form id="admin-order-form" class="admin-card">
+      <h2>Nueva orden</h2>
+      <label>Cliente seleccionado <output id="admin-client" class="admin-selected">Selecciona un cliente en la tabla</output></label>
+      <label>Plan <select id="admin-plan" required><option value="">Cargando planes…</option></select></label>
+      <label>Facturación <select id="admin-cycle"><option value="monthly">Mensual</option><option value="yearly">Anual</option></select></label>
+      <label>Nombre del proyecto <input id="admin-project" required minlength="2" maxlength="120" placeholder="Web de Mi Negocio" /></label>
+      <label>Dominio <input id="admin-domain" placeholder="minegocio.com" /></label>
+      <label>Referencia de pago <input id="admin-reference" maxlength="120" placeholder="Opcional" /></label>
+      <button class="admin-primary" type="submit">Registrar orden</button>
+    </form>
+
+    <section class="admin-card admin-help">
+      <h2>Proceso seguro</h2>
+      <ol>
+        <li>Registra la orden para un cliente existente.</li>
+        <li>Confirma el pago.</li>
+        <li>Aprovisiona el servicio una sola vez.</li>
+      </ol>
+      <p>El cliente verá su web en su dashboard al terminar el último paso.</p>
+    </section>
+  </section>
+
+  <section class="admin-card">
+    <h2>Clientes</h2><div class="admin-table-wrap"><table><thead><tr><th>Cliente</th><th>Correo</th><th>Cuenta</th><th></th></tr></thead><tbody id="admin-clients"></tbody></table></div>
+  </section>
+
+  <section class="admin-card">
+    <div class="admin-table-heading"><h2>Órdenes</h2><button id="admin-refresh" class="admin-secondary" type="button">Actualizar</button></div>
+    <p id="admin-empty" class="admin-muted" hidden>No hay órdenes todavía.</p>
+    <div class="admin-table-wrap">
+      <table>
+        <thead><tr><th>Cliente</th><th>Servicio</th><th>Pago</th><th>Inicio / renovación</th><th>Estado</th><th>Acción</th></tr></thead>
+        <tbody id="admin-orders"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<style>
+  .admin-page { min-height: 100vh; padding: 2rem; color: #172033; background: #f4f7fb; }
+  .admin-header, .admin-grid, .admin-table-heading { display: flex; justify-content: space-between; gap: 1.5rem; align-items: flex-start; }
+  .admin-header { max-width: 1120px; margin: 0 auto 2rem; }
+  .admin-header h1, .admin-card h2 { margin: 0; } .admin-header p { color: #5f6f89; }
+  .admin-eyebrow { color: #4f46e5 !important; font-size: .75rem; font-weight: 800; letter-spacing: .12em; }
+  .admin-grid, .admin-card { max-width: 1120px; margin: 0 auto 1.5rem; } .admin-grid { align-items: stretch; }
+  .admin-card { width: 100%; padding: 1.5rem; border: 1px solid #e3e8f3; border-radius: 16px; background: #fff; box-shadow: 0 8px 28px rgba(22, 35, 64, .05); }
+  form.admin-card { display: grid; gap: .85rem; } label { display: grid; gap: .35rem; color: #42506a; font-size: .88rem; font-weight: 650; }
+  input, select { width: 100%; padding: .7rem .8rem; border: 1px solid #ccd6e6; border-radius: 8px; font: inherit; }
+  button { cursor: pointer; font: inherit; } .admin-primary, .admin-secondary { border-radius: 8px; padding: .7rem 1rem; font-weight: 700; }
+  .admin-primary { border: 0; color: #fff; background: #4f46e5; } .admin-secondary { border: 1px solid #cbd5e1; color: #334155; background: #fff; }
+  .admin-help { background: linear-gradient(135deg, #eef2ff, #fff); } .admin-help li, .admin-muted { color: #64748b; margin: .55rem 0; }
+  .admin-table-wrap { overflow-x: auto; } table { width: 100%; border-collapse: collapse; min-width: 720px; } th, td { padding: .85rem .5rem; text-align: left; border-bottom: 1px solid #e8edf5; } th { color: #64748b; font-size: .75rem; text-transform: uppercase; } td { color: #334155; }
+  .admin-status { display: inline-block; padding: .25rem .55rem; border-radius: 999px; background: #eef2ff; color: #4338ca; font-size: .78rem; font-weight: 700; }
+  .admin-actions { display: flex; gap: .4rem; } .admin-actions button { padding: .45rem .65rem; border: 0; border-radius: 6px; background: #e9edff; color: #3730a3; font-weight: 700; }
+  .admin-actions button:disabled { cursor: not-allowed; opacity: .45; } @media (max-width: 680px) { .admin-page { padding: 1rem; } .admin-header, .admin-grid { flex-direction: column; } }
+</style>
+
+<script>
+  const root = document.getElementById("admin");
+  const apiUrl = root?.dataset.apiUrl ?? "";
+  const ordersBody = document.getElementById("admin-orders");
+  const empty = document.getElementById("admin-empty");
+  let selectedClientId = null;
+
+  async function request(path, options = {}) {
+    const response = await fetch(`${apiUrl}${path}`, { credentials: "include", ...options });
+    const payload = await response.json().catch(() => null);
+    if (!response.ok) throw new Error(payload?.detail ?? "No se pudo completar la acción");
+    return payload;
+  }
+  function option(value, text) { const item = document.createElement("option"); item.value = value; item.textContent = text; return item; }
+  async function loadSelectors() {
+    const [clients, plans] = await Promise.all([request("/admin/clients"), request("/admin/plans")]);
+    const planSelect = document.getElementById("admin-plan");
+    planSelect.replaceChildren(option("", "Selecciona un plan"));
+    plans.forEach((plan) => planSelect.append(option(plan.id, `${plan.name} · ${plan.changes_total} cambios`)));
+    const body = document.getElementById("admin-clients"); body.replaceChildren();
+    clients.forEach((client) => { const row = document.createElement("tr"); const select = actionButton(selectedClientId === client.id ? "Seleccionado" : "Seleccionar", () => { selectedClientId = client.id; document.getElementById("admin-client").textContent = `${client.name} · ${client.email}`; loadSelectors(); }, selectedClientId === client.id); const cell = document.createElement("td"); cell.append(select); row.append(cell(client.name), cell(client.email), statusCell("activo"), cell); body.append(row); });
+  }
+  function actionButton(text, callback, disabled) { const button = document.createElement("button"); button.type = "button"; button.textContent = text; button.disabled = disabled; button.addEventListener("click", callback); return button; }
+  function cell(value) { const item = document.createElement("td"); item.textContent = value; return item; }
+  function statusCell(value) { const item = document.createElement("td"); const badge = document.createElement("span"); badge.className = "admin-status"; badge.textContent = value; item.append(badge); return item; }
+  function renderOrders(orders) {
+    ordersBody.replaceChildren(); empty.hidden = orders.length !== 0;
+    orders.forEach((order) => {
+      const row = document.createElement("tr"); const actionCell = document.createElement("td"); const actions = document.createElement("div"); actions.className = "admin-actions";
+      const paid = order.payment_status === "paid"; const provisioned = order.provision_status === "provisioned";
+      actions.append(actionButton("Confirmar pago", async () => { await perform(`/admin/orders/${order.id}/confirm-payment`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" }); }, paid || provisioned));
+      actions.append(actionButton("Crear servicio", async () => { await perform(`/admin/orders/${order.id}/provision`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: "preparing" }) }); }, !paid || provisioned));
+      actions.append(actionButton("Eliminar", async () => { if (confirm("¿Eliminar esta orden sin pago?")) await perform(`/admin/orders/${order.id}`, { method: "DELETE" }); }, paid || provisioned));
+      actionCell.append(actions); const dates = order.started_at ? `${new Date(order.started_at).toLocaleDateString("es-PE")} / ${order.renewal_date ? new Date(`${order.renewal_date}T00:00:00`).toLocaleDateString("es-PE") : "-"}` : "Aún no inicia"; row.append(cell(order.client_name), cell(`${order.project_name} · ${order.plan_name}`), statusCell(order.payment_status), cell(dates), statusCell(order.provision_status), actionCell); ordersBody.append(row);
+    });
+  }
+  async function loadOrders() { renderOrders(await request("/admin/orders")); }
+  async function perform(path, options) { try { await request(path, options); await loadOrders(); window.showToast?.("Operación realizada", "success"); } catch (error) { window.showToast?.(error.message); } }
+  document.getElementById("admin-order-form")?.addEventListener("submit", async (event) => {
+    event.preventDefault(); const button = event.currentTarget.querySelector("button[type='submit']"); button.disabled = true;
+    try { if (!selectedClientId) throw new Error("Selecciona un cliente"); await request("/admin/orders", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ user_id: selectedClientId, plan_id: Number(document.getElementById("admin-plan").value), billing_cycle: document.getElementById("admin-cycle").value, project_name: document.getElementById("admin-project").value, domain: document.getElementById("admin-domain").value || null, payment_reference: document.getElementById("admin-reference").value || null }) }); event.currentTarget.reset(); await loadOrders(); window.showToast?.("Orden registrada", "success"); } catch (error) { window.showToast?.(error.message); } finally { button.disabled = false; }
+  });
+  document.getElementById("admin-refresh")?.addEventListener("click", () => loadOrders().catch((error) => window.showToast?.(error.message)));
+  document.getElementById("admin-logout")?.addEventListener("click", async () => { await fetch(`${apiUrl}/auth/logout`, { method: "POST", credentials: "include" }); sessionStorage.removeItem("evoruna_session_hint"); window.location.replace("/login"); });
+  
+  async function init() { 
+
+    try { 
+      const me = await request("/auth/me"); 
+
+      if (me.role !== "admin") {
+        window.location.replace("/dashboard"); 
+        return; 
+      } 
+      
+      await Promise.all([loadSelectors(), loadOrders()]); 
+      root.hidden = false; 
+    } catch { 
+      sessionStorage.removeItem("evoruna_session_hint"); 
+      window.location.replace("/login"); 
+    } 
+  }
+  
+  init();
+</script>

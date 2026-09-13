@@ -1,0 +1,89 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Panel from "../components/auth/Panel.astro";
+import Formulario from "../components/auth/Formulario.astro";
+
+// Misma origen por defecto: todo se sirve desde el mismo Worker de Cloudflare
+const API_URL = import.meta.env.PUBLIC_API_URL ?? "/api";
+---
+
+<Layout>
+  <main id="page" class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/50">
+    <div class="flex min-h-screen items-center justify-center px-4 py-10 sm:px-6">
+      <div class="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-2">
+        <Panel />
+
+        <Formulario
+          title="Iniciar sesión"
+          subtitle="Accede a tu cuenta"
+          fields={["email", "password"]}
+          submitLabel="Entrar"
+          forgotLink
+          footerText="¿No tienes cuenta?"
+          footerLinkText="Regístrate"
+          footerHref="/register"
+        />
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script define:vars={{ API_URL }} type="module">
+  import {
+    MESSAGES,
+    SESSION_HINT,
+    homePathFor,
+    readJson,
+    redirectIfAuthenticated,
+  } from "../scripts/auth.js";
+
+  const form = document.getElementById("form");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const submitButton = document.getElementById("submit");
+
+  const pending = new URLSearchParams(window.location.search).get("msg");
+  if (pending && MESSAGES[pending]) showAuthMessage(MESSAGES[pending]);
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (!email || !password) {
+      showAuthMessage(MESSAGES.incomplete);
+      return;
+    }
+
+    const label = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = "Ingresando...";
+
+    try {
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+        credentials: "include",
+      });
+
+      const data = await readJson(response);
+
+      if (response.ok) {
+        sessionStorage.setItem(SESSION_HINT, "true");
+        window.location.replace(homePathFor(data));
+        return;
+      }
+
+      showAuthMessage({ type: "error", text: data.error || MESSAGES.login_failed.text });
+    } catch {
+      showAuthMessage(MESSAGES.network);
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = label;
+    }
+  });
+
+  void redirectIfAuthenticated(API_URL);
+</script>

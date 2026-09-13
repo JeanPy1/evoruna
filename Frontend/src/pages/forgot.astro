@@ -1,0 +1,78 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Panel from "../components/auth/Panel.astro";
+import Formulario from "../components/auth/Formulario.astro";
+
+// Misma origen por defecto: todo se sirve desde el mismo Worker de Cloudflare
+const API_URL = import.meta.env.PUBLIC_API_URL ?? "/api";
+---
+
+<Layout>
+  <main id="page" class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/50">
+    <div class="flex min-h-screen items-center justify-center px-4 py-10 sm:px-6">
+      <div class="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-2">
+        <Panel />
+
+        <Formulario
+          title="Recuperar acceso"
+          subtitle="Te enviaremos un enlace para restablecer tu contraseña."
+          fields={["email"]}
+          submitLabel="Enviar enlace"
+          footerText="¿Recordaste tu contraseña?"
+          footerLinkText="Inicia sesión"
+          footerHref="/login"
+        />
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script define:vars={{ API_URL }} type="module">
+  import { MESSAGES, readJson, redirectIfAuthenticated } from "../scripts/auth.js";
+
+  const form = document.getElementById("form");
+  const emailInput = document.getElementById("email");
+  const submitButton = document.getElementById("submit");
+
+  const pending = new URLSearchParams(window.location.search).get("msg");
+  if (pending && MESSAGES[pending]) showAuthMessage(MESSAGES[pending]);
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const email = emailInput.value.trim();
+
+    if (!email) {
+      showAuthMessage(MESSAGES.incomplete);
+      return;
+    }
+
+    const label = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = "Enviando...";
+
+    try {
+      const response = await fetch(`${API_URL}/auth/forgot-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await readJson(response);
+
+      if (response.ok) {
+        window.location.replace("/login?msg=recovery_sent");
+        return;
+      }
+
+      showAuthMessage({ type: "error", text: data.error || MESSAGES.forgot_failed.text });
+    } catch {
+      showAuthMessage(MESSAGES.network);
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = label;
+    }
+  });
+
+  void redirectIfAuthenticated(API_URL);
+</script>

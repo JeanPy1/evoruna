@@ -1,0 +1,13 @@
+---
+import AdminPage from "../components/admin/AdminPage.astro";
+import Layout from "../layouts/Layout.astro";
+import Toast from "../components/others/Toast.astro";
+
+// Misma origen por defecto: todo se sirve desde el mismo Worker de Cloudflare
+const API_URL = import.meta.env.PUBLIC_API_URL ?? "/api";
+---
+
+<Layout>
+  <Toast />
+  <AdminPage apiUrl={API_URL} />
+</Layout>

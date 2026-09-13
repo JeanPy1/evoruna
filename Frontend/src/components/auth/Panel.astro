@@ -1,0 +1,76 @@
+---
+const defaults = {
+  badge: "Plataforma activa 24/7",
+  title: "Tú enfócate en crecer",
+  titleHighlight: "nosotros en mantener",
+  subtitle: "Nosotros nos encargamos de la parte técnica para que tú te enfoques en hacer crecer tu proyecto.",
+  benefits: [
+    "Tu sitio siempre online, nosotros lo vigilamos",
+    "Soporte humano cuando lo necesitas",
+    "Actualizaciones y backups sin que pienses en ello",
+  ],
+  footer: {
+    prefix: "Más de",
+    highlight: "500 sitios",
+    suffix: "bajo gestión activa",
+  },
+};
+
+interface Props {
+  content?: Partial<typeof defaults>;
+}
+
+const props = Astro.props;
+
+const content = {
+  ...defaults,
+  ...props.content,
+  footer: { ...defaults.footer, ...(props.content?.footer ?? {}) },
+};
+---
+
+<div class="hidden max-w-2xl lg:flex lg:flex-col lg:justify-center">
+  <span
+    class="inline-flex w-fit items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-sky-500 px-4 py-1.5 text-[13px] font-semibold text-white shadow-[0_8px_20px_-8px_rgba(37,99,235,0.55)]">
+    <span class="h-1.5 w-1.5 rounded-full bg-white"></span>
+    {content.badge}
+  </span>
+
+  <h1
+    class="mt-7 text-[2.75rem] font-extrabold leading-[1.08] tracking-tight text-slate-900">
+    {content.title}
+    <span class="bg-gradient-to-r from-blue-600 to-sky-500 bg-clip-text text-transparent">
+      {content.titleHighlight}
+    </span>
+  </h1>
+
+  <p class="mt-5 max-w-xl text-lg leading-relaxed text-slate-500">{content.subtitle}</p>
+
+  <ul class="mt-8 flex flex-col gap-4">
+    {content.benefits.map((benefit) => (
+      <li class="flex items-center gap-3 text-[1.05rem] text-slate-600">
+        <span
+          class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-100/70 text-blue-700">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </span>
+        {benefit}
+      </li>
+    ))}
+  </ul>
+
+  <p class="mt-8 text-sm text-slate-400">
+    {content.footer.prefix}
+    <span class="font-semibold text-slate-600">{content.footer.highlight}</span>
+    {content.footer.suffix}
+  </p>
+</div>

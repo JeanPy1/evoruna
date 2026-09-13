@@ -1,0 +1,161 @@
+---
+import Banner from "./Banner.astro";
+
+const ICONS = {
+  user: `<svg class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A9 9 0 1118.88 17.8M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>`,
+  mail: `<svg class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6"></path><path stroke-linecap="round" stroke-linejoin="round" d="M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>`,
+  lock: `<svg class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 10-8 0v4"></path><path stroke-linecap="round" stroke-linejoin="round" d="M5 11h14v10H5V11z"></path></svg>`,
+};
+
+const EYE_ICON = `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+
+interface Props {
+  title: string;
+  subtitle: string;
+  fields?: ("name" | "email" | "password" | "password-confirm")[];
+  submitLabel: string;
+  forgotLink?: boolean;
+  passwordLabel?: string;
+  passwordHint?: string;
+  footerText?: string;
+  footerLinkText: string;
+  footerHref: string;
+}
+
+const {
+  title,
+  subtitle,
+  fields = ["name", "email", "password", "password-confirm"],
+  submitLabel,
+  forgotLink = false,
+  passwordLabel = "Contraseña",
+  passwordHint,
+  footerText,
+  footerLinkText,
+  footerHref,
+} = Astro.props;
+
+const ALL_FIELDS = [
+  {
+    id: "name",
+    label: "Nombre completo",
+    type: "text",
+    icon: "user",
+    placeholder: "Tu nombre",
+    padding: "pr-4",
+  },
+  {
+    id: "email",
+    label: "Correo electrónico",
+    type: "email",
+    icon: "mail",
+    placeholder: "tucorreo@ejemplo.com",
+    padding: "pr-4",
+  },
+  {
+    id: "password",
+    label: passwordLabel,
+    type: "password",
+    icon: "lock",
+    placeholder: "••••••••",
+    padding: "pr-12",
+    toggle: "toggle-password",
+    minlength: "8",
+    hint: passwordHint,
+  },
+  {
+    id: "password-confirm",
+    label: "Confirmar contraseña",
+    type: "password",
+    icon: "lock",
+    placeholder: "••••••••",
+    padding: "pr-12",
+    toggle: "toggle-password-confirm",
+    minlength: "8",
+  },
+];
+
+const visibleFields = ALL_FIELDS.filter((field) => fields.includes(field.id));
+
+const inputBase =
+  "w-full rounded-xl border border-slate-200 bg-white py-3 pl-11 text-[0.95rem] text-slate-900 placeholder:text-slate-400 transition-colors duration-150 focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10";
+
+const toggleClass =
+  "absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-slate-400 transition-colors duration-150 hover:text-blue-600 [&.active]:text-blue-600";
+---
+
+<section
+  class="mx-auto w-full max-w-md rounded-2xl border border-slate-200/80 bg-white p-6 shadow-[0_20px_50px_-24px_rgba(15,23,42,0.18)] sm:p-10">
+  <Banner />
+
+  <header class="text-center">
+    <h2 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-[1.75rem]">{title}</h2>
+    <p class="mt-2 text-[0.95rem] leading-relaxed text-slate-500">{subtitle}</p>
+  </header>
+
+  <form id="form" class="mt-8 flex flex-col gap-4">
+    {visibleFields.map((field) => (
+      <div class="flex flex-col gap-1.5">
+        <label for={field.id} class="text-sm font-medium text-slate-700">{field.label}</label>
+
+        <div class="relative">
+          <span set:html={ICONS[field.icon]}></span>
+          <input
+            id={field.id}
+            type={field.type}
+            placeholder={field.placeholder}
+            class:list={[inputBase, field.padding]}
+            {...field.minlength ? { minlength: field.minlength } : {}}
+            required
+          />
+          {field.toggle && (
+            <button
+              type="button"
+              id={field.toggle}
+              class={toggleClass}
+              aria-label="Mostrar contraseña"
+            >
+              <span set:html={EYE_ICON}></span>
+            </button>
+          )}
+        </div>
+
+        {field.hint && <p class="text-xs text-slate-400">{field.hint}</p>}
+      </div>
+    ))}
+
+    {forgotLink && (
+      <div class="flex justify-end">
+        <a
+          href="/forgot"
+          class="text-[0.95rem] font-semibold text-blue-600 transition-colors duration-150 hover:text-blue-700">¿Olvidaste
+          tu contraseña?</a>
+      </div>
+    )}
+
+    <button
+      id="submit"
+      type="submit"
+      class="w-full cursor-pointer rounded-xl bg-blue-600 px-4 py-3.5 text-base font-semibold text-white transition-colors duration-150 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-60">{submitLabel}</button>
+  </form>
+
+  <p class="mt-8 text-center text-[0.95rem] text-slate-500">
+    {footerText && <Fragment>{footerText} </Fragment>}
+    <a
+      href={footerHref}
+      class="text-[0.95rem] font-semibold text-blue-600 transition-colors duration-150 hover:text-blue-700">{footerLinkText}</a>
+  </p>
+</section>
+
+<script>
+  document.querySelectorAll('button[id^="toggle-"]').forEach((toggle) => {
+    const input = document.getElementById(toggle.id.replace("toggle-", ""));
+    if (!input) return;
+
+    toggle.addEventListener("click", () => {
+      const hidden = input.type === "password";
+      input.type = hidden ? "text" : "password";
+      toggle.classList.toggle("active", hidden);
+    });
+  });
+</script>

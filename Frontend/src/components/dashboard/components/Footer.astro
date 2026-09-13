@@ -1,0 +1,100 @@
+<style>
+
+  .dashboard-footer{   
+    padding:3rem 0; 
+  }
+
+  .dashboard-footer-content{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1rem;
+    text-align:center;
+  }
+
+  .dashboard-footer-logo{
+    width:130px;
+    height:auto;
+    opacity:.9;
+  }
+
+  .dashboard-footer-text{
+    max-width:520px;
+    color:rgb(100 116 139);
+    line-height:1.7;
+    font-size:.95rem;
+  }
+
+  .dashboard-footer-links{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:1.5rem;
+  }
+
+  .dashboard-footer-link{
+    color:rgb(79 70 229);
+    text-decoration:none;
+    font-size:.92rem;
+    font-weight:600;
+    transition:color .3s ease;
+  }
+
+  .dashboard-footer-link:hover{
+    color:rgb(37 99 235);
+  }
+
+  .dashboard-footer-bottom{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    gap:.75rem;
+    margin-top:1rem;
+    color:rgb(148 163 184);
+    font-size:.85rem;
+  }
+
+  .dashboard-footer-separator{
+    opacity:.45;
+  }
+
+  @media(max-width:768px){
+
+    .dashboard-footer{
+      padding:2.5rem 0;
+    }
+
+    .dashboard-footer-links{
+      gap:1rem;
+    }
+
+  }
+
+</style>
+
+<footer class="dashboard-footer">
+
+  <div class="dashboard-footer-content">
+
+    <img src="/logo-white.png" alt="Evoruna" class="dashboard-footer-logo">
+
+    <p class="dashboard-footer-text">
+      Gracias por confiar en Evoruna. Nosotros nos encargamos de la parte técnica para que puedas concentrarte en hacer crecer tu negocio.
+    </p>
+
+    <nav class="dashboard-footer-links">
+      <a href="/privacy" class="dashboard-footer-link"> Privacidad </a>
+      <a href="/terms" class="dashboard-footer-link"> Términos </a>
+      <a href="/status" class="dashboard-footer-link"> Estado del servicio </a>
+    </nav>
+
+    <div class="dashboard-footer-bottom">
+      <span> © 2026 Evoruna </span>
+      <span class="dashboard-footer-separator"> • </span>
+      <span> v1.0.0 </span>
+    </div>
+
+  </div>
+
+</footer>

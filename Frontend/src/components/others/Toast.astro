@@ -1,0 +1,64 @@
+<style>
+
+  .toast {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 9999;
+    padding: 0.9rem 1rem;
+    border-radius: 1rem;
+    background: white;
+    color: #0f172a;
+    font-size: 0.95rem;
+    font-weight: 500;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .toast.error {
+    border-left: 4px solid #dc2626;
+  }
+
+  .toast.success {
+    border-left: 4px solid #16a34a;
+  }
+
+</style>
+
+<div id="toast" class="toast">
+  <span id="toast-text"></span>
+</div>
+
+<script type="module">
+
+  const toast = document.getElementById("toast");
+  const toastText = document.getElementById("toast-text");
+
+  let toastTimeout;
+
+  window.showToast = function(text, type = "error") {
+    clearTimeout(toastTimeout);
+
+    toastText.textContent = text;
+    toast.className = `toast ${type}`;
+
+    requestAnimationFrame(() => {
+      toast.classList.add("show");
+    });
+
+    toastTimeout = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 3500);
+  }
+  
+</script>

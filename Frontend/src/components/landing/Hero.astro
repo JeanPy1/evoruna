@@ -1,0 +1,328 @@
+﻿---
+import heroImage1 from "../../assets/hero-presence-1.webp";
+import heroImage1Fallback from "../../assets/hero-presence-1.png";
+import heroImage2 from "../../assets/hero-presence-2.webp";
+import heroImage2Fallback from "../../assets/hero-presence-2.png";
+import heroImage3 from "../../assets/hero-presence-3.webp";
+import heroImage3Fallback from "../../assets/hero-presence-3.png";
+
+const slides = [
+  {
+    src: heroImage1.src,
+    fallback: heroImage1Fallback.src,
+    alt: "Presencia web profesional para una marca boutique",
+    kicker: "Presencia",
+    caption: "Una web que representa tu marca",
+  },
+  {
+    src: heroImage2.src,
+    fallback: heroImage2Fallback.src,
+    alt: "Sitio publicado para un negocio local",
+    kicker: "Publicación",
+    caption: "Lista para que te encuentren",
+  },
+  {
+    src: heroImage3.src,
+    fallback: heroImage3Fallback.src,
+    alt: "Web de estudio gestionada por Evoruna",
+    kicker: "Gestión",
+    caption: "Cuidada por nuestro equipo",
+  },
+];
+  
+const buttonBase = "inline-flex items-center justify-center gap-2 rounded-xl px-6 py-4 text-sm font-semibold transition duration-500 ease-out sm:text-base";
+
+const dotBase = "h-2 w-2 rounded-full border-0 p-0 transition-transform duration-500 ease-out";
+---
+
+<section id="home" class="overflow-hidden bg-white text-slate-900">
+  <div class="mx-auto grid max-w-6xl items-center gap-12 px-6 pt-28 pb-20 lg:grid-cols-[.92fr_1.08fr]">
+    <!-- Content -->
+    <div class="flex flex-col items-center gap-5 text-center lg:items-start lg:text-left">
+      <span class="hero-enter text-xs font-bold uppercase tracking-[.18em] text-blue-600">
+        Presencia web
+      </span>
+
+      <h1
+        class="hero-enter m-0 max-w-[11ch] text-[clamp(3rem,7vw,5.4rem)] font-bold leading-[.95] tracking-[-.06em] text-slate-950"
+        style="animation-delay:60ms"
+      >
+        Tu marca,
+        <span class="bg-gradient-to-r from-blue-600 via-sky-500 to-indigo-600 bg-clip-text text-transparent">
+          visible.
+        </span>
+      </h1>
+
+      <p
+        class="hero-enter m-0 max-w-xl text-base leading-7 text-slate-600 sm:text-lg"
+        style="animation-delay:120ms"
+      >
+        Creamos, publicamos y cuidamos tu sitio. Tú te enfocas en el negocio;
+        nosotros en que te encuentren online.
+      </p>
+
+      <!-- Actions -->
+      <div
+        class="hero-enter mt-1 flex flex-wrap justify-center gap-3 lg:justify-start"
+        style="animation-delay:180ms"
+      >
+        <!-- Primary -->
+        <a
+          href="/register"
+          class:list={[
+            "group",
+            buttonBase,
+            "bg-blue-600 text-white shadow-sm",
+            "hover:bg-blue-700",
+            "hover:-translate-y-px",
+          ]}
+        >        
+          <span>Empezar</span>
+
+          <svg
+            class="size-[18px] transition-transform duration-500 ease-out group-hover:translate-x-1"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14" />
+            <path d="m13 6 6 6-6 6" />
+          </svg>
+        </a>
+
+        <!-- Secondary -->
+        <a
+          href="#pricing"
+          class:list={[
+            buttonBase,
+            "text-blue-600 hover:bg-blue-50 hover:text-blue-700",
+            "hover:-translate-y-px",
+          ]}
+        >
+          Ver planes
+        </a>
+      </div>
+    </div>
+
+    <!-- Visual -->
+    <div
+      class="hero-enter w-full max-w-xl justify-self-center lg:justify-self-end"
+      style="animation-delay:120ms"
+    >
+      <div class="relative">
+        <div
+          class="pointer-events-none absolute -inset-1 rounded-[1.5rem] bg-gradient-to-tr from-blue-500/15 via-sky-400/5 to-indigo-500/15 blur-lg"
+          aria-hidden="true"
+        ></div>
+
+        <div class="relative aspect-[16/10] overflow-hidden rounded-2xl shadow-xl shadow-blue-900/10 ring-1 ring-slate-900/5 sm:rounded-3xl">
+          {
+            slides.map((slide, index) => (
+              <picture
+                data-hero-slide
+                class:list={[
+                  "absolute inset-0 will-change-[opacity]",
+                  "transition-opacity duration-[1100ms] ease-[cubic-bezier(0.45,0,0.25,1)]",
+                  index === 0
+                    ? "opacity-100"
+                    : "pointer-events-none opacity-0",
+                ]}
+              >
+                <source srcset={slide.src} type="image/webp" />
+                <img
+                  src={slide.fallback}
+                  alt={slide.alt}
+                  class="size-full object-cover"
+                  decoding="async"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  fetchpriority={index === 0 ? "high" : "auto"}
+                />
+              </picture>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Caption -->
+      <div class="mt-4 flex items-center justify-between gap-4">
+        <div
+          data-hero-caption-wrap
+          class="min-w-0 transition-opacity duration-400 ease-[cubic-bezier(0.45,0,0.25,1)]"
+        >
+          <span
+            data-hero-kicker
+            class="block text-[.7rem] font-bold uppercase tracking-[.14em] text-blue-600"
+          >
+            {slides[0].kicker}
+          </span>
+
+          <span
+            data-hero-caption
+            class="mt-1 block truncate text-sm font-semibold text-slate-900 sm:text-base"
+          >
+            {slides[0].caption}
+          </span>
+        </div>
+
+        <!-- Dots -->
+        <div
+          data-hero-tablist
+          class="flex shrink-0 items-center gap-2"
+          role="tablist"
+          aria-label="Imágenes"
+        >
+          {
+            slides.map((_, index) => (
+              <button
+                data-hero-dot={index}
+                type="button"
+                role="tab"
+                aria-label={`Ver imagen ${index + 1}`}
+                aria-selected={index === 0}
+                class:list={[
+                  dotBase,
+                  index === 0
+                    ? "scale-x-[2] bg-blue-600"
+                    : "scale-x-100 bg-slate-300",
+                ]}
+              />
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-enter {
+      animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+  }
+</style>
+
+<script type="module" define:vars={{ slides }}>
+  const images = [...document.querySelectorAll("[data-hero-slide]")];
+  const dots = [...document.querySelectorAll("[data-hero-dot]")];
+
+  const tablist = document.querySelector("[data-hero-tablist]");
+  const kicker = document.querySelector("[data-hero-kicker]");
+  const caption = document.querySelector("[data-hero-caption]");
+  const captionWrap = document.querySelector("[data-hero-caption-wrap]");
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let current = 0;
+  let timer;
+  let captionToken = 0;
+
+  const setCaption = (index) => {
+    const slide = slides[index];
+    if (!slide) return;
+
+    const token = ++captionToken;
+
+    const apply = () => {
+      if (kicker) kicker.textContent = slide.kicker;
+      if (caption) caption.textContent = slide.caption;
+    };
+
+    /* Instant swap when reduced-motion or no transition support. */
+    if (reduceMotion || !captionWrap) {
+      if (captionWrap) captionWrap.style.opacity = "1";
+      apply();
+      return;
+    }
+
+    /* Fade out, swap text at the trough, fade back in. */
+    captionWrap.style.opacity = "0";
+    window.setTimeout(() => {
+      if (token !== captionToken) return;
+      apply();
+      captionWrap.style.opacity = "1";
+    }, 450);
+  };
+
+  const updateSlide = (index) => {
+    if (index === current) return;
+
+    const previous = current;
+    current = index;
+
+    /* Images */
+    images[previous]?.classList.replace("opacity-100", "opacity-0");
+    images[current]?.classList.replace("opacity-0", "opacity-100");
+
+    /* Dots (transform-based, no layout shift) */
+    dots[previous]?.classList.replace("scale-x-[2]", "scale-x-100");
+    dots[previous]?.classList.replace("bg-blue-600", "bg-slate-300");
+    dots[current]?.classList.replace("scale-x-100", "scale-x-[2]");
+    dots[current]?.classList.replace("bg-slate-300", "bg-blue-600");
+
+    /* Accessibility */
+    dots.forEach((dot, i) => {
+      dot.setAttribute("aria-selected", String(i === current));
+    });
+
+    setCaption(current);
+  };
+
+  const startSlider = () => {
+    if (reduceMotion || images.length < 2 || document.hidden) return;
+
+    timer = window.setInterval(() => {
+      updateSlide((current + 1) % images.length);
+    }, 5000);
+  };
+
+  const stopSlider = () => {
+    window.clearInterval(timer);
+  };
+
+  const goTo = (index) => {
+    if (index === current) return;
+    stopSlider();
+    updateSlide(index);
+    startSlider();
+  };
+
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      goTo(Number(dot.dataset.heroDot));
+    });
+  });
+
+  /* Arrow-key navigation for keyboard users (WCAG) */
+  tablist?.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+    event.preventDefault();
+    const delta = event.key === "ArrowRight" ? 1 : -1;
+    const next = (current + delta + images.length) % images.length;
+    goTo(next);
+    dots[next]?.focus();
+  });
+
+  /* Pause autoplay when the tab is hidden (saves CPU/battery on low-end devices) */
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopSlider();
+    else startSlider();
+  });
+
+  startSlider();
+</script>

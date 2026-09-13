@@ -1,0 +1,102 @@
+---
+import Icon from "./Icon.astro";
+import { dashboardActions } from "./data";
+import DashboardSection from "./DashboardSection.astro";
+---
+
+<style>
+  .dashboard-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem;
+  }
+
+  .dashboard-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.4rem;
+    border-radius: 1.25rem;
+    text-decoration: none;
+    background: white;
+    border: 1px solid rgb(226 232 240);
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .dashboard-action.is-active {
+    border-color: rgba(79, 70, 229, 0.32);
+    background: rgb(248 250 255);
+  }
+
+  .dashboard-action:hover {
+    transform: translateY(-4px);
+    border-color: rgba(79, 70, 229, 0.18);
+    box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
+  }
+
+  .dashboard-action-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .dashboard-action-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    color: white;
+    background: linear-gradient(135deg, rgb(79 70 229), rgb(37 99 235));
+    transition: transform 0.3s ease;
+  }
+
+  .dashboard-action:hover .dashboard-action-icon {
+    transform: rotate(-8deg) scale(1.08);
+  }
+
+  .dashboard-action-title {
+    font-weight: 700;
+    color: rgb(15 23 42);
+  }
+
+  .dashboard-action-arrow {
+    color: rgb(148 163 184);
+    transition:
+      transform 0.3s ease,
+      color 0.3s ease;
+  }
+
+  .dashboard-action:hover .dashboard-action-arrow {
+    color: rgb(79 70 229);
+    transform: translateX(5px);
+  }
+</style>
+
+<DashboardSection
+  title="Acciones rápidas"
+  subtitle="Accede rápidamente a las funciones más utilizadas."
+>
+  <div class="dashboard-actions">
+    {dashboardActions.map((action) => (
+      <button type="button" class="dashboard-action" data-dashboard-action={action.id}>
+        <div class="dashboard-action-left">
+          <div class="dashboard-action-icon">
+            <Icon name={action.icon} size="22" />
+          </div>
+          <span class="dashboard-action-title">{action.title}</span>
+        </div>
+
+        <Icon name="chevron-right" class="dashboard-action-arrow" size="18" />
+      </button>
+    ))}
+  </div>
+</DashboardSection>

@@ -1,0 +1,367 @@
+<style>
+  .dashboard-action-panel {
+    padding-top: 0;
+    margin-top: -2.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .dashboard-action-box {
+    display: grid;
+    gap: 1.25rem;
+    padding: 1.4rem;
+    border: 1px solid rgb(226 232 240);
+    border-radius: 1.25rem;
+    background: white;
+  }
+
+  .dashboard-action-view {
+    display: none;
+  }
+
+  .dashboard-action-view.is-active {
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  /* Section header */
+  .dashboard-action-heading {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .dashboard-action-heading h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: rgb(15 23 42);
+  }
+
+  .dashboard-action-heading p {
+    color: rgb(100 116 139);
+    line-height: 1.65;
+  }
+
+  /* Forms */
+  .dashboard-form {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .dashboard-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .dashboard-field {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .dashboard-field span {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgb(51 65 85);
+  }
+
+  .dashboard-input,
+  .dashboard-textarea {
+    width: 100%;
+    border: 1px solid rgb(203 213 225);
+    border-radius: 0.85rem;
+    padding: 0.85rem 0.95rem;
+    color: rgb(15 23 42);
+    background: rgb(248 250 252);
+    font: inherit;
+    outline: none;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .dashboard-textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .dashboard-input:focus,
+  .dashboard-textarea:focus {
+    border-color: rgba(79, 70, 229, 0.55);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+  }
+
+  .dashboard-input:disabled {
+    cursor: not-allowed;
+    color: rgb(100 116 139);
+    background: rgb(241 245 249);
+  }
+
+  .dashboard-submit {
+    justify-self: start;
+    border: 0;
+    border-radius: 0.9rem;
+    padding: 0.75rem 1rem;
+    color: white;
+    background: rgb(79 70 229);
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background-color 0.25s ease,
+      transform 0.2s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .dashboard-submit:hover {
+    background: rgb(67 56 202);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(79, 70, 229, 0.25);
+  }
+
+  .dashboard-submit:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+  }
+
+  .dashboard-submit:focus-visible {
+    outline: 3px solid rgba(79, 70, 229, 0.35);
+    outline-offset: 3px;
+  }
+
+  .dashboard-submit:disabled {
+    cursor: wait;
+    opacity: 0.7;
+  }
+
+  /* Dynamic history rendered from dashboard.astro */
+  :global(.dashboard-empty-state) {
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 1px dashed rgb(203 213 225);
+    color: rgb(100 116 139);
+    background: rgb(248 250 252);
+  }
+
+  /* Empty service state */
+  .dashboard-action-warning {
+    display: none;
+    padding: 0.9rem 1rem;
+    border-radius: 0.95rem;
+    color: rgb(146 64 14);
+    background: rgb(255 251 235);
+    border: 1px solid rgb(253 230 138);
+  }
+
+  .dashboard-action-box.has-no-service .dashboard-action-warning {
+    display: block;
+  }
+
+  .dashboard-action-box.has-no-service [data-requires-service] {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  /* History lists */
+  .dashboard-history {
+    display: grid;
+    gap: 0.7rem;
+    padding-top: 0.25rem;
+  }
+
+  .dashboard-history-title {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: rgb(15 23 42);
+  }
+
+  .dashboard-history-list {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  :global(.dashboard-history-item) {
+    display: grid;
+    gap: 0.25rem;
+    padding: 0.85rem 0.95rem;
+    border-radius: 0.9rem;
+    background: rgb(248 250 252);
+    border: 1px solid rgb(226 232 240);
+  }
+
+  :global(.dashboard-history-item-header) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  :global(.dashboard-history-item strong) {
+    color: rgb(15 23 42);
+    font-size: 0.95rem;
+  }
+
+  :global(.dashboard-history-item span) {
+    color: rgb(100 116 139);
+    font-size: 0.86rem;
+  }
+
+  :global(.dashboard-history-delete) {
+    border: 0;
+    border-radius: 999px;
+    padding: 0.32rem 0.65rem;
+    color: rgb(185 28 28);
+    background: rgb(254 242 242);
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  :global(.dashboard-history-delete:hover) {
+    background: rgb(254 226 226);
+  }
+
+  @media (max-width: 720px) {
+    .dashboard-form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .dashboard-action-panel:not(:last-child) {
+    border-bottom: 1px solid rgb(226 232 240);
+  }
+</style>
+
+<div class="dashboard-action-panel">
+  <div class="dashboard-action-box" id="dashboard-action-panel">
+    <div class="dashboard-action-warning">
+      Necesitas tener un servicio activo para solicitar cambios o crear tickets.
+    </div>
+
+    <section class="dashboard-action-view is-active" data-action-view="change" data-requires-service>
+      <div class="dashboard-action-heading">
+        <h3>Solicitar cambio</h3>
+        <p>Env&iacute;a ajustes menores del sitio seleccionado. Lo guardaremos asociado a esa web.</p>
+      </div>
+
+      <form class="dashboard-form" data-dashboard-form="change">
+        <label class="dashboard-field">
+          <span>Titulo</span>
+          <input class="dashboard-input" name="title" placeholder="Ej. Cambiar texto de inicio" required />
+        </label>
+
+        <label class="dashboard-field">
+          <span>Detalle</span>
+          <textarea class="dashboard-textarea" name="description" placeholder="Describe exactamente que quieres cambiar." required></textarea>
+        </label>
+
+        <button class="dashboard-submit" type="submit">Enviar solicitud</button>
+      </form>
+
+      <div class="dashboard-history">
+        <p class="dashboard-history-title">&Uacute;ltimas solicitudes</p>
+        <div class="dashboard-history-list" id="dashboard-change-history">
+          <div class="dashboard-empty-state">A&uacute;n no tienes solicitudes recientes.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dashboard-action-view" data-action-view="billing">
+      <div class="dashboard-action-heading">
+        <h3>Recibos</h3>
+        <p>Descarga tus recibos de pago cuando est&eacute;n disponibles.</p>
+      </div>
+
+      <div id="dashboard-invoices" class="dashboard-empty-state">
+        A&uacute;n no tienes recibos disponibles.
+      </div>
+    </section>
+
+    <section class="dashboard-action-view" data-action-view="security">
+      <div class="dashboard-action-heading">
+        <h3>Cuenta y seguridad</h3>
+        <p>Actualiza tu nombre o cambia tu contrase&ntilde;a.</p>
+      </div>
+
+      <form class="dashboard-form" data-dashboard-form="profile">
+        <div class="dashboard-form-grid">
+          <label class="dashboard-field">
+            <span>Correo</span>
+            <input class="dashboard-input" id="dashboard-profile-email" type="email" disabled />
+          </label>
+
+          <label class="dashboard-field">
+            <span>Nombre</span>
+            <input
+              class="dashboard-input"
+              id="dashboard-profile-name"
+              name="name"
+              placeholder="Tu nombre"
+              pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+"
+              autocomplete="name"
+              required
+            />
+          </label>
+
+          <label class="dashboard-field">
+            <span>Tel&eacute;fono</span>
+            <input
+              class="dashboard-input"
+              id="dashboard-profile-phone"
+              name="phone"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              autocomplete="tel"
+              placeholder="Ej. 999999999"
+            />
+          </label>
+        </div>
+
+        <button class="dashboard-submit" type="submit">Guardar datos</button>
+      </form>
+
+      <form class="dashboard-form" data-dashboard-form="password">
+        <div class="dashboard-form-grid">
+          <label class="dashboard-field">
+            <span>Contrase&ntilde;a actual</span>
+            <input class="dashboard-input" name="current_password" type="password" required />
+          </label>
+
+          <label class="dashboard-field">
+            <span>Nueva contrase&ntilde;a</span>
+            <input class="dashboard-input" name="new_password" type="password" required />
+          </label>
+        </div>
+
+        <button class="dashboard-submit" type="submit">Cambiar contrase&ntilde;a</button>
+      </form>
+    </section>
+
+    <section class="dashboard-action-view" data-action-view="support" data-requires-service>
+      <div class="dashboard-action-heading">
+        <h3>Soporte</h3>
+        <p>Crea un ticket para dudas, errores o ayuda con tu servicio.</p>
+      </div>
+
+      <form class="dashboard-form" data-dashboard-form="support">
+        <label class="dashboard-field">
+          <span>Asunto</span>
+          <input class="dashboard-input" name="subject" placeholder="Ej. No veo mi dominio" required />
+        </label>
+
+        <label class="dashboard-field">
+          <span>Mensaje</span>
+          <textarea class="dashboard-textarea" name="message" placeholder="Cuentanos que sucede." required></textarea>
+        </label>
+
+        <button class="dashboard-submit" type="submit">Crear ticket</button>
+      </form>
+
+      <div class="dashboard-history">
+        <p class="dashboard-history-title">&Uacute;ltimos tickets</p>
+        <div class="dashboard-history-list" id="dashboard-ticket-history">
+          <div class="dashboard-empty-state">A&uacute;n no tienes tickets recientes.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

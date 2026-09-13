@@ -1,0 +1,84 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// Misma origen por defecto: todo se sirve desde el mismo Worker de Cloudflare
+const API_URL = import.meta.env.PUBLIC_API_URL ?? "/api";
+---
+
+<Layout>
+  <main id="page" class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/50">
+    <div class="flex min-h-screen items-center justify-center px-4 py-10 sm:px-6">
+      <div class="relative z-10 w-full max-w-md">
+        <div id="card" class="rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+          <div id="estado-carga" class="flex flex-col items-center gap-4">
+            <div class="h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
+            <h1 class="text-lg font-semibold text-slate-900">Verificando tu correo...</h1>
+            <p class="text-sm text-slate-500">Un momento, estamos activando tu cuenta.</p>
+          </div>
+
+          <div id="estado-exito" class="hidden flex-col items-center gap-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+              <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h1 class="text-lg font-semibold text-slate-900">Correo verificado</h1>
+            <p class="text-sm text-slate-500">Tu cuenta está activa. Te llevamos al inicio de sesión...</p>
+          </div>
+
+          <div id="estado-error" class="hidden flex-col items-center gap-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
+              <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </div>
+            <h1 class="text-lg font-semibold text-slate-900">No se pudo verificar tu correo</h1>
+            <p id="error-mensaje" class="text-sm text-slate-500">El enlace es inválido o ha expirado.</p>
+            <a href="/login" class="mt-2 inline-block rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700">
+              Ir al inicio de sesión
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script define:vars={{ API_URL }} type="module">
+  const loadingState = document.getElementById("estado-carga");
+  const successState = document.getElementById("estado-exito");
+  const errorState = document.getElementById("estado-error");
+  const errorMessage = document.getElementById("error-mensaje");
+
+  function show(state) {
+    loadingState.classList.add("hidden");
+    state.classList.remove("hidden");
+    state.classList.add("flex");
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token");
+
+  if (!token) {
+    show(errorState);
+  } else {
+    try {
+      const response = await fetch(`${API_URL}/auth/verify-email?token=${encodeURIComponent(token)}`);
+      let data = {};
+      try {
+        data = await response.json();
+      } catch {}
+
+      if (response.ok) {
+        show(successState);
+        setTimeout(() => window.location.replace("/login"), 2000);
+      } else {
+        if (data?.error) errorMessage.textContent = data.error;
+        show(errorState);
+      }
+    } catch {
+      errorMessage.textContent = "No se pudo conectar con el servidor. Revisa tu conexión.";
+      show(errorState);
+    }
+  }
+</script>

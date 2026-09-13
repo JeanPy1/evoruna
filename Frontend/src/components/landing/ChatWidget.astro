@@ -1,0 +1,268 @@
+---
+// Cambia este número al tuyo (formato internacional, solo dígitos, con código de país)
+const WHATSAPP_NUMBER = "51910376251";
+---
+
+<script define:vars={{ waNumber: WHATSAPP_NUMBER }}>
+  const WA_NUMBER = waNumber;
+
+  const waLink = (msg) =>
+    `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+
+  const initChat = () => {
+  const btn = document.getElementById("chat-toggle");
+  const panel = document.getElementById("chat-panel");
+  const body = document.getElementById("chat-body");
+  const badge = document.getElementById("chat-badge");
+  const iconOpen = document.querySelector(".chat-icon-open");
+  const iconClose = document.querySelector(".chat-icon-close");
+  let started = false;
+
+  const setPanel = (open) => {
+    panel.classList.toggle("hidden", !open);
+    panel.classList.toggle("opacity-0", !open);
+    panel.classList.toggle("scale-95", !open);
+    iconOpen.classList.toggle("hidden", open);
+    iconClose.classList.toggle("hidden", !open);
+  };
+
+  const scrollDown = () =>
+    body.scrollTo({ top: body.scrollHeight, behavior: "smooth" });
+
+  const bubble = (from, text) => {
+    const row = document.createElement("div");
+    row.className = `flex ${from === "bot" ? "justify-start" : "justify-end"}`;
+    const b = document.createElement("div");
+    b.className =
+      from === "bot"
+        ? "max-w-[85%] rounded-2xl rounded-bl-md border border-white/[.06] bg-white/[.06] px-4 py-2.5 text-[13.5px] leading-relaxed text-slate-200"
+        : "max-w-[85%] rounded-2xl rounded-br-md bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-[13.5px] leading-relaxed text-white";
+    b.textContent = text;
+    row.appendChild(b);
+    body.appendChild(row);
+    scrollDown();
+  };
+
+  const typing = () => {
+    const row = document.createElement("div");
+    row.className = "flex justify-start";
+    row.innerHTML =
+      '<div class="flex items-center gap-1 rounded-2xl rounded-bl-md border border-white/[.06] bg-white/[.06] px-4 py-3">' +
+      '<span class="size-1.5 animate-bounce rounded-full bg-slate-400 [animation-delay:0ms]"></span>' +
+      '<span class="size-1.5 animate-bounce rounded-full bg-slate-400 [animation-delay:120ms]"></span>' +
+      '<span class="size-1.5 animate-bounce rounded-full bg-slate-400 [animation-delay:240ms]"></span>' +
+      "</div>";
+    body.appendChild(row);
+    scrollDown();
+    return row;
+  };
+
+  const botSay = (text, delay) => {
+    const dots = typing();
+    setTimeout(() => {
+      dots.remove();
+      bubble("bot", text);
+    }, delay);
+  };
+
+  const waCta = (waMsg) => {
+    const wrap = document.createElement("div");
+    wrap.className = "flex justify-start";
+    const a = document.createElement("a");
+    a.href = waLink(waMsg);
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.className =
+      "inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-[13px] font-semibold text-white shadow-[0_8px_24px_-8px_rgba(37,211,102,.6)] transition-transform duration-150 hover:-translate-y-px";
+    a.innerHTML =
+      '<svg class="size-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.82 11.82 0 0012.05 0C5.5 0 .18 5.32.18 11.88c0 2.1.55 4.15 1.6 5.96L0 24l6.34-1.66a11.86 11.86 0 005.71 1.46h.01c6.55 0 11.87-5.32 11.87-11.88 0-3.17-1.24-6.15-3.41-8.44zM12.06 21.8a9.9 9.9 0 01-5.05-1.38l-.36-.21-3.76.99 1-3.66-.24-.38a9.86 9.86 0 01-1.51-5.28c0-5.48 4.45-9.94 9.92-9.94 2.65 0 5.14 1.04 7.01 2.93a9.86 9.86 0 012.9 7c0 5.48-4.45 9.93-9.91 9.93z"/></svg>Continuar en WhatsApp';
+    wrap.appendChild(a);
+    body.appendChild(wrap);
+    scrollDown();
+  };
+
+  const quickReplies = (items) => {
+    const wrap = document.createElement("div");
+    wrap.className = "flex flex-wrap gap-2";
+    items.forEach(({ label, msg, wa }) => {
+      const q = document.createElement("button");
+      q.type = "button";
+      q.textContent = label;
+      q.className =
+        "cursor-pointer rounded-full border border-blue-400/30 bg-blue-500/10 px-3.5 py-1.5 text-[12.5px] font-medium text-blue-200 transition-colors duration-150 hover:bg-blue-500/20";
+      q.addEventListener("click", () => {
+        wrap.remove();
+        bubble("user", label);
+        botSay(msg, 500);
+        setTimeout(() => waCta(wa), 650);
+      });
+      wrap.appendChild(q);
+    });
+    body.appendChild(wrap);
+    scrollDown();
+  };
+
+  const startFlow = () => {
+    if (started) return;
+    started = true;
+    badge.classList.add("hidden");
+    botSay("¡Hola! 👋 Soy Runa, asistente de EVORUNA.", 400);
+    setTimeout(
+      () => botSay("Te ayudo en segundos: ¿qué te gustaría hacer?", 500),
+      600
+    );
+    setTimeout(
+      () =>
+        quickReplies([
+          {
+            label: "Ver planes y precios",
+            msg: "Perfecto 🚀 Un asesor te muestra los planes en menos de 2 minutos.",
+            wa: "¡Hola! Me interesa conocer los planes y precios de EVORUNA. ¿Me pueden enviar la información?",
+          },
+          {
+            label: "Quiero mi sitio web",
+            msg: "¡Excelente elección! 🎉 Un asesor te ayuda a dejar tu sitio listo.",
+            wa: "¡Hola! Quiero contar con mi sitio web con EVORUNA. ¿Me ayudan a empezar?",
+          },
+          {
+            label: "Tengo una duda",
+            msg: "Claro, con gusto te resolvemos. 🙌",
+            wa: "¡Hola! Tengo una duda sobre los servicios de EVORUNA. ¿Me pueden orientar?",
+          },
+        ]),
+      1300
+    );
+  };
+
+  btn.addEventListener("click", () => {
+    const open = panel.classList.contains("hidden");
+    setPanel(open);
+    btn.setAttribute("aria-expanded", String(open));
+    if (open) startFlow();
+  });
+
+  document
+    .querySelector(".chat-close")
+    ?.addEventListener("click", () => setPanel(false));
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initChat);
+  } else {
+    initChat();
+  }
+</script>
+
+<!-- Panel -->
+<div
+  id="chat-panel"
+  class="chat-panel fixed bottom-[5.75rem] right-4 z-50 hidden w-[calc(100vw-2rem)] max-w-[22rem] origin-bottom-right scale-95 opacity-0 shadow-[0_30px_80px_-20px_rgba(2,6,23,.8)] transition-all duration-200 ease-out"
+>
+  <div class="flex h-[24rem] flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#050b16]/95 backdrop-blur-xl">
+    <!-- Header -->
+    <div class="flex items-center gap-3 border-b border-white/[.06] bg-gradient-to-r from-blue-600/20 to-indigo-600/10 px-4 py-3">
+      <div class="relative flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-sm font-bold text-white">
+        R
+        <span
+          class="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full border-2 border-[#050b16] bg-emerald-400"
+        ></span>
+      </div>
+      <div class="flex-1">
+        <p class="text-sm font-semibold text-white">Runa · EVORUNA</p>
+        <p class="text-[11px] text-emerald-300/90">En línea · responde al instante</p>
+      </div>
+      <button
+        type="button"
+        class="chat-close cursor-pointer rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-white/10 hover:text-white"
+        aria-label="Cerrar chat"
+      >
+        <svg
+          class="size-4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div
+      id="chat-body"
+      class="flex flex-1 flex-col gap-2.5 overflow-y-auto px-4 py-4"
+    >
+      <div class="flex justify-center">
+        <span
+          class="rounded-full border border-white/[.06] bg-white/[.04] px-3 py-1 text-[10px] uppercase tracking-wider text-slate-500"
+        >
+          Hoy
+        </span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="border-t border-white/[.06] px-4 py-2.5">
+      <p class="text-center text-[11px] text-slate-500">
+        Te derivamos a un asesor real por WhatsApp
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Botón flotante -->
+<button
+  id="chat-toggle"
+  type="button"
+  aria-expanded="false"
+  aria-label="Abrir chat de ayuda"
+  class="group fixed bottom-5 right-4 z-50 flex size-14 cursor-pointer items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-[0_16px_40px_-10px_rgba(37,99,235,.65)] transition-[transform_box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_20px_50px_-10px_rgba(37,99,235,.8)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+>
+  <span
+    class="absolute inset-0 -z-10 animate-ping rounded-full bg-blue-500/25 [animation-duration:2.5s]"
+    aria-hidden="true"
+  ></span>
+
+  <!-- Icono bot: burbuja de chat con puntos -->
+  <svg
+    class="chat-icon-open size-6 transition-all duration-200"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"
+    />
+    <circle cx="8.5" cy="11.5" r="1" fill="currentColor" stroke="none" />
+    <circle cx="12.5" cy="11.5" r="1" fill="currentColor" stroke="none" />
+    <circle cx="16.5" cy="11.5" r="1" fill="currentColor" stroke="none" />
+  </svg>
+
+  <!-- Icono cerrar -->
+  <svg
+    class="chat-icon-close hidden size-5 transition-all duration-200"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path d="M6 6l12 12M18 6L6 18" />
+  </svg>
+
+  <!-- Badge de notificación -->
+  <span
+    id="chat-badge"
+    class="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-emerald-400 text-[10px] font-bold text-slate-950 shadow"
+    aria-hidden="true"
+  >
+    1
+  </span>
+</button>
