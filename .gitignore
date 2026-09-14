@@ -11,6 +11,9 @@ build/
 # Estado local de Wrangler (Miniflare, D1 local, caché de observabilidad)
 .wrangler/
 
+# Tipos generados por `wrangler types` (npm run cf-typegen)
+Backend/worker-configuration.d.ts
+
 # Variables de entorno (los .env.example sí se versionan)
 .env
 .env.*
