@@ -59,49 +59,40 @@ const testimonials = [
 const testimonialSet = [...testimonials, ...testimonials];
 
 const avatarStyles = [
-  "bg-indigo-50 text-indigo-600 ring-1 ring-indigo-100",
-  "bg-blue-50 text-blue-600 ring-1 ring-blue-100",
-  "bg-teal-50 text-teal-600 ring-1 ring-teal-100",
+  "bg-navy/5 text-navy ring-1 ring-navy/10",
+  "bg-electric/8 text-electric ring-1 ring-electric/15",
+  "bg-neon/10 text-neon ring-1 ring-neon/20",
 ];
 ---
 
-<section id="trust" class="relative overflow-hidden bg-slate-50">
+<section id="trust" class="relative overflow-hidden bg-background py-20">
 
-  <!-- Background -->
-  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+  <!-- Brillo tenue -->
+  <div class="pointer-events-none absolute inset-x-0 top-0 h-72" aria-hidden="true">
     <div
-      class="absolute -top-44 left-1/2 h-[26rem] w-[58rem] -translate-x-1/2 rounded-full bg-blue-100/70 blur-[120px]"
-    ></div>
-    <div
-      class="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.04)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_60%_45%_at_50%_0%,black_25%,transparent_70%)] [-webkit-mask-image:radial-gradient(ellipse_60%_45%_at_50%_0%,black_25%,transparent_70%)]"
+      class="absolute left-1/2 top-0 h-[22rem] w-[56rem] -translate-x-1/2 rounded-full bg-mist blur-[110px]"
     ></div>
   </div>
 
-  <div class="relative mx-auto max-w-6xl px-6 py-20">
+  <div class="container-x relative">
 
     <!-- Header -->
-    <header class="mx-auto mb-16 max-w-2xl text-center">
+    <header class="mx-auto mb-16 max-w-2xl text-center" data-reveal>
 
-      <span
-        class="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3.5 py-1.5 text-[.7rem] font-bold uppercase tracking-[.14em] text-blue-700 shadow-[0_1px_2px_rgba(15,23,42,0.05)]"
-      >
-        <span class="size-1.5 rounded-full bg-blue-500"></span>
+      <span class="kicker kicker-light !text-electric">
+        <span class="size-1.5 rounded-full bg-electric"></span>
         Clientes
       </span>
 
       <h2
-        class="mt-5 text-[clamp(2.5rem,5vw,4.5rem)] font-extrabold leading-[1.05] tracking-[-.05em] text-slate-950"
+        class="mt-6 font-display text-[2.5rem] leading-[1.05] font-extrabold tracking-[-0.02em] text-navy sm:text-[3.8rem]"
       >
         Negocios que ya
-        <span
-          class="block bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-500 bg-clip-text text-transparent"
-        >
-          están online
-        </span>
+        <span class="block text-electric-gradient">están online</span>
       </h2>
 
       <p
-        class="mt-5 text-base leading-7 text-slate-600 sm:text-lg sm:leading-8"
+        class="mt-5 text-base leading-7 text-muted sm:text-lg sm:leading-8"
       >
         Ellos se enfocan en vender. Nosotros nos encargamos de que se vean bien
         online.
@@ -111,34 +102,35 @@ const avatarStyles = [
 
     <!-- Performance -->
     <div
-      class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+      class="relative overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.05)]"
+      data-reveal
     >
 
       <!-- Accent -->
       <span
-        class="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-blue-300/60 to-transparent"
+        class="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-electric/40 to-transparent"
         aria-hidden="true"
       ></span>
 
       <!-- Performance header -->
       <div
-        class="flex items-center justify-between border-b border-slate-200 px-6 py-4 sm:px-8"
+        class="flex items-center justify-between border-b border-navy/8 px-6 py-4 sm:px-8"
       >
         <span
-          class="text-[.68rem] font-bold uppercase tracking-[.18em] text-slate-400"
+          class="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-muted"
         >
           Performance
         </span>
 
         <span
-          class="flex items-center gap-2 text-[.68rem] font-medium text-slate-400"
+          class="flex items-center gap-2 text-[0.68rem] font-medium text-muted"
         >
           <span class="relative flex size-1.5">
             <span
-              class="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60"
+              class="absolute inline-flex h-full w-full rounded-full bg-neon opacity-60"
             ></span>
             <span
-              class="relative inline-flex size-1.5 rounded-full bg-emerald-500"
+              class="relative inline-flex size-1.5 rounded-full bg-neon"
             ></span>
           </span>
           Operativo
@@ -154,11 +146,11 @@ const avatarStyles = [
           class="grid min-h-[14rem] grid-rows-[auto_1fr_auto] px-6 py-7 sm:px-8 sm:py-8"
         >
           <div class="flex items-center justify-between gap-4">
-            <span class="text-xs font-medium text-slate-500">
+            <span class="text-xs font-medium text-muted">
               Disponibilidad
             </span>
 
-            <span class="text-[.68rem] font-semibold text-emerald-600">
+            <span class="text-[0.68rem] font-semibold text-neon">
               Estable
             </span>
           </div>
@@ -166,30 +158,30 @@ const avatarStyles = [
           <div class="flex flex-col justify-center">
             <div class="flex items-baseline gap-2">
               <span
-                class="text-[clamp(2.8rem,5vw,4rem)] font-extrabold leading-none tracking-[-.065em] text-slate-950"
+                class="font-display text-[clamp(2.8rem,5vw,4rem)] leading-none font-extrabold tracking-[-0.065em] text-navy"
               >
                 99.9%
               </span>
 
-              <span class="text-xs font-medium text-slate-400">
+              <span class="text-xs font-medium text-muted">
                 uptime
               </span>
             </div>
 
             <!-- Bars -->
             <div class="mt-7 flex h-8 items-end gap-1">
-              <i class="h-[35%] flex-1 rounded-[2px] bg-emerald-100"></i>
-              <i class="h-[48%] flex-1 rounded-[2px] bg-emerald-100"></i>
-              <i class="h-[42%] flex-1 rounded-[2px] bg-emerald-200"></i>
-              <i class="h-[61%] flex-1 rounded-[2px] bg-emerald-200"></i>
-              <i class="h-[56%] flex-1 rounded-[2px] bg-emerald-300"></i>
-              <i class="h-[76%] flex-1 rounded-[2px] bg-emerald-300"></i>
-              <i class="h-[70%] flex-1 rounded-[2px] bg-emerald-400"></i>
-              <i class="h-[92%] flex-1 rounded-[2px] bg-emerald-500"></i>
+              <i class="h-[35%] flex-1 rounded-[2px] bg-neon/15"></i>
+              <i class="h-[48%] flex-1 rounded-[2px] bg-neon/20"></i>
+              <i class="h-[42%] flex-1 rounded-[2px] bg-neon/25"></i>
+              <i class="h-[61%] flex-1 rounded-[2px] bg-neon/35"></i>
+              <i class="h-[56%] flex-1 rounded-[2px] bg-neon/45"></i>
+              <i class="h-[76%] flex-1 rounded-[2px] bg-neon/60"></i>
+              <i class="h-[70%] flex-1 rounded-[2px] bg-neon/75"></i>
+              <i class="h-[92%] flex-1 rounded-[2px] bg-neon"></i>
             </div>
           </div>
 
-          <p class="text-xs text-slate-400">
+          <p class="text-xs text-muted">
             Servicio disponible de forma estable
           </p>
         </div>
@@ -197,14 +189,14 @@ const avatarStyles = [
 
         <!-- Managed sites -->
         <div
-          class="grid min-h-[14rem] grid-rows-[auto_1fr_auto] border-t border-slate-200 px-6 py-7 sm:border-l sm:border-t-0 sm:px-8 sm:py-8"
+          class="grid min-h-[14rem] grid-rows-[auto_1fr_auto] border-t border-navy/8 px-6 py-7 sm:border-l sm:border-t-0 sm:px-8 sm:py-8"
         >
           <div class="flex items-center justify-between gap-4">
-            <span class="text-xs font-medium text-slate-500">
+            <span class="text-xs font-medium text-muted">
               Sitios gestionados
             </span>
 
-            <span class="text-[.68rem] font-semibold text-blue-600">
+            <span class="text-[0.68rem] font-semibold text-electric">
               En crecimiento
             </span>
           </div>
@@ -212,12 +204,12 @@ const avatarStyles = [
           <div class="flex flex-col justify-center">
             <div class="flex items-baseline gap-2">
               <span
-                class="text-[clamp(2.8rem,5vw,4rem)] font-extrabold leading-none tracking-[-.065em] text-slate-950"
+                class="font-display text-[clamp(2.8rem,5vw,4rem)] leading-none font-extrabold tracking-[-0.065em] text-navy"
               >
                 1,200+
               </span>
 
-              <span class="text-xs font-medium text-slate-400">
+              <span class="text-xs font-medium text-muted">
                 sitios
               </span>
             </div>
@@ -225,25 +217,25 @@ const avatarStyles = [
             <!-- Growth -->
             <div class="relative mt-7 h-8">
               <div
-                class="absolute inset-x-0 bottom-0 h-px bg-slate-100"
+                class="absolute inset-x-0 bottom-0 h-px bg-navy/5"
               ></div>
 
               <div
                 class="absolute inset-x-0 bottom-0 flex h-full items-end gap-1"
               >
-                <i class="h-[25%] flex-1 rounded-t bg-blue-100"></i>
-                <i class="h-[34%] flex-1 rounded-t bg-blue-100"></i>
-                <i class="h-[31%] flex-1 rounded-t bg-blue-200"></i>
-                <i class="h-[48%] flex-1 rounded-t bg-blue-200"></i>
-                <i class="h-[55%] flex-1 rounded-t bg-blue-300"></i>
-                <i class="h-[67%] flex-1 rounded-t bg-blue-300"></i>
-                <i class="h-[79%] flex-1 rounded-t bg-blue-400"></i>
-                <i class="h-[94%] flex-1 rounded-t bg-blue-500"></i>
+                <i class="h-[25%] flex-1 rounded-t bg-electric/15"></i>
+                <i class="h-[34%] flex-1 rounded-t bg-electric/20"></i>
+                <i class="h-[31%] flex-1 rounded-t bg-electric/25"></i>
+                <i class="h-[48%] flex-1 rounded-t bg-electric/35"></i>
+                <i class="h-[55%] flex-1 rounded-t bg-electric/45"></i>
+                <i class="h-[67%] flex-1 rounded-t bg-electric/60"></i>
+                <i class="h-[79%] flex-1 rounded-t bg-electric/75"></i>
+                <i class="h-[94%] flex-1 rounded-t bg-electric"></i>
               </div>
             </div>
           </div>
 
-          <p class="text-xs text-slate-400">
+          <p class="text-xs text-muted">
             Presencias actualmente gestionadas
           </p>
         </div>
@@ -251,14 +243,14 @@ const avatarStyles = [
 
         <!-- Response -->
         <div
-          class="grid min-h-[14rem] grid-rows-[auto_1fr_auto] border-t border-slate-200 px-6 py-7 sm:border-l sm:border-t-0 sm:px-8 sm:py-8"
+          class="grid min-h-[14rem] grid-rows-[auto_1fr_auto] border-t border-navy/8 px-6 py-7 sm:border-l sm:border-t-0 sm:px-8 sm:py-8"
         >
           <div class="flex items-center justify-between gap-4">
-            <span class="text-xs font-medium text-slate-500">
+            <span class="text-xs font-medium text-muted">
               Tiempo de respuesta
             </span>
 
-            <span class="text-[.68rem] font-semibold text-teal-600">
+            <span class="text-[0.68rem] font-semibold text-navy">
               Rápido
             </span>
           </div>
@@ -266,30 +258,30 @@ const avatarStyles = [
           <div class="flex flex-col justify-center">
             <div class="flex items-baseline gap-2">
               <span
-                class="text-[clamp(2.8rem,5vw,4rem)] font-extrabold leading-none tracking-[-.065em] text-slate-950"
+                class="font-display text-[clamp(2.8rem,5vw,4rem)] leading-none font-extrabold tracking-[-0.065em] text-navy"
               >
                 &lt; 24h
               </span>
 
-              <span class="text-xs font-medium text-slate-400">
+              <span class="text-xs font-medium text-muted">
                 promedio
               </span>
             </div>
 
             <!-- Signal -->
             <div class="mt-7 flex h-8 items-center gap-1.5">
-              <i class="h-2 flex-1 rounded-full bg-teal-100"></i>
-              <i class="h-2 flex-1 rounded-full bg-teal-100"></i>
-              <i class="h-2 flex-1 rounded-full bg-teal-200"></i>
-              <i class="h-2 flex-1 rounded-full bg-teal-200"></i>
-              <i class="h-2 flex-1 rounded-full bg-teal-300"></i>
-              <i class="h-2 flex-1 rounded-full bg-teal-300"></i>
-              <i class="h-2 flex-1 rounded-full bg-teal-400"></i>
-              <i class="h-2 flex-1 rounded-full bg-teal-500"></i>
+              <i class="h-2 flex-1 rounded-full bg-navy/10"></i>
+              <i class="h-2 flex-1 rounded-full bg-navy/15"></i>
+              <i class="h-2 flex-1 rounded-full bg-navy/25"></i>
+              <i class="h-2 flex-1 rounded-full bg-navy/30"></i>
+              <i class="h-2 flex-1 rounded-full bg-navy/40"></i>
+              <i class="h-2 flex-1 rounded-full bg-navy/55"></i>
+              <i class="h-2 flex-1 rounded-full bg-navy/70"></i>
+              <i class="h-2 flex-1 rounded-full bg-navy"></i>
             </div>
           </div>
 
-          <p class="text-xs text-slate-400">
+          <p class="text-xs text-muted">
             Tiempo promedio de atención
           </p>
         </div>
@@ -299,27 +291,27 @@ const avatarStyles = [
 
 
     <!-- Testimonials -->
-    <div class="mt-16">
+    <div class="mt-16" data-reveal>
 
       <!-- Testimonials header -->
       <div class="mb-7 flex items-end justify-between gap-6">
 
         <div>
           <span
-            class="text-[.68rem] font-bold uppercase tracking-[.18em] text-slate-400"
+            class="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-muted"
           >
             Experiencias
           </span>
 
           <h3
-            class="mt-2 text-xl font-bold tracking-[-.025em] text-slate-950"
+            class="mt-2 font-display text-xl font-bold tracking-[-0.025em] text-navy"
           >
             Lo que dicen quienes ya están online
           </h3>
         </div>
 
         <span
-          class="hidden items-center gap-1.5 text-xs font-medium text-slate-400 sm:inline-flex"
+          class="hidden items-center gap-1.5 text-xs font-medium text-muted sm:inline-flex"
         >
           Pasa el cursor para pausar
           <svg
@@ -352,7 +344,7 @@ const avatarStyles = [
 
               return (
                 <article
-                  class="flex w-[17.5rem] shrink-0 flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-[border-color_shadow] duration-300 hover:border-blue-200 hover:shadow-[0_14px_30px_-18px_rgba(37,99,235,0.3)] sm:w-[19rem]"
+                  class="flex w-[17.5rem] shrink-0 flex-col rounded-2xl border border-navy/10 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-[border-color_shadow] duration-300 hover:border-electric/30 hover:shadow-[0_14px_30px_-18px_rgba(235,20,20,0.3)] sm:w-[19rem]"
                 >
 
                   <!-- User -->
@@ -360,8 +352,7 @@ const avatarStyles = [
 
                     <!-- Avatar -->
                     <div
-                      class:list={[
-                        "flex size-10 shrink-0 items-center justify-center rounded-full text-sm font-bold",
+                      class:list={["flex size-10 shrink-0 items-center justify-center rounded-full text-sm font-bold",
                         avatarStyle,
                       ]}
                       aria-hidden="true"
@@ -372,13 +363,13 @@ const avatarStyles = [
                     <!-- Identity -->
                     <div class="min-w-0">
                       <h3
-                        class="truncate text-sm font-bold tracking-[-.015em] text-slate-950"
+                        class="truncate text-sm font-bold tracking-[-0.015em] text-navy"
                       >
                         {testimonial.name}
                       </h3>
 
                       <p
-                        class="mt-0.5 truncate text-xs font-medium text-slate-400"
+                        class="mt-0.5 truncate text-xs font-medium text-muted"
                       >
                         {testimonial.role}
                       </p>
@@ -389,15 +380,15 @@ const avatarStyles = [
 
                   <!-- Testimonial -->
                   <p
-                    class="mt-4 text-[.88rem] leading-[1.65] text-slate-600"
+                    class="mt-4 text-[0.88rem] leading-[1.65] text-slate-600"
                   >
                     {testimonial.text}
                   </p>
 
 
                   <!-- Footer -->
-                  <div class="mt-4 border-t border-slate-100 pt-4">
-                    <p class="text-[.7rem] font-medium text-slate-400">
+                  <div class="mt-4 border-t border-navy/5 pt-4">
+                    <p class="text-[0.7rem] font-medium text-muted">
                       {testimonial.time}
                     </p>
                   </div>
@@ -416,7 +407,9 @@ const avatarStyles = [
   </div>
 </section>
 
-<style>
+<style is:global>
+  /* Keyframe global: la utilidad animate-[...] referencia este nombre
+     literal. motion-safe ya respeta prefers-reduced-motion. */
   @keyframes trust-scroll {
     from {
       transform: translateX(0);
@@ -424,12 +417,6 @@ const avatarStyles = [
 
     to {
       transform: translateX(calc(-50% - 0.5rem));
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .motion-safe\:animate-\[trust-scroll_55s_linear_infinite\] {
-      animation: none;
     }
   }
 </style>

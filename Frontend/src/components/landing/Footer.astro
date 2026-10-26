@@ -10,23 +10,23 @@ const navigation = [
 <footer
   id="footer"
   data-theme="dark"
-  class="relative overflow-hidden border-t border-white/[.06] bg-[#02060c] text-white"
+  class="relative overflow-hidden border-t border-white/[0.06] bg-[#060a14] text-white"
 >
 
   <!-- Background -->
   <div class="pointer-events-none absolute inset-0" aria-hidden="true">
     <div
-      class="absolute -top-32 left-1/2 h-[18rem] w-[48rem] -translate-x-1/2 rounded-full bg-blue-600/10 blur-[110px]"
+      class="absolute -top-32 left-1/2 h-[18rem] w-[48rem] -translate-x-1/2 rounded-full bg-electric/8 blur-[110px]"
     ></div>
   </div>
 
   <!-- Top accent -->
   <span
-    class="absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/25 to-transparent"
+    class="absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-electric/30 to-transparent"
     aria-hidden="true"
   ></span>
 
-  <div class="relative mx-auto max-w-6xl px-6 pt-16 pb-8">
+  <div class="container-x relative pt-16 pb-8">
 
     <!-- Main -->
     <div
@@ -43,9 +43,7 @@ const navigation = [
           loading="lazy"
         />
 
-        <p
-          class="max-w-sm text-sm leading-7 text-slate-400"
-        >
+        <p class="max-w-sm text-sm leading-7 text-slate-400">
           Presencia web gestionada: diseñamos, publicamos y cuidamos tu sitio
           para que tu marca se vea profesional.
         </p>
@@ -59,7 +57,7 @@ const navigation = [
           <a
             href="https://wa.me/51910376251?text=Hola,%20quiero%20mas%20informacion"
             aria-label="WhatsApp"
-            class="flex size-10 items-center justify-center rounded-full border border-white/10 bg-white/[.03] text-slate-400 transition-[border-color_background-color_color] duration-200 hover:border-blue-400/40 hover:bg-blue-500/10 hover:text-blue-300"
+            class="flex size-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-slate-400 transition-[border-color_background-color_color] duration-200 hover:border-electric/50 hover:bg-electric/10 hover:text-electric-light"
           >
             <svg
               class="size-[18px]"
@@ -76,7 +74,7 @@ const navigation = [
           <a
             href="https://www.facebook.com/people/Evoruna/61593789937210/"
             aria-label="Facebook"
-            class="flex size-10 items-center justify-center rounded-full border border-white/10 bg-white/[.03] text-slate-400 transition-[border-color_background-color_color] duration-200 hover:border-blue-400/40 hover:bg-blue-500/10 hover:text-blue-300"
+            class="flex size-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-slate-400 transition-[border-color_background-color_color] duration-200 hover:border-electric/50 hover:bg-electric/10 hover:text-electric-light"
           >
             <svg
               class="size-[18px]"
@@ -93,7 +91,7 @@ const navigation = [
           <a
             href="mailto:soporte@evoruna.com"
             aria-label="Email"
-            class="flex size-10 items-center justify-center rounded-full border border-white/10 bg-white/[.03] text-slate-400 transition-[border-color_background-color_color] duration-200 hover:border-blue-400/40 hover:bg-blue-500/10 hover:text-blue-300"
+            class="flex size-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-slate-400 transition-[border-color_background-color_color] duration-200 hover:border-electric/50 hover:bg-electric/10 hover:text-electric-light"
           >
             <svg
               class="size-[18px]"
@@ -118,7 +116,7 @@ const navigation = [
         aria-label="Navegación"
       >
         <span
-          class="text-[.68rem] font-bold uppercase tracking-[.18em] text-slate-500"
+          class="text-[0.68rem] font-bold tracking-[0.18em] uppercase text-slate-500"
         >
           Navegación
         </span>
@@ -141,11 +139,9 @@ const navigation = [
 
 
       <!-- Contact -->
-      <div
-        class="flex flex-col items-center gap-5 md:items-start"
-      >
+      <div class="flex flex-col items-center gap-5 md:items-start">
         <span
-          class="text-[.68rem] font-bold uppercase tracking-[.18em] text-slate-500"
+          class="text-[0.68rem] font-bold tracking-[0.18em] uppercase text-slate-500"
         >
           Contacto
         </span>
@@ -181,8 +177,8 @@ const navigation = [
 
           <li>
             <a
-              href="/login"
-              class="text-sm font-semibold text-blue-400 transition-colors duration-200 hover:text-blue-300"
+              href="/register"
+              class="text-sm font-semibold text-electric-light transition-colors duration-200 hover:text-white"
             >
               Empezar ahora
             </a>
@@ -195,7 +191,7 @@ const navigation = [
 
     <!-- Bottom -->
     <div
-      class="mt-14 flex flex-col items-center justify-center gap-x-6 gap-y-2 border-t border-white/[.06] pt-6 text-center text-xs text-slate-600 sm:flex-row"
+      class="mt-14 flex flex-col items-center justify-center gap-x-6 gap-y-2 border-t border-white/[0.06] pt-6 text-center text-xs text-slate-600 sm:flex-row"
     >
       <span>
         © {new Date().getFullYear()} Evoruna

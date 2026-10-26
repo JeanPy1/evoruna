@@ -31,55 +31,62 @@ const faqs = [
 ];
 ---
 
-<section
-  id="faq"
-  class="relative overflow-hidden bg-[radial-gradient(40rem_30rem_at_0%_0%,rgba(79,70,229,0.08),transparent_60%),radial-gradient(40rem_30rem_at_100%_100%,rgba(37,99,235,0.07),transparent_60%),linear-gradient(to_bottom,#f8fafc,#ffffff)] py-20 before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] before:bg-[size:42px_42px] before:opacity-[0.035]"
->
-  <div class="relative mx-auto max-w-5xl px-6">
+<section id="faq" class="faq-section relative overflow-hidden bg-white py-24">
+
+  <!-- Brillo tenue -->
+  <div class="pointer-events-none absolute inset-x-0 top-0 h-72" aria-hidden="true">
+    <div
+      class="absolute left-1/2 top-0 h-[22rem] w-[52rem] -translate-x-1/2 rounded-full bg-mist blur-[110px]"
+    ></div>
+  </div>
+
+  <div class="container-x relative">
 
     <!-- Header -->
-    <header class="mx-auto mb-12 max-w-2xl text-center">
-      <p class="text-[.7rem] font-bold uppercase tracking-[.16em] text-blue-600">
+    <header class="mx-auto mb-12 max-w-2xl text-center" data-reveal>
+
+      <span class="kicker kicker-light !text-electric">
+        <span class="size-1.5 rounded-full bg-electric"></span>
         FAQ
-      </p>
+      </span>
 
       <h2
-        class="mt-2.5 text-[clamp(2.4rem,5vw,4.5rem)] font-extrabold leading-[1.02] tracking-[-.045em] text-slate-950"
+        class="mt-6 font-display text-[2.3rem] leading-[1.05] font-extrabold tracking-[-0.02em] text-navy sm:text-[3.1rem]"
       >
         Preguntas frecuentes
       </h2>
 
-      <p
-        class="mt-4 text-base leading-7 text-slate-600 sm:text-[1.05rem]"
-      >
+      <p class="mt-5 text-base leading-7 text-muted sm:text-[1.05rem]">
         Lo esencial para entender cómo publicamos y cuidamos tu presencia.
       </p>
+
     </header>
 
     <!-- FAQ -->
-    <div class="faq-list flex flex-col gap-3">
+    <div class="faq-list mx-auto flex max-w-3xl flex-col gap-3">
 
       {
         faqs.map((faq) => (
           <div
-            class="faq-item overflow-hidden rounded-[1.2rem] border border-slate-200/90 bg-white/90 shadow-[0_8px_28px_rgba(15,23,42,0.035)] transition-[border-color,box-shadow,transform] duration-250 hover:-translate-y-px hover:border-indigo-200 hover:shadow-[0_14px_34px_rgba(15,23,42,0.06)]"
+            data-reveal
+            class="faq-item overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-px hover:border-electric/30 hover:shadow-[0_14px_34px_rgba(235,20,20,0.08)]"
           >
 
-            <!-- Question -->
+            <!-- Pregunta -->
             <button
-              class="faq-question flex w-full cursor-pointer items-center justify-between gap-6 border-0 bg-transparent px-5 py-5 text-left font-inherit sm:px-[1.35rem]"
+              class="faq-question flex w-full cursor-pointer items-center justify-between gap-6 border-0 bg-transparent px-6 py-5 text-left font-inherit sm:px-7"
               type="button"
               aria-expanded="false"
             >
               <span
-                class="text-[.95rem] font-bold leading-6 tracking-[-.01em] text-slate-950 sm:text-base"
+                class="font-display text-[0.95rem] leading-6 font-bold tracking-[-0.01em] text-navy sm:text-base"
               >
                 {faq.question}
               </span>
 
-              <!-- Icon -->
+              <!-- Icono -->
               <span
-                class="faq-icon-wrapper flex size-8 shrink-0 items-center justify-center rounded-full bg-blue-600/[0.07] text-blue-600 transition-all duration-300"
+                class="faq-icon-wrapper flex size-8 shrink-0 items-center justify-center rounded-full bg-electric/8 text-electric ring-1 ring-inset ring-electric/15 transition-all duration-300"
                 aria-hidden="true"
               >
                 <svg
@@ -96,13 +103,13 @@ const faqs = [
               </span>
             </button>
 
-            <!-- Answer -->
+            <!-- Respuesta -->
             <div
               class="faq-answer grid grid-rows-[0fr] transition-[grid-template-rows] duration-350 ease-out"
             >
               <div class="min-h-0 overflow-hidden">
                 <p
-                  class="px-5 pb-5 text-[.9rem] leading-7 text-slate-500 sm:px-[1.35rem] sm:pb-[1.35rem] sm:text-[.95rem]"
+                  class="px-6 pb-5 text-[0.9rem] leading-7 text-muted sm:px-7 sm:pb-6 sm:text-[0.95rem]"
                 >
                   {faq.answer}
                 </p>
@@ -114,19 +121,30 @@ const faqs = [
       }
 
     </div>
+
   </div>
 </section>
 
 <style>
-  .faq-question:focus-visible{
-    outline: 2px solid rgb(37 99 235);
+  .faq-question:focus-visible {
+    outline: 2px solid rgb(235 20 20);
     outline-offset: 2px;
   }
 
-  @media (prefers-reduced-motion: reduce){
+  .faq-item.open {
+    border-color: rgb(235 20 20 / 0.35);
+  }
+
+  .faq-item.open .faq-icon-wrapper {
+    background: rgb(235 20 20);
+    color: #fff;
+    ring-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
     .faq-item,
     .faq-answer,
-    .faq-icon-wrapper{
+    .faq-icon-wrapper {
       transition: none;
     }
   }

@@ -38,75 +38,65 @@ const features = [
 ];
 ---
 
-<section id="features" class="relative overflow-hidden bg-white">
+<section
+  id="features"
+  class="relative overflow-hidden bg-white py-24"
+>
 
-  <!-- Background -->
-  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+  <!-- Brillo tenue superior -->
+  <div class="pointer-events-none absolute inset-x-0 top-0 h-72" aria-hidden="true">
     <div
-      class="absolute -top-40 left-1/2 h-[28rem] w-[60rem] -translate-x-1/2 rounded-full bg-blue-100/60 blur-[110px]"
-    ></div>
-    <div
-      class="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.045)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_60%_55%_at_50%_0%,black_30%,transparent_75%)] [-webkit-mask-image:radial-gradient(ellipse_60%_55%_at_50%_0%,black_30%,transparent_75%)]"
+      class="absolute left-1/2 top-0 h-[24rem] w-[64rem] -translate-x-1/2 rounded-full bg-mist blur-[120px]"
     ></div>
   </div>
 
-  <div class="relative mx-auto max-w-6xl px-6 py-20 sm:py-24">
+  <div class="container-x relative">
 
     <!-- Header -->
-    <header class="mx-auto mb-14 max-w-2xl text-center">
-
-      <span
-        class="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50/80 px-3.5 py-1.5 text-[.7rem] font-bold uppercase tracking-[.14em] text-blue-700"
-      >
-        <span class="size-1.5 rounded-full bg-blue-500"></span>
-        Producto
-      </span>
+    <header class="mx-auto mb-14 max-w-2xl text-center" data-reveal>
 
       <h2
-        class="mt-5 text-[clamp(2.3rem,4.5vw,3.5rem)] font-bold leading-[1.08] tracking-[-.045em] text-slate-950"
+        class="mt-2 font-display text-[2.3rem] leading-[1.05] font-extrabold tracking-[-0.02em] text-navy sm:text-[3.1rem]"
       >
         Presencia web,
-        <span
-          class="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-500 bg-clip-text text-transparent"
-        >
-          sin que tú la operes
-        </span>
+        <span class="text-electric-gradient">sin que tú la operes</span>
       </h2>
 
-      <p class="mt-4 text-base leading-7 text-slate-600 sm:text-[1.05rem]">
+      <p class="mt-5 text-base leading-7 text-muted sm:text-[1.05rem]">
         Un sitio profesional, publicado y cuidado. Tú das la marca. Nosotros
         hacemos el resto.
       </p>
 
     </header>
 
-
     <!-- Features -->
-    <div class="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
       {
         features.map((feature, index) => (
           <article
-            class="group relative flex flex-col gap-5 overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_18px_40px_-18px_rgba(37,99,235,0.28)] sm:p-7"
+            data-reveal
+            style={`transition-delay:${(index % 3) * 70}ms`}
+            class="group relative flex flex-col gap-5 rounded-2xl border border-navy/8 bg-white p-7 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-electric/30 hover:shadow-[0_18px_44px_-18px_rgba(235,20,20,0.28)]"
           >
 
-            <!-- Hover accent -->
+            <!-- Hairline roja en hover -->
             <span
-              class="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/70 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              class="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-electric/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
               aria-hidden="true"
             ></span>
 
-            <!-- Index -->
+            <!-- Índice -->
             <span
-              class="absolute right-6 top-5 text-xs font-semibold tabular-nums text-slate-300 transition-colors duration-300 group-hover:text-blue-400 sm:right-7"
+              class="absolute right-7 top-6 text-xs font-semibold tabular-nums text-navy/25 transition-colors duration-300 group-hover:text-electric/60"
               aria-hidden="true"
             >
               {String(index + 1).padStart(2, "0")}
             </span>
 
-            <!-- Icon -->
+            <!-- Icono -->
             <div
-              class="flex size-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600 ring-1 ring-inset ring-blue-100 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white"
+              class="flex size-12 items-center justify-center rounded-xl bg-electric/8 text-electric ring-1 ring-inset ring-electric/15 transition-colors duration-300 group-hover:bg-electric group-hover:text-white"
               aria-hidden="true"
             >
 
@@ -213,17 +203,16 @@ const features = [
 
             </div>
 
-
-            <!-- Content -->
+            <!-- Contenido -->
             <div class="mt-auto">
 
               <h3
-                class="text-[1.05rem] font-bold tracking-[-.015em] text-slate-950"
+                class="font-display text-[1.1rem] font-bold tracking-[-0.015em] text-navy"
               >
                 {feature.title}
               </h3>
 
-              <p class="mt-1.5 text-[.95rem] leading-6 text-slate-600">
+              <p class="mt-2 text-[0.95rem] leading-6 text-muted">
                 {feature.description}
               </p>
 

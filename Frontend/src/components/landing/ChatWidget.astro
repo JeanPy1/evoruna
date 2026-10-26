@@ -35,8 +35,12 @@ const WHATSAPP_NUMBER = "51910376251";
     const b = document.createElement("div");
     b.className =
       from === "bot"
-        ? "max-w-[85%] rounded-2xl rounded-bl-md border border-white/[.06] bg-white/[.06] px-4 py-2.5 text-[13.5px] leading-relaxed text-slate-200"
-        : "max-w-[85%] rounded-2xl rounded-br-md bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-[13.5px] leading-relaxed text-white";
+        ? "max-w-[85%] rounded-2xl rounded-bl-md border border-white/[.08] bg-white/[.07] px-4 py-2.5 text-[13.5px] leading-relaxed text-slate-200"
+        : "max-w-[85%] rounded-2xl rounded-br-md px-4 py-2.5 text-[13.5px] leading-relaxed text-white shadow-[0_8px_24px_-10px_rgba(235,20,20,.55)]";
+    if (from !== "bot") {
+      b.style.backgroundImage =
+        "linear-gradient(135deg, hsl(0 84% 50%), hsl(0 90% 60%))";
+    }
     b.textContent = text;
     row.appendChild(b);
     body.appendChild(row);
@@ -47,7 +51,7 @@ const WHATSAPP_NUMBER = "51910376251";
     const row = document.createElement("div");
     row.className = "flex justify-start";
     row.innerHTML =
-      '<div class="flex items-center gap-1 rounded-2xl rounded-bl-md border border-white/[.06] bg-white/[.06] px-4 py-3">' +
+      '<div class="flex items-center gap-1 rounded-2xl rounded-bl-md border border-white/[.08] bg-white/[.07] px-4 py-3">' +
       '<span class="size-1.5 animate-bounce rounded-full bg-slate-400 [animation-delay:0ms]"></span>' +
       '<span class="size-1.5 animate-bounce rounded-full bg-slate-400 [animation-delay:120ms]"></span>' +
       '<span class="size-1.5 animate-bounce rounded-full bg-slate-400 [animation-delay:240ms]"></span>' +
@@ -73,7 +77,7 @@ const WHATSAPP_NUMBER = "51910376251";
     a.target = "_blank";
     a.rel = "noopener";
     a.className =
-      "inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-[13px] font-semibold text-white shadow-[0_8px_24px_-8px_rgba(37,211,102,.6)] transition-transform duration-150 hover:-translate-y-px";
+      "inline-flex items-center gap-2 rounded-[12px] bg-[#25D366] px-4 py-2 text-[13px] font-semibold text-white shadow-[0_10px_28px_-10px_rgba(37,211,102,.6)] transition-transform duration-150 hover:-translate-y-px";
     a.innerHTML =
       '<svg class="size-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.82 11.82 0 0012.05 0C5.5 0 .18 5.32.18 11.88c0 2.1.55 4.15 1.6 5.96L0 24l6.34-1.66a11.86 11.86 0 005.71 1.46h.01c6.55 0 11.87-5.32 11.87-11.88 0-3.17-1.24-6.15-3.41-8.44zM12.06 21.8a9.9 9.9 0 01-5.05-1.38l-.36-.21-3.76.99 1-3.66-.24-.38a9.86 9.86 0 01-1.51-5.28c0-5.48 4.45-9.94 9.92-9.94 2.65 0 5.14 1.04 7.01 2.93a9.86 9.86 0 012.9 7c0 5.48-4.45 9.93-9.91 9.93z"/></svg>Continuar en WhatsApp';
     wrap.appendChild(a);
@@ -89,7 +93,7 @@ const WHATSAPP_NUMBER = "51910376251";
       q.type = "button";
       q.textContent = label;
       q.className =
-        "cursor-pointer rounded-full border border-blue-400/30 bg-blue-500/10 px-3.5 py-1.5 text-[12.5px] font-medium text-blue-200 transition-colors duration-150 hover:bg-blue-500/20";
+        "cursor-pointer rounded-full border border-electric/35 bg-electric/10 px-3.5 py-1.5 text-[12.5px] font-medium text-red-300 transition-colors duration-150 hover:bg-electric/25 hover:text-white";
       q.addEventListener("click", () => {
         wrap.remove();
         bubble("user", label);
@@ -156,20 +160,20 @@ const WHATSAPP_NUMBER = "51910376251";
 <!-- Panel -->
 <div
   id="chat-panel"
-  class="chat-panel fixed bottom-[5.75rem] right-4 z-50 hidden w-[calc(100vw-2rem)] max-w-[22rem] origin-bottom-right scale-95 opacity-0 shadow-[0_30px_80px_-20px_rgba(2,6,23,.8)] transition-all duration-200 ease-out"
+  class="chat-panel fixed bottom-[5.75rem] right-4 z-50 hidden w-[calc(100vw-2rem)] max-w-[22rem] origin-bottom-right scale-95 opacity-0 shadow-[0_30px_80px_-20px_rgba(2,6,15,.9)] transition-all duration-200 ease-out"
 >
-  <div class="flex h-[24rem] flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#050b16]/95 backdrop-blur-xl">
+  <div class="flex h-[24rem] flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#070d1a]/95 backdrop-blur-xl">
     <!-- Header -->
-    <div class="flex items-center gap-3 border-b border-white/[.06] bg-gradient-to-r from-blue-600/20 to-indigo-600/10 px-4 py-3">
-      <div class="relative flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-sm font-bold text-white">
+    <div class="flex items-center gap-3 border-b border-white/[.06] bg-gradient-to-r from-electric/15 to-transparent px-4 py-3">
+      <div class="relative flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-electric to-electric-light text-sm font-bold text-white">
         R
         <span
-          class="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full border-2 border-[#050b16] bg-emerald-400"
+          class="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full border-2 border-[#070d1a] bg-neon"
         ></span>
       </div>
       <div class="flex-1">
         <p class="text-sm font-semibold text-white">Runa · EVORUNA</p>
-        <p class="text-[11px] text-emerald-300/90">En línea · responde al instante</p>
+        <p class="text-[11px] text-neon-light/90">En línea · responde al instante</p>
       </div>
       <button
         type="button"
@@ -196,7 +200,7 @@ const WHATSAPP_NUMBER = "51910376251";
     >
       <div class="flex justify-center">
         <span
-          class="rounded-full border border-white/[.06] bg-white/[.04] px-3 py-1 text-[10px] uppercase tracking-wider text-slate-500"
+          class="rounded-full border border-white/[.06] bg-white/[.04] px-3 py-1 text-[10px] tracking-wider uppercase text-slate-500"
         >
           Hoy
         </span>
@@ -218,10 +222,11 @@ const WHATSAPP_NUMBER = "51910376251";
   type="button"
   aria-expanded="false"
   aria-label="Abrir chat de ayuda"
-  class="group fixed bottom-5 right-4 z-50 flex size-14 cursor-pointer items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-[0_16px_40px_-10px_rgba(37,99,235,.65)] transition-[transform_box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_20px_50px_-10px_rgba(37,99,235,.8)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+  class="group fixed bottom-5 right-4 z-50 flex size-14 cursor-pointer items-center justify-center rounded-full text-white shadow-[0_16px_40px_-10px_rgba(235,20,20,.65)] transition-[transform_box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_20px_50px_-10px_rgba(235,20,20,.8)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
+  style="background-image: linear-gradient(135deg, hsl(0 84% 50%), hsl(0 90% 60%))"
 >
   <span
-    class="absolute inset-0 -z-10 animate-ping rounded-full bg-blue-500/25 [animation-duration:2.5s]"
+    class="absolute inset-0 -z-10 animate-ping rounded-full bg-electric/25 [animation-duration:2.5s]"
     aria-hidden="true"
   ></span>
 
@@ -260,7 +265,7 @@ const WHATSAPP_NUMBER = "51910376251";
   <!-- Badge de notificación -->
   <span
     id="chat-badge"
-    class="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-emerald-400 text-[10px] font-bold text-slate-950 shadow"
+    class="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-neon text-[10px] font-bold text-slate-950 shadow"
     aria-hidden="true"
   >
     1

@@ -14,6 +14,11 @@ import "../styles/global.css";
       content="width=device-width, initial-scale=1"
     />
 
+    <meta
+      name="description"
+      content="Evoruna — Presencia web profesional: diseño, hosting y soporte incluidos. Tu marca merece una presencia web profesional."
+    />
+
     <link
       rel="icon"
       type="image/svg+xml"
@@ -31,14 +36,48 @@ import "../styles/global.css";
       sizes="any"
     />
 
+    <!-- Tipografías: Sora (display) + Inter (cuerpo) -->
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin=""
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
     <title>Evoruna — Presencia web</title>
 
   </head>
 
-  <body class="font-sans antialiased">
+  <body>
 
     <slot />
 
   </body>
+
+  <!-- Observer global para animaciones reveal -->
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    document
+      .querySelectorAll("[data-reveal]")
+      .forEach((el) => observer.observe(el));
+  </script>
 
 </html>

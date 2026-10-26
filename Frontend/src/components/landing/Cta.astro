@@ -1,75 +1,67 @@
-<section id="cta" data-theme="dark" class="relative overflow-hidden bg-slate-950 text-white">
+<section
+  id="cta"
+  data-theme="dark"
+  class="navy-gradient relative overflow-hidden py-24 text-white sm:py-28"
+>
 
-  <!-- Background -->
+  <!-- Fondos -->
   <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+
+    <!-- Brillo rojo central -->
     <div
-      class="absolute -top-36 left-1/2 h-[28rem] w-[58rem] -translate-x-1/2 rounded-full bg-blue-600/25 blur-[130px]"
+      class="absolute -top-40 left-1/2 h-[30rem] w-[60rem] -translate-x-1/2 rounded-full bg-electric/12 blur-[140px]"
     ></div>
+
+    <!-- Brillo neón lateral -->
     <div
-      class="absolute -bottom-44 right-[-10rem] h-[24rem] w-[38rem] rounded-full bg-indigo-600/15 blur-[120px]"
+      class="absolute -bottom-48 right-[-12rem] h-[24rem] w-[36rem] rounded-full bg-neon/8 blur-[130px]"
     ></div>
+
+    <!-- Grilla con máscara radial -->
     <div
-      class="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_35%,black_30%,transparent_75%)] [-webkit-mask-image:radial-gradient(ellipse_60%_60%_at_50%_35%,black_30%,transparent_75%)]"
+      class="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_62%_62%_at_50%_38%,black_30%,transparent_78%)] [-webkit-mask-image:radial-gradient(ellipse_62%_62%_at_50%_38%,black_30%,transparent_78%)]"
     ></div>
+
   </div>
 
-  <div
-    class="relative mx-auto max-w-6xl px-6 py-24 text-center sm:py-28"
-  >
+  <div class="container-x relative text-center">
 
-    <!-- Top accent -->
+    <!-- Hairline superior -->
     <span
-      class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent"
+      class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-electric/45 to-transparent"
       aria-hidden="true"
     ></span>
 
-    <!-- Badge -->
-    <span
-      class="inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-500/10 px-4 py-1.5 text-[.78rem] font-semibold text-blue-200"
-    >
-      <span class="relative flex size-1.5">
-        <span
-          class="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60"
-        ></span>
-        <span class="relative inline-flex size-1.5 rounded-full bg-emerald-400"></span>
-      </span>
-      Listo para arrancar
-    </span>
-
     <!-- Heading -->
     <h2
-      class="mx-auto mt-7 max-w-3xl text-[clamp(2.7rem,6vw,5rem)] font-extrabold leading-[1.02] tracking-[-.05em]"
+      class="mx-auto mt-8 max-w-3xl font-display text-[2.7rem] leading-[1.02] font-extrabold tracking-[-0.035em] sm:text-[4.6rem]"
     >
       Tu marca, lista
-      <span
-        class="block bg-gradient-to-r from-blue-400 via-sky-400 to-indigo-300 bg-clip-text text-transparent"
-      >
-        para ser encontrada
-      </span>
+      <span class="block text-electric-gradient">para ser encontrada</span>
     </h2>
 
-    <!-- Description -->
+    <!-- Descripción -->
     <p
       class="mx-auto mt-6 max-w-2xl text-base leading-7 text-slate-400 sm:text-[1.05rem]"
     >
-      Nosotros diseñamos, publicamos y mantenemos tu sitio.
-      Tú te ocupas del negocio.
+      Nosotros diseñamos, publicamos y mantenemos tu sitio. Tú te ocupas del
+      negocio.
     </p>
 
-    <!-- Actions -->
+    <!-- Acciones -->
     <div
-      class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
+      class="mt-11 flex flex-col items-center justify-center gap-3 sm:flex-row"
     >
 
-      <!-- Primary -->
+      <!-- Primario -->
       <a
-        href="/login"
-        class="group inline-flex w-full max-w-[13.5rem] items-center justify-center gap-2 rounded-[.7rem] bg-blue-600 px-[1.45rem] py-[.95rem] text-base font-semibold text-white shadow-sm transition duration-500 ease-out hover:-translate-y-px hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 sm:w-auto"
+        href="/register"
+        class="btn-primary group !px-8 !py-3.5 !text-[1.02rem] sm:!w-auto"
       >
         Empezar ahora
 
         <svg
-          class="size-[18px] transition-transform duration-500 ease-out group-hover:translate-x-1"
+          class="size-[18px] transition-transform duration-300 group-hover:translate-x-1"
           fill="none"
           stroke="currentColor"
           stroke-width="2"
@@ -80,71 +72,22 @@
         </svg>
       </a>
 
-      <!-- Secondary -->
+      <!-- Secundario -->
       <a
         href="#pricing"
-        class="inline-flex w-full max-w-[13.5rem] items-center justify-center rounded-[.7rem] border border-white/10 bg-white/[.03] px-[1.45rem] py-[.95rem] text-base font-semibold text-slate-200 transition-[border-color_background-color_transform] duration-300 ease-out hover:-translate-y-px hover:border-white/20 hover:bg-white/[.06] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 sm:w-auto"
+        class="btn-ghost-dark group !px-8 !py-3.5 !text-[1.02rem] sm:!w-auto"
       >
         Ver planes
       </a>
 
     </div>
 
-    <!-- Trust -->
-    <div
-      class="mx-auto mt-12 max-w-2xl border-t border-white/[.06] pt-8"
+    <!-- Nota discreta -->
+    <p
+      class="mt-12 text-[0.82rem] font-medium tracking-wide text-slate-500"
     >
-      <div
-        class="flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-sm text-slate-400"
-      >
-
-        <!-- Item -->
-        <span class="inline-flex items-center gap-2">
-          <svg
-            class="size-[15px] text-emerald-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            aria-hidden="true"
-          >
-            <path
-              d="M16.707 5.293a1 1 0 010 1.414l-7.414 7.414a1 1 0 01-1.414 0L3.293 9.535a1 1 0 011.414-1.414l3.172 3.172 6.707-6.707a1 1 0 011.414 0z"
-            />
-          </svg>
-          Configuración incluida
-        </span>
-
-        <!-- Item -->
-        <span class="inline-flex items-center gap-2">
-          <svg
-            class="size-[15px] text-emerald-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            aria-hidden="true"
-          >
-            <path
-              d="M16.707 5.293a1 1 0 010 1.414l-7.414 7.414a1 1 0 01-1.414 0L3.293 9.535a1 1 0 011.414-1.414l3.172 3.172 6.707-6.707a1 1 0 011.414 0z"
-            />
-          </svg>
-          Hosting y dominio
-        </span>
-
-        <!-- Item -->
-        <span class="inline-flex items-center gap-2">
-          <svg
-            class="size-[15px] text-emerald-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            aria-hidden="true"
-          >
-            <path
-              d="M16.707 5.293a1 1 0 010 1.414l-7.414 7.414a1 1 0 01-1.414 0L3.293 9.535a1 1 0 011.414-1.414l3.172 3.172 6.707-6.707a1 1 0 011.414 0z"
-            />
-          </svg>
-          Soporte humano
-        </span>
-
-      </div>
-    </div>
+      Cobro anual único · Hosting, dominio y correo incluidos
+    </p>
 
   </div>
 </section>
