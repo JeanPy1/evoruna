@@ -49,7 +49,8 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5.5rem;
+    /* Altura exacta del navbar (77px): las anclas quedan pegadas debajo de él */
+    scroll-padding-top: 77px;
   }
 
   body {
