@@ -59,19 +59,68 @@ const testimonials = [
 const testimonialSet = [...testimonials, ...testimonials];
 
 const avatarStyles = [
-  "bg-navy/5 text-navy ring-1 ring-navy/10",
-  "bg-electric/8 text-electric ring-1 ring-electric/15",
-  "bg-neon/10 text-neon ring-1 ring-neon/20",
+  "bg-white/10 text-white ring-1 ring-white/25",
+  "bg-electric/20 text-white ring-1 ring-white/25",
+  "bg-neon/20 text-white ring-1 ring-white/25",
+];
+
+/* Mosaico de fondos: negocios reales que confían en la presencia web */
+const servicePhotos = [
+  {
+    src:
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=70",
+    alt: "Restaurante",
+  },
+  {
+    src:
+      "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=800&q=70",
+    alt: "Veterinaria",
+  },
+  {
+    src:
+      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=70",
+    alt: "Clínica",
+  },
+  {
+    src:
+      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=70",
+    alt: "Tienda de ropa",
+  },
+  {
+    src:
+      "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=70",
+    alt: "Panadería",
+  },
+  {
+    src:
+      "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=800&q=70",
+    alt: "Floristería",
+  },
 ];
 ---
 
-<section id="trust" class="relative overflow-hidden bg-background py-16">
+<section
+  id="trust"
+  data-theme="dark"
+  class="relative overflow-hidden bg-navy py-16 text-white"
+>
 
-  <!-- Brillo tenue -->
-  <div class="pointer-events-none absolute inset-x-0 top-0 h-72" aria-hidden="true">
+  <!-- Mosaico de negocios + velo navy (estilo hero) -->
+  <div class="absolute inset-0" aria-hidden="true">
+    <div class="grid h-full grid-cols-2 gap-2 opacity-40 md:grid-cols-3">
+      {servicePhotos.map((photo) => (
+        <img
+          src={photo.src}
+          alt={photo.alt}
+          loading="lazy"
+          class="h-full w-full object-cover"
+        />
+      ))}
+    </div>
     <div
-      class="absolute left-1/2 top-0 h-[22rem] w-[56rem] -translate-x-1/2 rounded-full bg-mist blur-[110px]"
+      class="absolute inset-0 bg-gradient-to-b from-navy via-navy/60 to-navy"
     ></div>
+    <div class="absolute inset-0 bg-navy/30"></div>
   </div>
 
   <div class="container-x relative">
@@ -79,15 +128,13 @@ const avatarStyles = [
     <!-- Header -->
     <header class="mx-auto mb-16 max-w-2xl text-center" data-reveal>
       <h2
-        class="mt-2 font-display text-[2.5rem] leading-[1.05] font-extrabold tracking-[-0.02em] text-navy sm:text-[3.8rem]"
+        class="mt-2 font-display text-[2.5rem] leading-[1.05] font-extrabold tracking-[-0.02em] text-white sm:text-[3.8rem]"
       >
         Negocios que ya
         <span class="block text-electric-gradient">están online</span>
       </h2>
 
-      <p
-        class="mt-5 text-base leading-7 text-muted sm:text-lg sm:leading-8"
-      >
+      <p class="mt-5 text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
         Ellos se enfocan en vender. Nosotros nos encargamos de que se vean bien
         online.
       </p>
@@ -96,7 +143,7 @@ const avatarStyles = [
 
     <!-- Performance -->
     <div
-      class="relative overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.05)]"
+      class="relative overflow-hidden rounded-2xl border border-white/10 bg-white/8 shadow-[0_18px_40px_-24px_rgba(2,6,17,0.7)] backdrop-blur-md"
       data-reveal
     >
 
@@ -108,16 +155,16 @@ const avatarStyles = [
 
       <!-- Performance header -->
       <div
-        class="flex items-center justify-between border-b border-navy/8 px-6 py-4 sm:px-8"
+        class="flex items-center justify-between border-b border-white/10 px-6 py-4 sm:px-8"
       >
         <span
-          class="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-muted"
+          class="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-slate-400"
         >
           Performance
         </span>
 
         <span
-          class="flex items-center gap-2 text-[0.68rem] font-medium text-muted"
+          class="flex items-center gap-2 text-[0.68rem] font-medium text-slate-400"
         >
           <span class="relative flex size-1.5">
             <span
@@ -140,7 +187,7 @@ const avatarStyles = [
           class="grid min-h-[14rem] grid-rows-[auto_1fr_auto] px-6 py-7 sm:px-8 sm:py-8"
         >
           <div class="flex items-center justify-between gap-4">
-            <span class="text-xs font-medium text-muted">
+            <span class="text-xs font-medium text-slate-400">
               Disponibilidad
             </span>
 
@@ -152,12 +199,12 @@ const avatarStyles = [
           <div class="flex flex-col justify-center">
             <div class="flex items-baseline gap-2">
               <span
-                class="font-display text-[clamp(2.8rem,5vw,4rem)] leading-none font-extrabold tracking-[-0.065em] text-navy"
+                class="font-display text-[clamp(2.8rem,5vw,4rem)] leading-none font-extrabold tracking-[-0.065em] text-white"
               >
                 99.9%
               </span>
 
-              <span class="text-xs font-medium text-muted">
+              <span class="text-xs font-medium text-slate-400">
                 uptime
               </span>
             </div>
@@ -175,7 +222,7 @@ const avatarStyles = [
             </div>
           </div>
 
-          <p class="text-xs text-muted">
+          <p class="text-xs text-slate-400">
             Servicio disponible de forma estable
           </p>
         </div>
@@ -183,10 +230,10 @@ const avatarStyles = [
 
         <!-- Managed sites -->
         <div
-          class="grid min-h-[14rem] grid-rows-[auto_1fr_auto] border-t border-navy/8 px-6 py-7 sm:border-l sm:border-t-0 sm:px-8 sm:py-8"
+          class="grid min-h-[14rem] grid-rows-[auto_1fr_auto] border-t border-white/10 px-6 py-7 sm:border-l sm:border-t-0 sm:px-8 sm:py-8"
         >
           <div class="flex items-center justify-between gap-4">
-            <span class="text-xs font-medium text-muted">
+            <span class="text-xs font-medium text-slate-400">
               Sitios gestionados
             </span>
 
@@ -198,12 +245,12 @@ const avatarStyles = [
           <div class="flex flex-col justify-center">
             <div class="flex items-baseline gap-2">
               <span
-                class="font-display text-[clamp(2.8rem,5vw,4rem)] leading-none font-extrabold tracking-[-0.065em] text-navy"
+                class="font-display text-[clamp(2.8rem,5vw,4rem)] leading-none font-extrabold tracking-[-0.065em] text-white"
               >
                 1,200+
               </span>
 
-              <span class="text-xs font-medium text-muted">
+              <span class="text-xs font-medium text-slate-400">
                 sitios
               </span>
             </div>
@@ -211,7 +258,7 @@ const avatarStyles = [
             <!-- Growth -->
             <div class="relative mt-7 h-8">
               <div
-                class="absolute inset-x-0 bottom-0 h-px bg-navy/5"
+                class="absolute inset-x-0 bottom-0 h-px bg-white/10"
               ></div>
 
               <div
@@ -229,7 +276,7 @@ const avatarStyles = [
             </div>
           </div>
 
-          <p class="text-xs text-muted">
+          <p class="text-xs text-slate-400">
             Presencias actualmente gestionadas
           </p>
         </div>
@@ -237,14 +284,14 @@ const avatarStyles = [
 
         <!-- Response -->
         <div
-          class="grid min-h-[14rem] grid-rows-[auto_1fr_auto] border-t border-navy/8 px-6 py-7 sm:border-l sm:border-t-0 sm:px-8 sm:py-8"
+          class="grid min-h-[14rem] grid-rows-[auto_1fr_auto] border-t border-white/10 px-6 py-7 sm:border-l sm:border-t-0 sm:px-8 sm:py-8"
         >
           <div class="flex items-center justify-between gap-4">
-            <span class="text-xs font-medium text-muted">
+            <span class="text-xs font-medium text-slate-400">
               Tiempo de respuesta
             </span>
 
-            <span class="text-[0.68rem] font-semibold text-navy">
+            <span class="text-[0.68rem] font-semibold text-white">
               Rápido
             </span>
           </div>
@@ -252,30 +299,30 @@ const avatarStyles = [
           <div class="flex flex-col justify-center">
             <div class="flex items-baseline gap-2">
               <span
-                class="font-display text-[clamp(2.8rem,5vw,4rem)] leading-none font-extrabold tracking-[-0.065em] text-navy"
+                class="font-display text-[clamp(2.8rem,5vw,4rem)] leading-none font-extrabold tracking-[-0.065em] text-white"
               >
                 &lt; 24h
               </span>
 
-              <span class="text-xs font-medium text-muted">
+              <span class="text-xs font-medium text-slate-400">
                 promedio
               </span>
             </div>
 
             <!-- Signal -->
             <div class="mt-7 flex h-8 items-center gap-1.5">
-              <i class="h-2 flex-1 rounded-full bg-navy/10"></i>
-              <i class="h-2 flex-1 rounded-full bg-navy/15"></i>
-              <i class="h-2 flex-1 rounded-full bg-navy/25"></i>
-              <i class="h-2 flex-1 rounded-full bg-navy/30"></i>
-              <i class="h-2 flex-1 rounded-full bg-navy/40"></i>
-              <i class="h-2 flex-1 rounded-full bg-navy/55"></i>
-              <i class="h-2 flex-1 rounded-full bg-navy/70"></i>
-              <i class="h-2 flex-1 rounded-full bg-navy"></i>
+              <i class="h-2 flex-1 rounded-full bg-white/10"></i>
+              <i class="h-2 flex-1 rounded-full bg-white/15"></i>
+              <i class="h-2 flex-1 rounded-full bg-white/25"></i>
+              <i class="h-2 flex-1 rounded-full bg-white/30"></i>
+              <i class="h-2 flex-1 rounded-full bg-white/40"></i>
+              <i class="h-2 flex-1 rounded-full bg-white/55"></i>
+              <i class="h-2 flex-1 rounded-full bg-white/70"></i>
+              <i class="h-2 flex-1 rounded-full bg-white"></i>
             </div>
           </div>
 
-          <p class="text-xs text-muted">
+          <p class="text-xs text-slate-400">
             Tiempo promedio de atención
           </p>
         </div>
@@ -292,20 +339,20 @@ const avatarStyles = [
 
         <div>
           <span
-            class="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-muted"
+            class="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-slate-400"
           >
             Experiencias
           </span>
 
           <h3
-            class="mt-2 font-display text-xl font-bold tracking-[-0.025em] text-navy"
+            class="mt-2 font-display text-xl font-bold tracking-[-0.025em] text-white"
           >
             Lo que dicen quienes ya están online
           </h3>
         </div>
 
         <span
-          class="hidden items-center gap-1.5 text-xs font-medium text-muted sm:inline-flex"
+          class="hidden items-center gap-1.5 text-xs font-medium text-slate-400 sm:inline-flex"
         >
           Pasa el cursor para pausar
           <svg
@@ -338,7 +385,7 @@ const avatarStyles = [
 
               return (
                 <article
-                  class="flex w-[17.5rem] shrink-0 flex-col rounded-2xl border border-navy/10 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.05)] transition-[border-color_shadow] duration-300 hover:border-electric/30 hover:shadow-[0_14px_30px_-18px_rgba(235,20,20,0.3)] sm:w-[19rem]"
+                  class="flex w-[17.5rem] shrink-0 flex-col rounded-2xl border border-white/10 bg-white/8 p-5 shadow-[0_18px_40px_-24px_rgba(2,6,17,0.55)] backdrop-blur-md transition-[border-color_shadow] duration-300 hover:border-electric/40 hover:bg-white/12 hover:shadow-[0_14px_30px_-18px_rgba(235,20,20,0.4)] sm:w-[19rem]"
                 >
 
                   <!-- User -->
@@ -357,13 +404,13 @@ const avatarStyles = [
                     <!-- Identity -->
                     <div class="min-w-0">
                       <h3
-                        class="truncate text-sm font-bold tracking-[-0.015em] text-navy"
+                        class="truncate text-sm font-bold tracking-[-0.015em] text-white"
                       >
                         {testimonial.name}
                       </h3>
 
                       <p
-                        class="mt-0.5 truncate text-xs font-medium text-muted"
+                        class="mt-0.5 truncate text-xs font-medium text-slate-400"
                       >
                         {testimonial.role}
                       </p>
@@ -373,16 +420,14 @@ const avatarStyles = [
 
 
                   <!-- Testimonial -->
-                  <p
-                    class="mt-4 text-[0.88rem] leading-[1.65] text-slate-600"
-                  >
+                  <p class="mt-4 text-[0.88rem] leading-[1.65] text-white/85">
                     {testimonial.text}
                   </p>
 
 
                   <!-- Footer -->
-                  <div class="mt-4 border-t border-navy/5 pt-4">
-                    <p class="text-[0.7rem] font-medium text-muted">
+                  <div class="mt-4 border-t border-white/10 pt-4">
+                    <p class="text-[0.7rem] font-medium text-slate-400">
                       {testimonial.time}
                     </p>
                   </div>
