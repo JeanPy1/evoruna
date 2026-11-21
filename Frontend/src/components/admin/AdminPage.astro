@@ -113,7 +113,7 @@ const { apiUrl } = Astro.props;
     try { if (!selectedClientId) throw new Error("Selecciona un cliente"); await request("/admin/orders", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ user_id: selectedClientId, plan_id: Number(document.getElementById("admin-plan").value), billing_cycle: document.getElementById("admin-cycle").value, project_name: document.getElementById("admin-project").value, domain: document.getElementById("admin-domain").value || null, payment_reference: document.getElementById("admin-reference").value || null }) }); event.currentTarget.reset(); await loadOrders(); window.showToast?.("Orden registrada", "success"); } catch (error) { window.showToast?.(error.message); } finally { button.disabled = false; }
   });
   document.getElementById("admin-refresh")?.addEventListener("click", () => loadOrders().catch((error) => window.showToast?.(error.message)));
-  document.getElementById("admin-logout")?.addEventListener("click", async () => { await fetch(`${apiUrl}/auth/logout`, { method: "POST", credentials: "include" }); sessionStorage.removeItem("evoruna_session_hint"); window.location.replace("/login"); });
+  document.getElementById("admin-logout")?.addEventListener("click", async () => { await fetch(`${apiUrl}/auth/logout`, { method: "POST", credentials: "include" }); window.location.replace("/login"); });
   
   async function init() { 
 
@@ -128,7 +128,6 @@ const { apiUrl } = Astro.props;
       await Promise.all([loadSelectors(), loadOrders()]); 
       root.hidden = false; 
     } catch { 
-      sessionStorage.removeItem("evoruna_session_hint"); 
       window.location.replace("/login"); 
     } 
   }

@@ -1,23 +1,129 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import DashboardPage from "../components/dashboard/DashboardPage.astro";
-import Loader from "../components/others/Loader.astro";
-import Toast from "../components/others/Toast.astro";
-import "../components/dashboard/styles/dashboard.css";
+// Evoruna — Resumen del área de cliente.
+// El contenido dinámico (saludo, stats, actividad, facturas) lo rellena
+// dashboard-ui.js desde GET /api/dashboard. Lo que ves aquí es solo el
+// esqueleto visual (fallback si la API tarda o falla).
+import Layout from "../../layouts/Layout.astro";
+import Shell from "../../components/dashboard/Shell.astro";
+import StatCard from "../../components/dashboard/StatCard.astro";
+import StatusBadge from "../../components/dashboard/StatusBadge.astro";
 
-// Misma origen por defecto: todo se sirve desde el mismo Worker de Cloudflare
-const API_URL = import.meta.env.PUBLIC_API_URL ?? "/api";
+const iconClass =
+  "grid size-9 place-items-center rounded-[10px] border border-white/10 bg-white/5 text-slate-300 transition-colors duration-200 group-hover:text-white";
 ---
 
-<Layout>
-  <Loader />
+<Layout title="Panel — Evoruna">
 
-  <main id="dashboard" class="dashboard-layout" data-api-url={API_URL} hidden>
-    <Toast />
-    <DashboardPage apiUrl={API_URL} />
-  </main>
+  <Shell active="resumen">
+
+    <!-- Encabezado -->
+    <header class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+
+      <div>
+        <h1 data-greeting class="font-display text-2xl font-bold text-white sm:text-3xl"></h1>
+        <p class="mt-2 text-sm text-slate-400">
+          Este es el estado de tu cuenta.
+        </p>
+      </div>
+
+      <a href="/dashboard/tickets" class="btn-primary">
+        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        Nuevo ticket
+      </a>
+    </header>
+
+    <!-- Estadísticas -->
+    <section class="mt-8 grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
+
+      <StatCard label="Sitio" value="—" dataValue="stat-site" sub="Sin producto" dataSub="stat-site-sub">
+        <span slot="icon" class={iconClass}>
+          <svg class="size-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        </span>
+      </StatCard>
+
+      <StatCard label="Plan" value="—" dataValue="stat-plan" sub="Renovación —" dataSub="stat-plan-renewal">
+        <span slot="icon" class={iconClass}>
+          <svg class="size-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+        </span>
+      </StatCard>
+
+      <StatCard label="Tickets" value="0 activos" tone="electric" dataValue="stat-tickets" sub="0 abiertos" dataSub="stat-tickets-sub" href="/dashboard/tickets">
+        <span slot="icon" class={iconClass}>
+          <svg class="size-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 11v2"/><path d="M13 17v2"/></svg>
+        </span>
+      </StatCard>
+
+      <StatCard label="Facturas" value="—" dataValue="stat-invoices" sub="Sin facturas" dataSub="stat-invoices-sub" href="/dashboard/facturas">
+        <span slot="icon" class={iconClass}>
+          <svg class="size-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+        </span>
+      </StatCard>
+    </section>
+
+    <!-- Actividad + panel del plan -->
+    <section class="mt-4 grid gap-4 lg:grid-cols-3">
+
+      <div class="lg:col-span-2">
+
+        <div class="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-xl">
+
+          <div class="flex items-center justify-between border-b border-white/[0.06] px-5 py-4">
+
+            <h2 class="font-display text-base font-semibold text-white">Actividad reciente</h2>
+          </div>
+
+          <!-- Lo llena dashboard-ui.js -->
+          <ul data-activity-list class="divide-y divide-white/[0.05]">
+            <li class="flex items-center gap-3 px-5 py-4 text-sm text-slate-500">
+              <span class="size-1.5 shrink-0 animate-pulse rounded-full bg-electric/60"></span>
+              Cargando actividad…
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+
+        <!-- Plan -->
+        <div class="relative overflow-hidden rounded-2xl border border-white/[0.14] bg-gradient-to-b from-white/[0.10] via-white/[0.06] to-white/[0.05] p-5 backdrop-blur-xl">
+
+          <span class="absolute inset-x-10 top-0 h-[2px] bg-gradient-to-r from-transparent via-electric/70 to-transparent" aria-hidden="true"></span>
+
+          <div class="flex items-center justify-between gap-3">
+            <p class="text-[0.7rem] font-bold tracking-[0.14em] text-slate-400 uppercase">Tu plan</p>
+            <span data-plan-badge><StatusBadge variant="active" /></span>
+          </div>
+
+          <div class="mt-3 flex items-baseline gap-2">
+            <p data-plan-name class="font-display text-2xl font-bold text-white"></p>
+            <p data-plan-price class="text-sm text-slate-300"></p>
+          </div>
+
+          <p class="mt-2 text-xs text-slate-400">Renovación: <span data-plan-renewal></span></p>
+
+          <a href="/dashboard/cuenta" class="btn-ghost-dark mt-5 w-full">
+            Gestionar cuenta
+          </a>
+        </div>
+
+        <!-- Última factura -->
+        <div class="rounded-2xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-xl">
+
+          <div class="flex items-center justify-between gap-3">
+            <p class="text-[0.7rem] font-bold tracking-[0.14em] text-slate-400 uppercase">Última factura</p>
+            <span data-last-invoice-badge><StatusBadge variant="paid" /></span>
+          </div>
+
+          <p data-last-invoice-amount class="mt-3 font-display text-2xl font-bold text-white"></p>
+          <p data-last-invoice-meta class="mt-1 text-xs text-slate-400"></p>
+
+          <a href="/dashboard/facturas" class="btn-ghost-dark mt-5 w-full">
+            Ver facturas
+          </a>
+        </div>
+      </div>
+    </section>
+  </Shell>
+
+  <script src="../../scripts/dashboard-ui.js"></script>
 </Layout>
-
-<script>
-  import "../components/dashboard/scripts/dashboard.js";
-</script>

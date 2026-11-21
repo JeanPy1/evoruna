@@ -1,5 +1,12 @@
 ---
 import "../styles/global.css";
+
+// Título opcional por página (el landing mantiene el título por defecto).
+interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
 ---
 
 <!doctype html>
@@ -51,7 +58,7 @@ import "../styles/global.css";
       rel="stylesheet"
     />
 
-    <title>Evoruna — Presencia web</title>
+    <title>{title ?? "Evoruna — Presencia web"}</title>
 
   </head>
 

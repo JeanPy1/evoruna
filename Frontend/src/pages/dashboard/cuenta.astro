@@ -1,0 +1,242 @@
+---
+// Evoruna — Mi cuenta (perfil, plan y seguridad) del área de cliente.
+import Layout from "../../layouts/Layout.astro";
+import Shell from "../../components/dashboard/Shell.astro";
+import StatusBadge from "../../components/dashboard/StatusBadge.astro";
+
+const inputClass =
+  "w-full rounded-[12px] border border-white/10 bg-navy-800/60 px-3.5 py-2.5 text-sm text-white outline-none transition-colors duration-200 placeholder:text-slate-500 focus:border-electric/50";
+const labelClass = "mb-1.5 block text-xs font-semibold text-slate-300";
+---
+
+<Layout title="Mi cuenta — Evoruna">
+
+  <Shell active="cuenta">
+
+    <!-- Encabezado -->
+    <header>
+      <h1 class="font-display text-2xl font-bold text-white sm:text-3xl">Mi cuenta</h1>
+      <p class="mt-2 text-sm text-slate-400">
+        Tu información, tu plan y tu seguridad en un solo lugar.
+      </p>
+    </header>
+
+    <section class="mt-8 grid gap-4 lg:grid-cols-2">
+
+      <!-- Columna izquierda -->
+      <div class="space-y-4">
+
+        <!-- Información personal -->
+        <div class="rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-xl">
+
+          <div class="flex items-center justify-between gap-3">
+            <h2 class="font-display text-base font-semibold text-white">Información personal</h2>
+            <button
+              data-open-profile-form
+              class="text-xs font-semibold text-electric-light transition-colors duration-200 hover:text-electric"
+            >
+              Editar
+            </button>
+          </div>
+
+          <dl class="mt-5 space-y-4">
+
+            <div class="flex items-center justify-between gap-4">
+              <dt class="shrink-0 text-xs font-semibold tracking-[0.12em] text-slate-500 uppercase">Nombre</dt>
+              <dd data-account-name class="text-right text-sm font-medium text-white"></dd>
+            </div>
+
+            <div class="flex items-center justify-between gap-4">
+              <dt class="shrink-0 text-xs font-semibold tracking-[0.12em] text-slate-500 uppercase">Correo</dt>
+              <dd class="flex min-w-0 items-center justify-end gap-2">
+                <span data-account-email class="truncate text-sm font-medium text-white"></span>
+              </dd>
+            </div>
+
+            <div class="flex items-center justify-between gap-4">
+              <dt class="shrink-0 text-xs font-semibold tracking-[0.12em] text-slate-500 uppercase">Cliente desde</dt>
+              <dd data-account-member class="text-right text-sm font-medium text-white"></dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- Panel de edición de perfil (oculto hasta pulsar "Editar") -->
+        <div
+          id="profile-panel"
+          class="hidden rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-xl"
+        >
+          <div class="flex items-center justify-between gap-3">
+            <h2 class="font-display text-base font-semibold text-white">Editar perfil</h2>
+            <button
+              data-close-profile-form
+              class="text-xs font-semibold text-slate-400 transition-colors duration-200 hover:text-white"
+            >
+              Cerrar
+            </button>
+          </div>
+
+          <form id="profile-form" class="mt-5 space-y-4">
+            <label class="block">
+              <span class={labelClass}>Nombre</span>
+              <input
+                type="text"
+                name="name"
+                required
+                minlength="2"
+                maxlength="60"
+                autocomplete="name"
+                class={inputClass}
+              />
+            </label>
+
+            <label class="block">
+              <span class={labelClass}>Correo</span>
+              <input type="email" name="email" required autocomplete="email" class={inputClass} />
+              <span class="mt-1.5 block text-xs leading-5 text-slate-500">
+                Si lo cambias, enviaremos un enlace de confirmación al nuevo correo. El
+                cambio se aplica cuando lo confirmes.
+              </span>
+            </label>
+
+            <button type="submit" class="btn-primary w-full sm:w-auto">Guardar cambios</button>
+          </form>
+        </div>
+
+        <!-- Seguridad -->
+        <div class="rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-xl">
+
+          <h2 class="font-display text-base font-semibold text-white">Seguridad</h2>
+          <p class="mt-1 text-sm text-slate-400">
+            Cambia tu contraseña si la compartiste o hace mucho que no la actualizas.
+          </p>
+
+          <form id="password-form" class="mt-5 space-y-4">
+
+            <label class="block">
+              <span class={labelClass}>Contraseña actual</span>
+              <input type="password" name="current" required autocomplete="current-password" class={inputClass} />
+            </label>
+
+            <label class="block">
+              <span class={labelClass}>Nueva contraseña</span>
+              <input type="password" name="new" required minlength="4" autocomplete="new-password" placeholder="Mínimo 4 caracteres" class={inputClass} />
+            </label>
+
+            <label class="block">
+              <span class={labelClass}>Confirmar nueva contraseña</span>
+              <input type="password" name="confirm" required minlength="4" autocomplete="new-password" placeholder="Repite la nueva contraseña" class={inputClass} />
+            </label>
+
+            <button type="submit" class="btn-primary w-full sm:w-auto">Actualizar contraseña</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Columna derecha: plan y facturación -->
+      <div class="space-y-4">
+
+        <div class="relative overflow-hidden rounded-2xl border border-white/[0.14] bg-gradient-to-b from-white/[0.10] via-white/[0.06] to-white/[0.05] p-6 backdrop-blur-xl">
+
+          <span class="absolute inset-x-10 top-0 h-[2px] bg-gradient-to-r from-transparent via-electric/70 to-transparent" aria-hidden="true"></span>
+
+          <div class="flex items-center justify-between gap-3">
+            <h2 class="font-display text-base font-semibold text-white">Plan y facturación</h2>
+            <span data-account-plan-badge><StatusBadge variant="active" /></span>
+          </div>
+
+          <div class="mt-4 flex items-baseline gap-2">
+            <p data-account-plan-name class="font-display text-3xl font-bold text-white"></p>
+            <p class="text-sm text-slate-300" data-account-plan-price></p>
+          </div>
+
+          <p class="mt-2 text-sm text-slate-400">Renovación automática: <span data-account-plan-renewal></span></p>
+
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+            <a href="/dashboard/facturas" class="btn-ghost-dark flex-1">Ver facturas</a>
+            <button data-open-checkout class="btn-ghost-dark flex-1">Cambiar plan</button>
+          </div>
+        </div>
+
+        <!-- Panel de compra de plan (oculto hasta pulsar "Cambiar plan") -->
+        <div
+          id="checkout-panel"
+          class="hidden rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-xl"
+        >
+          <div class="flex items-center justify-between gap-3">
+            <h2 class="font-display text-base font-semibold text-white">Compra de plan</h2>
+            <button
+              data-close-checkout
+              class="text-xs font-semibold text-slate-400 transition-colors duration-200 hover:text-white"
+            >
+              Cerrar
+            </button>
+          </div>
+
+          <!-- Estado: plan ya activo -->
+          <div id="checkout-active" class="mt-4 hidden">
+            <p class="flex items-center gap-2 text-sm font-semibold text-neon-light">
+              <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+              Tu plan <span data-checkout-active-plan></span> está activo.
+            </p>
+            <p class="mt-2 text-sm text-slate-400">
+              No necesitas comprar de nuevo. Si quieres cancelar o hacer cambios,
+              escríbenos desde la sección de tickets.
+            </p>
+          </div>
+
+          <!-- Estado: compra -->
+          <div id="checkout-purchase" class="mt-4 space-y-4">
+            <div class="rounded-[14px] border border-electric/25 bg-electric/[0.06] p-4">
+              <div class="flex items-baseline justify-between gap-3">
+                <p data-checkout-plan-name class="font-display text-lg font-bold text-white"></p>
+                <p class="whitespace-nowrap text-sm font-semibold text-white">
+                  <span data-checkout-plan-price></span>
+                  <span class="font-normal text-slate-400">/mes</span>
+                </p>
+              </div>
+              <ul class="mt-3 space-y-1.5 text-xs leading-5 text-slate-300">
+                <li>· Sitio con hosting y SSL incluidos</li>
+                <li>· Actualizaciones y mantenimiento mensual</li>
+                <li>· Soporte técnico prioritario</li>
+              </ul>
+            </div>
+
+            <!-- Aviso cuando ya existe una compra pendiente -->
+            <div
+              id="checkout-pending-box"
+              class="hidden rounded-[14px] border border-amber-400/25 bg-amber-400/[0.06] p-4"
+            >
+              <p class="text-sm font-semibold text-amber-300">
+                Tienes una compra pendiente: <span data-checkout-pending-id></span>
+              </p>
+              <p class="mt-1 text-xs text-slate-400">
+                Completa el pago para activar tu plan.
+              </p>
+            </div>
+
+            <div class="flex flex-col gap-3 sm:flex-row">
+              <button id="checkout-buy" class="btn-primary flex-1">Comprar plan</button>
+              <button id="checkout-pay" class="btn-primary hidden flex-1">Pagar ahora</button>
+            </div>
+
+            <p class="text-xs leading-5 text-slate-500">
+              Pago simulado: no se realizará ningún cargo real. Los pagos online se
+              habilitarán al integrar un pasarela de pagos.
+            </p>
+          </div>
+        </div>
+
+        <!-- Dato del sitio: vacío hasta que el usuario compre un producto -->
+        <div class="rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-xl">
+
+          <h2 class="font-display text-base font-semibold text-white">Tu sitio</h2>
+          <p class="mt-4 text-sm text-slate-400">
+            Aquí verás los datos de tu sitio cuando compres un producto.
+          </p>
+        </div>
+      </div>
+    </section>
+  </Shell>
+
+  <script src="../../scripts/dashboard-ui.js"></script>
+</Layout>

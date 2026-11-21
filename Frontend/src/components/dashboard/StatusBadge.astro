@@ -1,0 +1,38 @@
+---
+// Evoruna — Chip de estado para tickets, facturas y sitio.
+// open/progress/pending: ámbar-rojo · resolved/paid/active: neón
+interface Props {
+  variant: "open" | "progress" | "resolved" | "paid" | "pending" | "active";
+  label?: string;
+}
+
+const { variant, label } = Astro.props;
+
+const styles = {
+  open: "border-electric/25 bg-electric/10 text-electric-light",
+  progress: "border-amber-400/25 bg-amber-400/10 text-amber-300",
+  resolved: "border-neon/25 bg-neon/10 text-neon-light",
+  paid: "border-neon/25 bg-neon/10 text-neon-light",
+  pending: "border-amber-400/25 bg-amber-400/10 text-amber-300",
+  active: "border-neon/25 bg-neon/10 text-neon-light",
+};
+
+const labels = {
+  open: "Abierto",
+  progress: "En progreso",
+  resolved: "Resuelto",
+  paid: "Pagada",
+  pending: "Pendiente",
+  active: "Activo",
+};
+---
+
+<span
+  class:list={[
+    "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[0.7rem] font-semibold whitespace-nowrap",
+    styles[variant],
+  ]}
+>
+  <span class="size-1.5 rounded-full bg-current"></span>
+  {label ?? labels[variant]}
+</span>

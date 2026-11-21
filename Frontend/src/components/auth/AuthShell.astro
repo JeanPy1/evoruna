@@ -1,0 +1,93 @@
+---
+// Contenedor de pantalla completa para las páginas de autenticación.
+// Fondo navy con brillos rojo/neón y grilla con máscara radial (mismo
+// lenguaje que las secciones oscuras del landing: ver Cta.astro).
+//
+// Props:
+//   withPanel — si es true, el contenido se organiza en dos columnas
+//   (panel de marca a la izquierda, formulario a la derecha).
+//   page    — identificador de la página (data-auth-page): lo lee
+//   src/scripts/auth-pages.js para activar su lógica.
+interface Props {
+  withPanel?: boolean;
+  page?: string;
+}
+
+const { withPanel = true, page } = Astro.props;
+---
+
+<main class="navy-gradient relative flex min-h-screen flex-col overflow-hidden text-white" data-auth-page={page}>
+
+  <!-- Fondos -->
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+
+    <!-- Brillo rojo central -->
+    <div
+      class="absolute -top-40 left-1/2 h-[30rem] w-[60rem] -translate-x-1/2 rounded-full bg-electric/12 blur-[140px]"
+    ></div>
+
+    <!-- Brillo neón lateral -->
+    <div
+      class="absolute -bottom-48 right-[-12rem] h-[24rem] w-[36rem] rounded-full bg-neon/8 blur-[130px]"
+    ></div>
+
+    <!-- Grilla con máscara radial -->
+    <div
+      class="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_62%_62%_at_50%_38%,black_30%,transparent_78%)] [-webkit-mask-image:radial-gradient(ellipse_62%_62%_at_50%_38%,black_30%,transparent_78%)]"
+    ></div>
+
+  </div>
+
+  <!-- Barra superior: logo + volver al sitio
+       En pantallas chicas (hasta ~350px) el logo se reduce por escalones
+       (h-[22px] → h-6 → h-7) y ambos elementos usan shrink-0 para que
+       flexbox no los comprima. -->
+  <header class="relative z-10">
+    <div class="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-6 sm:gap-4 sm:px-6">
+
+      <a href="/" aria-label="Evoruna — volver al inicio" class="shrink-0">
+        <img src="/logo-white.webp" alt="EVORUNA" class="h-[22px] w-auto min-[420px]:h-6 sm:h-7" decoding="async" />
+      </a>
+
+      <a
+        href="/"
+        class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-[12px] border border-white/10 bg-white/5 px-3 py-1.5 text-[13px] font-semibold text-slate-300 backdrop-blur-sm transition-colors duration-200 hover:border-white/25 hover:text-white sm:gap-2 sm:px-4 sm:py-2 sm:text-sm"
+      >
+        <svg
+          class="size-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M19 12H5" />
+          <path d="m12 19-7-7 7-7" />
+        </svg>
+        Volver al sitio
+      </a>
+
+    </div>
+  </header>
+
+  <!-- Contenido central -->
+  <div class="relative z-10 flex flex-1 items-center justify-center px-4 pb-16 pt-6 sm:px-6">
+
+    {
+      withPanel ? (
+        <div class="mx-auto grid w-full max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+          <slot name="panel" />
+          <slot />
+        </div>
+      ) : (
+        <div class="w-full max-w-md">
+          <slot />
+        </div>
+      )
+    }
+
+  </div>
+
+</main>

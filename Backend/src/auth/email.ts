@@ -1,9 +1,11 @@
 import { TOKEN_TTL } from './tokens'
 import { verificationEmailHtml } from './templates/verification-email'
 import { passwordResetEmailHtml } from './templates/password-reset'
+import { emailChangeHtml } from './templates/email-change'
 
 const VERIFICATION_EMAIL_TTL_MINUTES = TOKEN_TTL['verify-email'] / 60
 const RESET_EMAIL_TTL_MINUTES = TOKEN_TTL['reset-password'] / 60
+const EMAIL_CHANGE_TTL_MINUTES = TOKEN_TTL['change-email'] / 60
 
 // Envío genérico a través de la API de Resend.
 // Devuelve true si Resend aceptó el envío y false en caso contrario.
@@ -39,7 +41,7 @@ export function sendVerificationEmail(
     env,
     to,
     'Verifica tu correo - Evoruna',
-    verificationEmailHtml(to, link, VERIFICATION_EMAIL_TTL_MINUTES)
+    verificationEmailHtml(to, link, VERIFICATION_EMAIL_TTL_MINUTES, env.APP_URL ?? '')
   )
 }
 
@@ -53,6 +55,22 @@ export function sendPasswordResetEmail(
     env,
     to,
     'Restablece tu contraseña - Evoruna',
-    passwordResetEmailHtml(to, link, RESET_EMAIL_TTL_MINUTES)
+    passwordResetEmailHtml(to, link, RESET_EMAIL_TTL_MINUTES, env.APP_URL ?? '')
+  )
+}
+
+// Envía el correo de confirmación de cambio de correo, dirigido al nuevo
+// correo. `currentEmail` aparece en el cuerpo para contexto.
+export function sendEmailChangeEmail(
+  env: CloudflareBindings,
+  to: string,
+  currentEmail: string,
+  link: string
+): Promise<boolean> {
+  return sendEmail(
+    env,
+    to,
+    'Confirma tu cambio de correo - Evoruna',
+    emailChangeHtml(currentEmail, to, link, EMAIL_CHANGE_TTL_MINUTES, env.APP_URL ?? '')
   )
 }

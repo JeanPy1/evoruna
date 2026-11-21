@@ -1,0 +1,65 @@
+---
+// Evoruna — Facturas del área de cliente.
+// El contenido dinámico (resumen e historial) lo rellena dashboard-ui.js
+// desde GET /api/dashboard.
+import Layout from "../../layouts/Layout.astro";
+import Shell from "../../components/dashboard/Shell.astro";
+---
+
+<Layout title="Facturas — Evoruna">
+
+  <Shell active="facturas">
+
+    <!-- Encabezado -->
+    <header>
+      <h1 class="font-display text-2xl font-bold text-white sm:text-3xl">Facturas</h1>
+      <p class="mt-2 text-sm text-slate-400">
+        Tus comprobantes de pago. Descarga la copia de cada mes.
+      </p>
+    </header>
+
+    <!-- Resumen -->
+    <section class="mt-8 grid gap-3 sm:grid-cols-3 sm:gap-4">
+
+      <div class="rounded-2xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-xl">
+        <p class="text-[0.7rem] font-bold tracking-[0.14em] text-slate-400 uppercase">Última factura</p>
+        <p data-invoice-last-amount class="mt-2.5 font-display text-xl font-bold text-white"></p>
+        <p data-invoice-last-meta class="mt-1 text-xs text-slate-400"></p>
+      </div>
+
+      <div class="rounded-2xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-xl">
+        <p class="text-[0.7rem] font-bold tracking-[0.14em] text-slate-400 uppercase">Pagado en 2026</p>
+        <p data-invoice-paid-total class="mt-2.5 font-display text-xl font-bold text-neon-light"></p>
+        <p data-invoice-paid-count class="mt-1 text-xs text-slate-400"></p>
+      </div>
+
+      <div class="rounded-2xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-xl">
+        <p class="text-[0.7rem] font-bold tracking-[0.14em] text-slate-400 uppercase">Próximo cobro</p>
+        <p data-invoice-next-date class="mt-2.5 font-display text-xl font-bold text-white"></p>
+        <p class="mt-1 text-xs text-slate-400" data-invoice-plan-line></p>
+      </div>
+    </section>
+
+    <!-- Historial -->
+    <section class="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-xl">
+
+      <div class="flex items-center justify-between border-b border-white/[0.06] px-5 py-4">
+
+        <h2 class="font-display text-base font-semibold text-white">Historial</h2>
+        <span id="invoice-count" class="text-xs text-slate-400"></span>
+      </div>
+
+      <!-- Lo llena dashboard-ui.js -->
+      <ul id="invoice-list" class="divide-y divide-white/[0.05]">
+        <li class="px-5 py-6 text-sm text-slate-500">
+          <span class="inline-flex items-center gap-2">
+            <span class="size-1.5 animate-pulse rounded-full bg-electric/60"></span>
+            Cargando facturas…
+          </span>
+        </li>
+      </ul>
+    </section>
+  </Shell>
+
+  <script src="../../scripts/dashboard-ui.js"></script>
+</Layout>

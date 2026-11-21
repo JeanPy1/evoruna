@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import { auth } from './routes/auth'
+import { dashboard } from './routes/dashboard'
 
 const app = new Hono<{
   Bindings: CloudflareBindings
@@ -14,6 +15,9 @@ app.get('/api', (c) => {
 
 // Rutas de autenticación
 app.route('/api/auth', auth)
+
+// Rutas del dashboard (área de cliente)
+app.route('/api/dashboard', dashboard)
 
 // Rutas de API inexistentes responden JSON (no HTML de assets)
 app.all('/api/*', (c) => {

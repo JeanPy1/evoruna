@@ -1,6 +1,9 @@
 ---
+// Panel de marca para las pantallas de autenticación (columna izquierda,
+// solo en desktop). Mismo lenguaje que las secciones oscuras del landing:
+// heading Sora en blanco con degradado rojo, checks neón y status "en vivo".
+
 const defaults = {
-  badge: "Plataforma activa 24/7",
   title: "Tú enfócate en crecer",
   titleHighlight: "nosotros en mantener",
   subtitle: "Nosotros nos encargamos de la parte técnica para que tú te enfoques en hacer crecer tu proyecto.",
@@ -9,6 +12,7 @@ const defaults = {
     "Soporte humano cuando lo necesitas",
     "Actualizaciones y backups sin que pienses en ello",
   ],
+  status: "Plataforma activa 24/7",
   footer: {
     prefix: "Más de",
     highlight: "500 sitios",
@@ -29,48 +33,63 @@ const content = {
 };
 ---
 
-<div class="hidden max-w-2xl lg:flex lg:flex-col lg:justify-center">
-  <span
-    class="inline-flex w-fit items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-sky-500 px-4 py-1.5 text-[13px] font-semibold text-white shadow-[0_8px_20px_-8px_rgba(37,99,235,0.55)]">
-    <span class="h-1.5 w-1.5 rounded-full bg-white"></span>
-    {content.badge}
-  </span>
+<aside class="hidden max-w-2xl lg:flex lg:flex-col lg:justify-center">
 
+  <!-- Heading -->
   <h1
-    class="mt-7 text-[2.75rem] font-extrabold leading-[1.08] tracking-tight text-slate-900">
+    class="font-display text-[2.6rem] leading-[1.06] font-extrabold tracking-[-0.03em] text-white sm:text-[2.9rem]"
+  >
     {content.title}
-    <span class="bg-gradient-to-r from-blue-600 to-sky-500 bg-clip-text text-transparent">
-      {content.titleHighlight}
-    </span>
+    <span class="text-electric-gradient">{content.titleHighlight}</span>
   </h1>
 
-  <p class="mt-5 max-w-xl text-lg leading-relaxed text-slate-500">{content.subtitle}</p>
+  <!-- Descripción -->
+  <p class="mt-5 max-w-xl text-lg leading-relaxed text-slate-400">{content.subtitle}</p>
 
-  <ul class="mt-8 flex flex-col gap-4">
-    {content.benefits.map((benefit) => (
-      <li class="flex items-center gap-3 text-[1.05rem] text-slate-600">
-        <span
-          class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-100/70 text-blue-700">
-          <svg
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            viewBox="0 0 24 24"
-            width="14"
-            height="14"
-            aria-hidden="true"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-        </span>
-        {benefit}
-      </li>
-    ))}
+  <!-- Beneficios con check neón -->
+  <ul class="mt-9 flex flex-col gap-4">
+    {
+      content.benefits.map((benefit) => (
+        <li class="flex items-center gap-3 text-[1.05rem] text-slate-300">
+          <span
+            class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-neon/15 text-neon">
+            <svg
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              viewBox="0 0 24 24"
+              width="14"
+              height="14"
+              aria-hidden="true"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </span>
+          {benefit}
+        </li>
+      ))
+    }
   </ul>
 
-  <p class="mt-8 text-sm text-slate-400">
-    {content.footer.prefix}
-    <span class="font-semibold text-slate-600">{content.footer.highlight}</span>
-    {content.footer.suffix}
-  </p>
-</div>
+  <!-- Pie: status "en vivo" + gestión activa -->
+  <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-6">
+
+    <span class="flex items-center gap-2.5 text-sm font-medium text-slate-400">
+      <span class="relative flex h-2 w-2">
+        <span
+          class="absolute inline-flex h-full w-full rounded-full bg-neon/60 motion-safe:animate-ping"
+        ></span>
+        <span class="relative inline-flex h-2 w-2 rounded-full bg-neon"></span>
+      </span>
+      {content.status}
+    </span>
+
+    <span class="text-sm text-slate-500">
+      {content.footer.prefix}
+      <span class="font-semibold text-white">{content.footer.highlight}</span>
+      {content.footer.suffix}
+    </span>
+
+  </div>
+
+</aside>

@@ -1,0 +1,162 @@
+---
+// Evoruna — Shell del área de cliente (dashboard nuevo).
+// Sidebar navy fijo en desktop, drawer con overlay en mobile.
+// La lógica del drawer, toasts y guard vive en src/scripts/dashboard-ui.js.
+interface Props {
+  active: "resumen" | "tickets" | "facturas" | "cuenta";
+}
+
+const { active } = Astro.props;
+
+// Iconos nav (estilo lucide, stroke)
+const nav = [
+  {
+    id: "resumen",
+    label: "Resumen",
+    href: "/dashboard",
+    icon: `<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>`,
+  },
+  {
+    id: "tickets",
+    label: "Tickets",
+    href: "/dashboard/tickets",
+    icon: `<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 11v2"/><path d="M13 17v2"/>`,
+  },
+  {
+    id: "facturas",
+    label: "Facturas",
+    href: "/dashboard/facturas",
+    icon: `<path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/>`,
+  },
+  {
+    id: "cuenta",
+    label: "Mi cuenta",
+    href: "/dashboard/cuenta",
+    icon: `<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>`,
+  },
+];
+---
+
+<div class="relative min-h-screen overflow-x-hidden bg-navy text-slate-200">
+
+  <!-- Fondo: grid sutil + glow rojo (coherente con el área de auth) -->
+  <div
+    class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_at_top,black_10%,transparent_70%)]"
+  ></div>
+  <div class="pointer-events-none absolute inset-x-0 top-0 h-[420px] red-radial"></div>
+
+  <!-- Sidebar: fijo en desktop, drawer (translate-x-full) en mobile.
+       En mobile ocupa el ancho completo para que translate-x-full lo
+       oculte por completo; en desktop vuelve a 280px. -->
+  <aside
+    id="sidebar"
+    class="fixed inset-y-0 left-0 z-50 flex w-full translate-x-full flex-col border-r border-white/[0.07] bg-navy-800/80 backdrop-blur-xl transition-transform duration-300 lg:w-[280px] lg:z-30 lg:translate-x-0"
+  >
+
+    <!-- Marca -->
+    <div class="flex h-[72px] shrink-0 items-center gap-3 border-b border-white/[0.06] px-5">
+
+      <a href="/dashboard" aria-label="Evoruna — panel">
+        <img src="/logo-white.webp" alt="EVORUNA" class="h-6 w-auto" decoding="async" />
+      </a>
+      <span class="text-[0.65rem] font-bold tracking-[0.22em] text-slate-500 uppercase">Panel</span>
+
+      <button
+        data-sidebar-close
+        class="ml-auto grid size-9 place-items-center rounded-[10px] border border-white/10 bg-white/5 text-slate-400 transition-colors duration-200 hover:border-white/25 hover:text-white lg:hidden"
+        aria-label="Cerrar menú"
+      >
+        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Navegación -->
+    <nav class="flex-1 overflow-y-auto px-3 py-6">
+
+      <p class="px-3.5 pb-3 text-[0.65rem] font-bold tracking-[0.2em] text-slate-500 uppercase">Menú</p>
+
+      <ul class="space-y-1.5">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  "group flex items-center gap-3 rounded-[12px] border px-3.5 py-2.5 text-sm font-medium transition-colors duration-200",
+                  active === item.id
+                    ? "border-electric/20 bg-electric/10 text-white"
+                    : "border-transparent text-slate-400 hover:bg-white/5 hover:text-white",
+                ]}
+              >
+                <span
+                  class:list={[
+                    "grid size-9 shrink-0 place-items-center rounded-[10px] border transition-colors duration-200",
+                    active === item.id
+                      ? "border-electric/25 bg-electric/15 text-electric-light"
+                      : "border-white/10 bg-white/5 text-slate-400 group-hover:text-slate-200",
+                  ]}
+                >
+                  <svg class="size-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={item.icon} aria-hidden="true"></svg>
+                </span>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <!-- Usuario + cerrar sesión -->
+    <div class="shrink-0 border-t border-white/[0.06] p-4">
+
+      <div class="flex items-center gap-3 rounded-[14px] border border-white/10 bg-white/[0.04] p-3">
+
+        <div data-user-initials class="grid size-10 shrink-0 place-items-center rounded-full bg-electric/15 font-display text-sm font-bold text-electric-light"></div>
+
+        <div class="min-w-0 flex-1">
+          <p data-user-name class="truncate text-sm font-semibold text-white"></p>
+          <p data-user-email class="truncate text-xs text-slate-400"></p>
+        </div>
+
+        <button
+          id="logout"
+          class="grid size-9 shrink-0 place-items-center rounded-[10px] border border-white/10 bg-white/5 text-slate-400 transition-colors duration-200 hover:border-electric/40 hover:text-electric-light"
+          title="Cerrar sesión"
+          aria-label="Cerrar sesión"
+        >
+          <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Overlay del drawer (solo mobile) -->
+  <div id="sidebar-overlay" class="fixed inset-0 z-40 hidden bg-navy/70 backdrop-blur-sm lg:hidden"></div>
+
+  <!-- Barra superior (solo mobile) -->
+  <header class="sticky top-0 z-20 border-b border-white/[0.06] bg-navy/80 backdrop-blur-xl lg:hidden">
+
+    <div class="flex h-16 items-center gap-3 px-4">
+
+      <button
+        data-sidebar-toggle
+        class="grid size-10 place-items-center rounded-[12px] border border-white/10 bg-white/5 text-slate-300 transition-colors duration-200 hover:border-white/25 hover:text-white"
+        aria-label="Abrir menú"
+      >
+        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+
+      <a href="/dashboard" aria-label="Evoruna — panel">
+        <img src="/logo-white.webp" alt="EVORUNA" class="h-5 w-auto" decoding="async" />
+      </a>
+    </div>
+  </header>
+
+  <!-- Contenido -->
+  <main class="relative lg:pl-[280px]">
+
+    <div class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-10 lg:py-10">
+      <slot />
+    </div>
+  </main>
+</div>

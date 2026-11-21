@@ -1,0 +1,8 @@
+# Secretos locales para `wrangler dev` (este archivo NO se versiona).
+# Para producción usa:
+#   npx wrangler secret put RESEND_API_KEY
+#   npx wrangler secret put JWT_SECRET
+#
+# JWT_SECRET: mínimo 32 caracteres aleatorios.
+JWT_SECRET=
+RESEND_API_KEY=

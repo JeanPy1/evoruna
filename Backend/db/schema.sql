@@ -21,3 +21,27 @@ CREATE TABLE IF NOT EXISTS verification_tokens (
   type TEXT NOT NULL DEFAULT 'verify-email',
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+-- Tickets de soporte por cliente (dashboard).
+CREATE TABLE IF NOT EXISTS tickets (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  subject TEXT NOT NULL,
+  category TEXT NOT NULL DEFAULT 'Otro',
+  priority TEXT NOT NULL DEFAULT 'Media',
+  description TEXT NOT NULL DEFAULT '',
+  status TEXT NOT NULL DEFAULT 'open' CHECK (status IN ('open', 'progress', 'resolved')),
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Facturas por cliente (dashboard). amount_cents: soles enteros en centavos.
+CREATE TABLE IF NOT EXISTS invoices (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  number TEXT NOT NULL UNIQUE,
+  period TEXT NOT NULL,
+  service TEXT NOT NULL,
+  amount_cents INTEGER NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('paid', 'pending')),
+  issued_at TEXT NOT NULL DEFAULT (datetime('now'))
+);

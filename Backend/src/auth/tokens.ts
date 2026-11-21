@@ -3,13 +3,14 @@ import { sign, verify } from 'hono/jwt'
 const JWT_ALG = 'HS256'
 
 // Propósito de cada token. Impide usar un token para un fin distinto al emitido.
-export type TokenType = 'login' | 'verify-email' | 'reset-password'
+export type TokenType = 'login' | 'verify-email' | 'reset-password' | 'change-email'
 
 // Vida útil de cada token, en segundos. Fuente única de verdad para JWT y BD.
 export const TOKEN_TTL: Record<TokenType, number> = {
   login: 24 * 60 * 60, // 24 horas (sesión, stateless, en cookie)
   'verify-email': 30 * 60, // 30 minutos (stateful, en BD)
-  'reset-password': 30 * 60 // 30 minutos (stateful, en BD)
+  'reset-password': 30 * 60, // 30 minutos (stateful, en BD)
+  'change-email': 30 * 60 // 30 minutos (stateful, en BD)
 }
 
 // Contenido de cada token. `sub` es el id del usuario.
@@ -73,6 +74,16 @@ export function createPasswordResetToken(
   email: string
 ): Promise<string> {
   return createToken(env, { sub: String(userId), email, type: 'reset-password' })
+}
+
+// Confirmación de cambio de correo (dashboard). 30 min, se guarda hasheado
+// en BD. `newEmail` es el correo AL que se cambia (el que debe confirmar).
+export function createEmailChangeToken(
+  env: CloudflareBindings,
+  userId: number,
+  newEmail: string
+): Promise<string> {
+  return createToken(env, { sub: String(userId), email: newEmail, type: 'change-email' })
 }
 
 // --- Persistencia de tokens stateful (verify-email y reset-password) ---
@@ -142,6 +153,13 @@ export function buildVerificationLink(env: CloudflareBindings, token: string): s
 // de cambio de contraseña, que valida el token y muestra el formulario.
 export function buildResetLink(env: CloudflareBindings, token: string): string {
   return `${env.APP_URL}/reset?token=${encodeURIComponent(token)}`
+}
+
+// Enlace de confirmación de cambio de correo. Reutiliza la misma página que
+// la verificación: el endpoint /auth/verify-email es polimórfico y aplica el
+// tipo que lleva el propio token.
+export function buildEmailChangeLink(env: CloudflareBindings, token: string): string {
+  return `${env.APP_URL}/verify-email?token=${encodeURIComponent(token)}`
 }
 
 // Valida un token stateful completo: firma, tipo, expiración y hash guardado.

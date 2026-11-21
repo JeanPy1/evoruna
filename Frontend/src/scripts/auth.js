@@ -1,9 +1,10 @@
 // Módulo compartido de las pantallas de autenticación (login, register,
 // forgot y reset). Centraliza los mensajes y la lógica de sesión para que
 // cada página no duplique texto ni código.
-
-// Clave del sessionStorage que indica que el usuario inició sesión.
-export const SESSION_HINT = "evoruna_session_hint";
+//
+// La sesión vive SOLO en la cookie httpOnly que emite el servidor; toda
+// validación se hace contra el backend (GET /auth/me). No se guarda nada
+// en sessionStorage.
 
 // Registro único de mensajes. Cada aviso de la interfaz referencia una clave
 // de este objeto; para cambiar un texto basta con editar su línea aquí.
@@ -36,18 +37,39 @@ export function readJson(response) {
   return response.json().catch(() => ({}));
 }
 
-// Si existe una sesión reciente y válida, redirige a su panel en lugar de
-// mostrar la pantalla de autenticación.
-export async function redirectIfAuthenticated(apiUrl) {
-  if (!sessionStorage.getItem(SESSION_HINT)) return false;
+// Cierra la sesión en el servidor (invalida la cookie) y redirige al login.
+export async function logout(apiUrl) {
+  try {
+    await fetch(`${apiUrl}/auth/logout`, { method: "POST", credentials: "include" });
+  } catch {
+    // Aunque la petición falle se limpia la sesión local.
+  }
+  window.location.replace("/login");
+}
 
+// Guarda real para páginas protegidas: valida la sesión contra /auth/me.
+// La cookie con el token es la única fuente de verdad: si el backend no
+// confirma la sesión, se redirige a /login y devuelve null.
+export async function requireSession(apiUrl) {
   try {
     const response = await fetch(`${apiUrl}/auth/me`, { credentials: "include" });
 
-    if (!response.ok) {
-      sessionStorage.removeItem(SESSION_HINT);
-      return false;
-    }
+    if (!response.ok) throw new Error("sesión inválida");
+
+    return await readJson(response);
+  } catch {
+    window.location.replace("/login");
+    return null;
+  }
+}
+
+// Si el backend confirma una sesión válida, redirige a su panel en lugar de
+// mostrar la pantalla de autenticación.
+export async function redirectIfAuthenticated(apiUrl) {
+  try {
+    const response = await fetch(`${apiUrl}/auth/me`, { credentials: "include" });
+
+    if (!response.ok) return false;
 
     const user = await readJson(response);
     window.location.replace(homePathFor(user));

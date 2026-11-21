@@ -1,18 +1,31 @@
 ---
-// Aviso superior para las pantallas de autenticación.
+// Aviso superior para las pantallas de autenticación, adaptado al fondo navy:
+// glass oscuro con tinte de color por tipo de aviso.
 // Se muestra desde el script de la página con: showAuthMessage({ type, text })
-// Tipos: "success" (verde), "error" (rojo), "warning" (ámbar), "info" (azul).
+// Tipos: "success" (neón), "error" (eléctrico), "warning" (ámbar), "info" (neutro).
 ---
 
 <style>
+  /* Banner SUPERPUESTO: position absolute sobre la card (que es relative),
+     alineado al borde superior del área de contenido. Al aparecer cubre la
+     zona del título/subtítulo SIN empujar ningún componente (cero shift de
+     layout). Por eso el fondo es sólido: detrás queda el header de la card. */
   .auth-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
     display: none;
     align-items: flex-start;
     gap: 0.65rem;
-    margin-bottom: 1.25rem;
     padding: 0.75rem 0.9rem;
-    border: 1px solid transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 0.75rem;
+    background-color: rgba(13, 20, 36, 0.94);
+    box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     font-size: 0.9rem;
     font-weight: 500;
     line-height: 1.45;
@@ -23,9 +36,18 @@
       transform 0.25s ease;
   }
 
+  /* .show deja el banner visible; @starting-style aporta el estado "desde"
+     para la transición de entrada (sin depender de requestAnimationFrame).
+     En navegadores sin @starting-style el banner simplemente aparece. */
   .auth-banner.show {
+    display: flex;
     opacity: 1;
     transform: translateY(0);
+
+    @starting-style {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
   }
 
   .auth-banner__icon {
@@ -66,28 +88,30 @@
     height: 1rem;
   }
 
+  /* El tinte por tipo va en background-image: la base (background-color)
+     es sólida porque el banner queda superpuesto sobre el header de la card. */
   .auth-banner.success {
-    background: #f0fdf4;
-    border-color: #bbf7d0;
-    color: #166534;
+    background-image: linear-gradient(135deg, hsl(142 71% 45% / 0.16), transparent 60%);
+    border-color: hsl(142 71% 45% / 0.35);
+    color: hsl(142 65% 64%);
   }
 
   .auth-banner.error {
-    background: #fef2f2;
-    border-color: #fecaca;
-    color: #991b1b;
+    background-image: linear-gradient(135deg, hsl(0 84% 50% / 0.18), transparent 60%);
+    border-color: hsl(0 84% 50% / 0.4);
+    color: hsl(0 90% 74%);
   }
 
   .auth-banner.warning {
-    background: #fffbeb;
-    border-color: #fde68a;
-    color: #92400e;
+    background-image: linear-gradient(135deg, hsl(43 96% 56% / 0.16), transparent 60%);
+    border-color: hsl(43 96% 56% / 0.35);
+    color: hsl(43 96% 72%);
   }
 
   .auth-banner.info {
-    background: #eff6ff;
-    border-color: #bfdbfe;
-    color: #1e40af;
+    background-image: linear-gradient(135deg, hsl(214 32% 80% / 0.10), transparent 60%);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: hsl(214 32% 80%);
   }
 </style>
 
@@ -113,17 +137,48 @@
   const iconEl = banner.querySelector(".auth-banner__icon");
   const textEl = banner.querySelector(".auth-banner__text");
 
+  // Auto-ocultado: el mensaje desaparece solo tras AUTO_HIDE_MS (también se
+  // puede cerrar antes con la X). Mientras el cursor está sobre el banner la
+  // cuenta se pausa para no borrarlo en cuanto se empieza a leer.
+  const AUTO_HIDE_MS = 5000;
+  const AUTO_HIDE_RESUME_MS = 1500;
+  let autoHideTimer = null;
+
+  function scheduleAutoHide(delay = AUTO_HIDE_MS) {
+    if (autoHideTimer) clearTimeout(autoHideTimer);
+    autoHideTimer = setTimeout(() => {
+      autoHideTimer = null;
+      hideAuthMessage();
+    }, delay);
+  }
+
   function showAuthMessage({ type = "info", text = "" } = {}) {
     const resolved = ICONS[type] ? type : "info";
     banner.className = "auth-banner " + resolved;
     iconEl.innerHTML = ICONS[resolved];
     textEl.textContent = text;
-    requestAnimationFrame(() => banner.classList.add("show"));
+    // La animación de entrada la resuelve el CSS (@starting-style),
+    // así la visibilidad no depende de requestAnimationFrame.
+    banner.classList.add("show");
+    scheduleAutoHide();
   }
 
   function hideAuthMessage() {
+    if (autoHideTimer) clearTimeout(autoHideTimer);
+    autoHideTimer = null;
     banner.classList.remove("show");
   }
+
+  // Pausa el auto-ocultado mientras el cursor está sobre el banner
+  banner.addEventListener("mouseenter", () => {
+    if (autoHideTimer) clearTimeout(autoHideTimer);
+    autoHideTimer = null;
+  });
+  banner.addEventListener("mouseleave", () => {
+    if (banner.classList.contains("show") && !autoHideTimer) {
+      scheduleAutoHide(AUTO_HIDE_RESUME_MS);
+    }
+  });
 
   banner.querySelector(".auth-banner__close").addEventListener("click", hideAuthMessage);
 
