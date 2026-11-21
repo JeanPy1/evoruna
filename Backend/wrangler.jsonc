@@ -10,9 +10,10 @@
   },
 
   "vars": {
-    // En desarrollo local apunta al Worker de wrangler dev;
-    // en producción, reemplaza por la URL pública de tu dominio (sin barra al final)
-    "APP_URL": "http://localhost:8787",
+    // URL pública del sitio (sin barra al final): se usa para los links de
+    // verificación/reset de email y el flag Secure de la cookie de sesión.
+    // En desarrollo local, wrangler dev la sobreescribe con .dev.vars si existe.
+    "APP_URL": "https://evoruna.com",
     "RESEND_FROM": "Evoruna <no-reply@evoruna.com>"
   },
 
@@ -20,8 +21,7 @@
     {
       "binding": "DB",
       "database_name": "evoruna",
-      // REEMPLAZA este id por el que imprima `npx wrangler d1 create evoruna`
-      "database_id": "PASTE_DATABASE_ID_AQUI"
+      "database_id": "f956e842-5e32-41d5-9b54-3ce1dd7c2bcc"
     }
   ]
 }
